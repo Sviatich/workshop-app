@@ -87,12 +87,15 @@
             </div>
         
         </div>
-        
-
-        <button type="button" id="calculate-button">Рассчитать</button>
+    
     </form>
 
-    <div id="result" style="margin-top: 20px;"></div>
+    <div id="result" style="margin-top: 20px;">
+        <p>Цена за коробку: 0 ₽</p>
+        <p>Общая стоимость: 0 ₽</p>
+        <p>Вес: 0 кг</p>
+        <p>Объём: 0 м³</p>
+    </div>
 </div>
 
 <button id="checkout-button" type="button">Оформить заказ</button>
