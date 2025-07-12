@@ -27,22 +27,12 @@ Route::post('/calculate', [ConfiguratorController::class, 'calculate']);
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 Route::post('/checkout', [CheckoutController::class, 'form'])->name('checkout.form');
 Route::post('/checkout/submit', [CheckoutController::class, 'submit'])->name('checkout.submit');
-Route::post('/checkout/store-data', function (Request $request) {
-    $data = [];
-
-    foreach ($request->all() as $key => $value) {
-        // Если это файл — пропускаем
-        if ($value instanceof \Illuminate\Http\UploadedFile) {
-            continue;
-        }
-
-        // Если массив — сериализуем
-        $data[$key] = is_array($value) ? json_encode($value) : $value;
-    }
-
-    session(['checkout_data' => $data]);
-
-    return response()->noContent();
-})->name('checkout.storeData');
+Route::post('/checkout/store-data', [CheckoutController::class, 'storeData'])->name('checkout.storeData');
+Route::post('/checkout/remove/{index}', function ($index) {
+    $cart = session('checkout_cart', []);
+    unset($cart[$index]);
+    session(['checkout_cart' => array_values($cart)]); // пересобрать индексы
+    return back();
+})->name('checkout.remove');
 
 require __DIR__.'/auth.php';

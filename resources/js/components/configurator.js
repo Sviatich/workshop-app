@@ -1,5 +1,3 @@
-// resources/js/configurator.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('configurator-form');
     const result = document.getElementById('result');
@@ -9,13 +7,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const printSizeBlock = document.getElementById('print-size-block');
     const checkoutBtn = document.getElementById('checkout-button');
 
+    checkoutBtn.style.display = 'none';
+
     let debounceTimeout = null;
+
+    function updateResultPlaceholder() {
+        result.innerHTML = `
+            <p>Цена за коробку: —</p>
+            <p>Общая стоимость: —</p>
+            <p>Вес: —</p>
+            <p>Объём: —</p>
+        `;
+    }
 
     function autoCalculate() {
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(() => {
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+
+            const requiredFields = ['length', 'width', 'height', 'quantity', 'box_type_id'];
+            const hasEmptyFields = requiredFields.some(field => !data[field] || isNaN(data[field]));
+
+            if (hasEmptyFields) {
+                updateResultPlaceholder();
+                checkoutBtn.style.display = 'none';
+                return;
+            }
 
             fetch('/calculate', {
                 method: 'POST',
@@ -25,7 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(data)
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('Ошибка запроса');
+                    return response.json();
+                })
                 .then(json => {
                     result.innerHTML = `
                         <p>Цена за коробку: ${json.price_per_box} ₽</p>
@@ -33,22 +54,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Вес: ${json.weight} кг</p>
                         <p>Объём: ${json.volume} м³</p>
                     `;
+                    checkoutBtn.style.display = 'inline-block';
                     window.lastCalculation = { ...data, ...json };
                 })
                 .catch(() => {
-                    result.innerHTML = '<p>Ошибка расчёта. Проверьте введённые данные.</p>';
+                    result.innerHTML = `
+                        <p>Цена за коробку: расчёт...</p>
+                        <p>Общая стоимость: расчёт...</p>
+                        <p>Вес: расчёт...</p>
+                        <p>Объём: расчёт...</p>
+                    `;
+                    checkoutBtn.style.display = 'none';
                 });
         }, 400);
     }
 
-    // Подключаем автоматический пересчёт ко всем полям формы
+    updateResultPlaceholder();
+
     const inputs = form.querySelectorAll('input, select');
     inputs.forEach(input => {
         input.addEventListener('input', autoCalculate);
         input.addEventListener('change', autoCalculate);
     });
 
-    // Тираж > 25 — показываем блок дизайна
     if (quantitySelect && designBlock) {
         quantitySelect.addEventListener('change', () => {
             const qty = parseInt(quantitySelect.value);
@@ -56,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Показ размеров печати при нужных вариантах
     if (printTypeRadios && printSizeBlock) {
         printTypeRadios.forEach(radio => {
             radio.addEventListener('change', () => {

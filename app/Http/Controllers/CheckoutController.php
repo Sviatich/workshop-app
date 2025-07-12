@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Order;
 use App\Models\BoxType;
+use App\Models\OrderItem;
 
 class CheckoutController extends Controller
 {
@@ -45,61 +46,83 @@ class CheckoutController extends Controller
 
     public function submit(Request $request)
     {
-        $data = $request->validate([
-            'length' => 'required',
-            'width' => 'required',
-            'height' => 'required',
-            'box_type_id' => 'required',
-            'thickness' => 'required',
-            'color' => 'required',
-            'strength' => 'required',
-            'quantity' => 'required',
-            'print_type' => 'nullable',
-            'print_size' => 'nullable',
-            'need_logo_design' => 'nullable',
+        $validated = $request->validate([
             'delivery_method' => 'required|in:pickup,cdek,pek,own',
             'delivery_address' => 'required|string',
             'customer_type' => 'required|in:person,business',
-            'customer_name' => 'required',
+            'customer_name' => 'required|string',
             'customer_email' => 'required|email',
-            'customer_phone' => 'required',
-            'customer_inn' => 'nullable',
-            'design_file' => 'nullable|string|max:255',
+            'customer_phone' => 'required|string',
+            'customer_inn' => 'nullable|string',
         ]);
-
-        $uuid = (string) Str::uuid();
-
-        if ($request->hasFile('design_file')) {
-            $data['design_file'] = $request->file('design_file')->store("designs/{$uuid}", 'public');
+    
+        $cart = session('checkout_cart', []);
+    
+        if (empty($cart)) {
+            return redirect()->route('checkout.show')->with('error', 'Корзина пуста');
         }
-
-        $data['uuid'] = $uuid;
-        $data['status'] = 'new';
-        $data['price_per_box'] = 10;
-        $data['total_price'] = 10 * $data['quantity'];
-        $data['volume'] = ($data['length'] * $data['width'] * $data['height']) / 1_000_000;
-        $data['weight'] = round($data['volume'] * 0.7, 2);
-
-        $order = Order::create($data);
-
+    
+        $uuid = (string) Str::uuid();
+    
+        $totalPrice = array_sum(array_column($cart, 'total_price'));
+        $totalWeight = array_sum(array_column($cart, 'weight'));
+        $totalVolume = array_sum(array_column($cart, 'volume'));
+    
+        $order = Order::create([
+            'uuid' => $uuid,
+            'status' => 'new',
+            'price_per_box' => null,
+            'total_price' => $totalPrice,
+            'volume' => $totalVolume,
+            'weight' => $totalWeight,
+            'delivery_method' => $validated['delivery_method'],
+            'delivery_address' => $validated['delivery_address'],
+            'customer_type' => $validated['customer_type'],
+            'customer_name' => $validated['customer_name'],
+            'customer_email' => $validated['customer_email'],
+            'customer_phone' => $validated['customer_phone'],
+            'customer_inn' => $validated['customer_inn'],
+        ]);
+    
+        foreach ($cart as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'length' => $item['length'],
+                'width' => $item['width'],
+                'height' => $item['height'],
+                'box_type_id' => $item['box_type_id'],
+                'cardboard_thickness' => $item['thickness'],
+                'cardboard_color' => $item['color'],
+                'cardboard_strength' => $item['strength'],
+                'quantity' => $item['quantity'],
+                'print_type' => $item['print_type'] ?? null,
+                'print_size' => $item['print_size'] ?? null,
+                'need_logo_design' => isset($item['need_logo_design']) ? true : false,
+                'design_file' => $item['design_file'] ?? null,
+                'price_per_box' => $item['price_per_box'],
+                'total_price' => $item['total_price'],
+                'volume' => $item['volume'],
+                'weight' => $item['weight'],
+            ]);
+        }
+    
+        session()->forget('checkout_cart');
+    
         return redirect()->route('order.show', $uuid);
     }
 
-    public function showForm(Request $request)
+
+    public function showForm()
     {
-        $data = session('checkout_data');
-
-        if (!$data) {
-            return redirect()->route('home')->with('error', 'Сначала рассчитайте заказ.');
+        $cart = session('checkout_cart', []);
+    
+        if (empty($cart)) {
+            return redirect()->route('home')->with('error', 'Корзина пуста.');
         }
-
+    
         return view('checkout.form', [
-            'data' => $data,
-            'boxType' => \App\Models\BoxType::find($data['box_type_id']),
-            'pricePerBox' => $data['price_per_box'],
-            'totalPrice' => $data['total_price'],
-            'volume' => $data['volume'],
-            'weight' => $data['weight'],
+            'cart' => $cart,
+            'total' => array_sum(array_column($cart, 'total_price')),
         ]);
     }
 
@@ -120,19 +143,28 @@ class CheckoutController extends Controller
             'design_file' => 'nullable|file|max:10240',
         ]);
 
+        // расчёты
+        $volume = ($validated['length'] * $validated['width'] * $validated['height']) / 1_000_000;
+        $weight = round($volume * 0.7, 2);
+        $pricePerBox = 10; // или своя логика
+
+        $validated['volume'] = $volume;
+        $validated['weight'] = $weight;
+        $validated['price_per_box'] = $pricePerBox;
+        $validated['total_price'] = $pricePerBox * $validated['quantity'];
+
+        // загрузка файла
         if ($request->hasFile('design_file')) {
-            $file = $request->file('design_file');
-            $path = $file->store("designs/temp", 'public');
-            
-            // важно: сохраняем путь как строку, а не объект или массив
+            $path = $request->file('design_file')->store('designs/temp', 'public');
             $validated['design_file'] = $path;
-        } else {
-            $validated['design_file'] = null; // на всякий случай явно обнуляем
         }
 
-        session(['checkout_data' => $validated]);
+        // добавление в сессию как в массив
+        $cart = session('checkout_cart', []);
+        $cart[] = $validated;
+        session(['checkout_cart' => $cart]);
 
-        return response()->noContent(); // 204
+        return response()->noContent();
     }
 
 }

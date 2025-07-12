@@ -3,22 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
     protected $fillable = [
-        'length',
-        'width',
-        'height',
-        'box_type_id',
-        'thickness',
-        'color',
-        'strength',
-        'quantity',
-        'print_type',
-        'print_size',
-        'need_logo_design',
-        'design_file',
+        'uuid',
+        'status',
+        'total_price',
+        'volume',
+        'weight',
         'delivery_method',
         'delivery_address',
         'customer_type',
@@ -26,11 +20,10 @@ class Order extends Model
         'customer_email',
         'customer_phone',
         'customer_inn',
-        'uuid',
-        'status',
-        'price_per_box',
-        'total_price',
-        'volume',
-        'weight',
     ];
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

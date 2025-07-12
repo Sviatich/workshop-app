@@ -62,7 +62,8 @@ class OrderController extends Controller
 
     public function show($uuid)
     {
-        $order = Order::where('uuid', $uuid)->firstOrFail();
-        return view('orders.show', compact('order'));
+        $order = Order::where('uuid', $uuid)->with('items')->firstOrFail();
+        return view('order.show', compact('order'));
     }
+
 }
