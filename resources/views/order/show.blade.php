@@ -24,6 +24,9 @@
                     прочность: {{ $item->cardboard_strength }},
                     печать: {{ $item->print_type }},
                     {{ number_format($item->price_per_box, 2, ',', ' ') }} ₽/шт
+                    @if ($item->design_file)
+                        , <a href="{{ Storage::disk('public')->url($item->design_file) }}" target="_blank">файл</a>
+                    @endif
                 </li>
             @endforeach
         </ul>
