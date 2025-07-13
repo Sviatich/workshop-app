@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@php
+    $boxNames = \App\Models\BoxType::pluck('name', 'id')->toArray();
+    $colorMap = ['brown' => 'Бурый', 'white' => 'Белый'];
+    $strengthMap = ['econom' => 'Эконом', 'business' => 'Бизнес'];
+@endphp
+
 @section('content')
 @php
     $boxNames = \App\Models\BoxType::pluck('name', 'id')->toArray();
@@ -20,9 +26,9 @@
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                 <p><strong>Тип коробки:</strong> {{ $boxNames[$item['box_type_id']] ?? $item['box_type_id'] }}</p>
                 <p><strong>Размер:</strong> {{ $item['length'] }} × {{ $item['width'] }} × {{ $item['height'] }} мм</p>
-                <p><strong>Цвет картона:</strong> {{ $colorMap[$item['color']] ?? $item['color'] }}</p>
+                <p><strong>Цвет картона:</strong> {{ $colorMap[strtolower($item['color'])] ?? $item['color'] }}</p>
                 <p><strong>Толщина:</strong> {{ $item['thickness'] }} мм</p>
-                <p><strong>Прочность:</strong> {{ $strengthMap[$item['strength']] ?? $item['strength'] }}</p>
+                <p><strong>Прочность:</strong> {{ $strengthMap[strtolower($item['strength'])] ?? $item['strength'] }}</p>
                 <p><strong>Тираж:</strong> {{ $item['quantity'] }}</p>
                 <p><strong>Цена за коробку:</strong> {{ $item['price_per_box'] }} ₽</p>
                 <p><strong>Итого:</strong> {{ $item['total_price'] }} ₽</p>
