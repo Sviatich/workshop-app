@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Services\PriceCalculatorService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, PriceCalculatorService $service)
     {
         $data = $request->validate([
             'length' => 'required|numeric|min:1',
@@ -41,17 +42,9 @@ class OrderController extends Controller
             $data['design_file'] = $path;
         }
 
-        // (можно здесь вставить расчёт как в calculate())
+        $result = $service->calculate($data);
 
-        $pricePerBox = 15;
-        $totalPrice = $pricePerBox * $data['quantity'];
-        $volume = ($data['length'] * $data['width'] * $data['height']) / 1_000_000;
-        $weight = round($volume * 0.7, 2);
-
-        $data['price_per_box'] = $pricePerBox;
-        $data['total_price'] = $totalPrice;
-        $data['volume'] = $volume;
-        $data['weight'] = $weight;
+        $data = array_merge($data, $result);
         $data['uuid'] = $uuid;
         $data['status'] = 'new';
 
