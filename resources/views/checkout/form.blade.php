@@ -22,7 +22,11 @@
                 <p><strong>Цена за коробку:</strong> {{ $item['price_per_box'] }} ₽</p>
                 <p><strong>Итого:</strong> {{ $item['total_price'] }} ₽</p>
                 @if (!empty($item['design_file']))
-                    <p><strong>Файл дизайна:</strong> загружен</p>
+                    <p><strong>Файл дизайна:</strong>
+                        <a href="{{ Storage::disk('public')->url($item['design_file']) }}" target="_blank">
+                            {{ basename($item['design_file']) }}
+                        </a>
+                    </p>
                 @endif
 
                 <form method="POST" action="{{ route('checkout.remove', $index) }}" style="margin-top: 10px;">
