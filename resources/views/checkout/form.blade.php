@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $boxNames = \App\Models\BoxType::pluck('name', 'id')->toArray();
+    $colorMap = ['brown' => 'Бурый', 'white' => 'Белый'];
+    $strengthMap = ['econom' => 'Эконом', 'business' => 'Бизнес'];
+@endphp
 <div class="container">
     <h1>Оформление заказа</h1>
 
@@ -13,11 +18,11 @@
 
         @foreach ($cart as $index => $item)
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-                <p><strong>Тип коробки:</strong> {{ $item['box_type_id'] }}</p>
+                <p><strong>Тип коробки:</strong> {{ $boxNames[$item['box_type_id']] ?? $item['box_type_id'] }}</p>
                 <p><strong>Размер:</strong> {{ $item['length'] }} × {{ $item['width'] }} × {{ $item['height'] }} мм</p>
-                <p><strong>Цвет картона:</strong> {{ $item['color'] }}</p>
+                <p><strong>Цвет картона:</strong> {{ $colorMap[$item['color']] ?? $item['color'] }}</p>
                 <p><strong>Толщина:</strong> {{ $item['thickness'] }} мм</p>
-                <p><strong>Прочность:</strong> {{ $item['strength'] }}</p>
+                <p><strong>Прочность:</strong> {{ $strengthMap[$item['strength']] ?? $item['strength'] }}</p>
                 <p><strong>Тираж:</strong> {{ $item['quantity'] }}</p>
                 <p><strong>Цена за коробку:</strong> {{ $item['price_per_box'] }} ₽</p>
                 <p><strong>Итого:</strong> {{ $item['total_price'] }} ₽</p>
