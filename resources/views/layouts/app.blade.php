@@ -8,9 +8,10 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 text-gray-800 antialiased">
+@include('partials.headernav')
+<body class="main-container">
 
-    <div class="min-h-screen p-4">
+    <div class="">
         @yield('content')
     </div>
 
