@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Order;
 use App\Models\BoxType;
 use App\Models\OrderItem;
+use App\Services\PriceCalculatorService;
 
 class CheckoutController extends Controller
 {
-    public function form(Request $request)
+    public function form(Request $request, PriceCalculatorService $service)
     {
         $validated = $request->validate([
             'length' => 'required|numeric',
@@ -27,20 +28,15 @@ class CheckoutController extends Controller
             'need_logo_design' => 'nullable|boolean',
         ]);
 
-        // Пример расчёта
-        $basePrice = 10;
-        $pricePerBox = $basePrice;
-        $totalPrice = $pricePerBox * $validated['quantity'];
-        $volume = ($validated['length'] * $validated['width'] * $validated['height']) / 1_000_000;
-        $weight = round($volume * 0.7, 2);
+        $result = $service->calculate($validated);
 
         return view('checkout.form', [
             'data' => $validated,
             'boxType' => BoxType::find($validated['box_type_id']),
-            'pricePerBox' => $pricePerBox,
-            'totalPrice' => $totalPrice,
-            'volume' => $volume,
-            'weight' => $weight,
+            'pricePerBox' => $result['price_per_box'],
+            'totalPrice' => $result['total_price'],
+            'volume' => $result['volume'],
+            'weight' => $result['weight'],
         ]);
     }
 
@@ -126,7 +122,7 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function storeData(Request $request)
+    public function storeData(Request $request, PriceCalculatorService $service)
     {
         $validated = $request->validate([
             'length' => 'required|numeric',
@@ -143,15 +139,9 @@ class CheckoutController extends Controller
             'design_file' => 'nullable|file|max:10240',
         ]);
 
-        // расчёты
-        $volume = ($validated['length'] * $validated['width'] * $validated['height']) / 1_000_000;
-        $weight = round($volume * 0.7, 2);
-        $pricePerBox = 10; // или своя логика
+        $result = $service->calculate($validated);
 
-        $validated['volume'] = $volume;
-        $validated['weight'] = $weight;
-        $validated['price_per_box'] = $pricePerBox;
-        $validated['total_price'] = $pricePerBox * $validated['quantity'];
+        $validated = array_merge($validated, $result);
 
         // загрузка файла
         if ($request->hasFile('design_file')) {
