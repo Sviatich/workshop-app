@@ -7,6 +7,11 @@
 @endphp
 
 @section('content')
+@php
+    $boxNames = \App\Models\BoxType::pluck('name', 'id')->toArray();
+    $colorMap = ['brown' => 'Бурый', 'white' => 'Белый'];
+    $strengthMap = ['econom' => 'Эконом', 'business' => 'Бизнес'];
+@endphp
 <div class="container">
     <h1>Оформление заказа</h1>
 

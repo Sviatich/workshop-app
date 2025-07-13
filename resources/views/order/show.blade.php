@@ -18,6 +18,22 @@
 @endphp
 
 @section('content')
+@php
+    $colorMap = ['brown' => 'Бурый', 'white' => 'Белый'];
+    $strengthMap = ['econom' => 'Эконом', 'business' => 'Бизнес'];
+    $printTypeMap = [
+        'none' => 'Без оформления',
+        'print' => 'Печать',
+        'sticker' => 'Наклейка',
+        'wrapper' => 'Обечайка',
+    ];
+    $deliveryMap = [
+        'pickup' => 'Самовывоз',
+        'cdek' => 'СДЭК',
+        'pek' => 'ПЭК',
+        'own' => 'Свой курьер',
+    ];
+@endphp
     <div class="container">
         <h1>Спасибо за заказ!</h1>
 
