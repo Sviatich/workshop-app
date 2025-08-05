@@ -35,7 +35,7 @@ class ConfiguratorController extends Controller
             return response()->json($result, 422);
         }
 
-        // Проверяем размеры
+        // Проверяем точное совпадение
         $exactMatch = SizeMatcher::isExactMatch(
             $data['construction'],
             (int) $data['length'],
@@ -43,23 +43,28 @@ class ConfiguratorController extends Controller
             (int) $data['height']
         );
 
-        // Если нестандарт — добавляем надбавку 5000 ₽
-        if (!$exactMatch) {
+        $nearestSizes = [];
+        if ($exactMatch) {
+            // Всё совпало — ничего не предлагаем, надбавки нет
+            $result['exact_match'] = true;
+            $result['nearest_sizes'] = [];
+            return response()->json($result);
+        } else {
+            // Нет совпадения — всегда надбавка 5000 ₽
             $result['price_per_unit'] = round($result['price_per_unit'] + (5000 / $data['tirage']), 2);
             $result['total_price'] = round($result['total_price'] + 5000, 2);
+
+            // Ищем ближайшие размеры в пределах 80 мм
+            $nearestSizes = SizeMatcher::findNearest(
+                $data['construction'],
+                (int) $data['length'],
+                (int) $data['width'],
+                (int) $data['height']
+            );
+
+            $result['exact_match'] = false;
+            $result['nearest_sizes'] = $nearestSizes;
         }
-
-        // Находим ближайшие размеры
-        $nearestSizes = SizeMatcher::findNearest(
-            $data['construction'],
-            (int) $data['length'],
-            (int) $data['width'],
-            (int) $data['height']
-        );
-
-        // Добавляем в ответ
-        $result['exact_match'] = $exactMatch;
-        $result['nearest_sizes'] = $nearestSizes;
 
         return response()->json($result);
     }

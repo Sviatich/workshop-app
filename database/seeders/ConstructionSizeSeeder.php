@@ -12,24 +12,24 @@ class ConstructionSizeSeeder extends Seeder
     {
         $sizesData = [
             'fefco_0427' => [
-                ['length' => 200, 'width' => 150, 'height' => 100, 'stock' => true],
-                ['length' => 210, 'width' => 160, 'height' => 110, 'stock' => true],
-                ['length' => 250, 'width' => 200, 'height' => 150, 'stock' => false],
+                ['length' => 200, 'width' => 150, 'height' => 100],
+                ['length' => 210, 'width' => 160, 'height' => 110],
+                ['length' => 250, 'width' => 200, 'height' => 150],
             ],
             'fefco_0426' => [
-                ['length' => 300, 'width' => 300, 'height' => 40,  'stock' => true],
-                ['length' => 320, 'width' => 320, 'height' => 45,  'stock' => true],
-                ['length' => 350, 'width' => 350, 'height' => 50,  'stock' => false],
+                ['length' => 300, 'width' => 300, 'height' => 40],
+                ['length' => 320, 'width' => 320, 'height' => 45],
+                ['length' => 350, 'width' => 350, 'height' => 50],
             ],
             'fefco_0201' => [
-                ['length' => 400, 'width' => 300, 'height' => 250, 'stock' => true],
-                ['length' => 420, 'width' => 320, 'height' => 270, 'stock' => true],
-                ['length' => 450, 'width' => 350, 'height' => 300, 'stock' => false],
+                ['length' => 400, 'width' => 300, 'height' => 250],
+                ['length' => 420, 'width' => 320, 'height' => 270],
+                ['length' => 450, 'width' => 350, 'height' => 300],
             ],
             'fefco_0300' => [
-                ['length' => 150, 'width' => 150, 'height' => 50,  'stock' => true],
-                ['length' => 160, 'width' => 160, 'height' => 60,  'stock' => true],
-                ['length' => 180, 'width' => 180, 'height' => 70,  'stock' => false],
+                ['length' => 150, 'width' => 150, 'height' => 50],
+                ['length' => 160, 'width' => 160, 'height' => 60],
+                ['length' => 180, 'width' => 180, 'height' => 70],
             ],
         ];
 
@@ -42,7 +42,6 @@ class ConstructionSizeSeeder extends Seeder
                         'length'          => $size['length'],
                         'width'           => $size['width'],
                         'height'          => $size['height'],
-                        'stock'           => $size['stock'],
                     ]);
                 }
             }

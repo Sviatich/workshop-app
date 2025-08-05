@@ -10,7 +10,7 @@ class ConstructionSize extends Model
     use HasFactory;
 
     protected $fillable = [
-        'construction_id', 'length', 'width', 'height', 'stock'
+        'construction_id', 'length', 'width', 'height'
     ];
 
     public function construction()

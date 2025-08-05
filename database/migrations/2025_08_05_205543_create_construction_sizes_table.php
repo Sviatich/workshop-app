@@ -13,7 +13,6 @@ return new class extends Migration {
             $table->integer('length'); // мм
             $table->integer('width');  // мм
             $table->integer('height'); // мм
-            $table->boolean('stock')->default(true); // в наличии или нет
             $table->timestamps();
         });
     }

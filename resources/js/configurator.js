@@ -61,29 +61,34 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("weight").textContent = result.weight;
             document.getElementById("volume").textContent = result.volume;
 
-            // Показываем ближайшие размеры только если нет точного совпадения
-            if (!result.exact_match && result.nearest_sizes && result.nearest_sizes.length > 0) {
+            // Если размер нестандартный
+            if (!result.exact_match) {
                 let html = `<p class="text-red-600 font-semibold mb-2">
                     Выбран нестандартный размер. К стоимости добавлено 5000 ₽.
                 </p>`;
-                html += `<h3 class="font-bold mb-2">Ближайшие размеры:</h3><ul class="space-y-1">`;
 
-                result.nearest_sizes.forEach(size => {
-                    html += `<li class="flex items-center justify-between border-b pb-1">
-                        <span>${size.length} × ${size.width} × ${size.height} мм</span>
-                        <button class="px-2 py-1 bg-blue-500 text-white rounded text-sm"
-                            data-length="${size.length}"
-                            data-width="${size.width}"
-                            data-height="${size.height}">
-                            Подставить
-                        </button>
-                    </li>`;
-                });
+                // Если есть ближайшие размеры — добавляем список
+                if (result.nearest_sizes && result.nearest_sizes.length > 0) {
+                    html += `<h3 class="font-bold mb-2">Ближайшие размеры:</h3><ul class="space-y-1">`;
 
-                html += `</ul>`;
+                    result.nearest_sizes.forEach(size => {
+                        html += `<li class="flex items-center justify-between border-b pb-1">
+                            <span>${size.length} × ${size.width} × ${size.height} мм</span>
+                            <button class="px-2 py-1 bg-blue-500 text-white rounded text-sm"
+                                data-length="${size.length}"
+                                data-width="${size.width}"
+                                data-height="${size.height}">
+                                Подставить
+                            </button>
+                        </li>`;
+                    });
+
+                    html += `</ul>`;
+                }
+
                 nearestContainer.innerHTML = html;
 
-                // Обработчики кнопок
+                // Обработчики кнопок (если есть)
                 nearestContainer.querySelectorAll("button").forEach(btn => {
                     btn.addEventListener("click", () => {
                         document.getElementById("length").value = btn.dataset.length;
