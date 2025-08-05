@@ -7,6 +7,7 @@ use App\Calculators\Fefco0427Calculator;
 use App\Calculators\Fefco0426Calculator;
 use App\Calculators\Fefco0201Calculator;
 use App\Calculators\Fefco0300Calculator;
+use App\Helpers\SizeMatcher;
 
 class ConfiguratorController extends Controller
 {
@@ -29,6 +30,36 @@ class ConfiguratorController extends Controller
 
         $calculator = new $calcClass();
         $result = $calculator->calculate($data);
+
+        if (isset($result['error'])) {
+            return response()->json($result, 422);
+        }
+
+        // Проверяем размеры
+        $exactMatch = SizeMatcher::isExactMatch(
+            $data['construction'],
+            (int) $data['length'],
+            (int) $data['width'],
+            (int) $data['height']
+        );
+
+        // Если нестандарт — добавляем надбавку 5000 ₽
+        if (!$exactMatch) {
+            $result['price_per_unit'] = round($result['price_per_unit'] + (5000 / $data['tirage']), 2);
+            $result['total_price'] = round($result['total_price'] + 5000, 2);
+        }
+
+        // Находим ближайшие размеры
+        $nearestSizes = SizeMatcher::findNearest(
+            $data['construction'],
+            (int) $data['length'],
+            (int) $data['width'],
+            (int) $data['height']
+        );
+
+        // Добавляем в ответ
+        $result['exact_match'] = $exactMatch;
+        $result['nearest_sizes'] = $nearestSizes;
 
         return response()->json($result);
     }

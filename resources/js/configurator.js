@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const fields = ["construction", "length", "width", "height", "color", "tirage"];
     let debounceTimer;
 
+    const nearestContainer = document.createElement("div");
+    nearestContainer.id = "nearest_sizes";
+    nearestContainer.className = "mt-4 p-3 border rounded bg-white";
+    document.querySelector("#result").after(nearestContainer);
+
     async function recalc() {
         const data = {};
         let allFilled = true;
@@ -13,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 allFilled = false;
             }
 
-            // Приведение числовых значений к числу
             if (id !== "construction" && id !== "color") {
                 value = Number(value);
             }
@@ -23,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!allFilled) {
             clearResult();
-            return; // не отправляем запрос, пока все поля не заполнены
+            nearestContainer.innerHTML = "";
+            return;
         }
 
         try {
@@ -38,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!res.ok) {
                 clearResult();
+                nearestContainer.innerHTML = "";
                 return;
             }
 
@@ -45,16 +51,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (result.error) {
                 clearResult();
+                nearestContainer.innerHTML = "";
                 return;
             }
 
+            // Заполняем результаты
             document.getElementById("price_per_unit").textContent = result.price_per_unit;
             document.getElementById("total_price").textContent = result.total_price;
             document.getElementById("weight").textContent = result.weight;
             document.getElementById("volume").textContent = result.volume;
+
+            // Показываем ближайшие размеры только если нет точного совпадения
+            if (!result.exact_match && result.nearest_sizes && result.nearest_sizes.length > 0) {
+                let html = `<p class="text-red-600 font-semibold mb-2">
+                    Выбран нестандартный размер. К стоимости добавлено 5000 ₽.
+                </p>`;
+                html += `<h3 class="font-bold mb-2">Ближайшие размеры:</h3><ul class="space-y-1">`;
+
+                result.nearest_sizes.forEach(size => {
+                    html += `<li class="flex items-center justify-between border-b pb-1">
+                        <span>${size.length} × ${size.width} × ${size.height} мм</span>
+                        <button class="px-2 py-1 bg-blue-500 text-white rounded text-sm"
+                            data-length="${size.length}"
+                            data-width="${size.width}"
+                            data-height="${size.height}">
+                            Подставить
+                        </button>
+                    </li>`;
+                });
+
+                html += `</ul>`;
+                nearestContainer.innerHTML = html;
+
+                // Обработчики кнопок
+                nearestContainer.querySelectorAll("button").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        document.getElementById("length").value = btn.dataset.length;
+                        document.getElementById("width").value = btn.dataset.width;
+                        document.getElementById("height").value = btn.dataset.height;
+                        recalc();
+                    });
+                });
+
+            } else {
+                nearestContainer.innerHTML = "";
+            }
+
         } catch (err) {
             console.error("Ошибка расчёта:", err);
             clearResult();
+            nearestContainer.innerHTML = "";
         }
     }
 
@@ -65,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("volume").textContent = "—";
     }
 
-    // Пересчёт с задержкой
     fields.forEach(id => {
         document.getElementById(id).addEventListener("input", () => {
             clearTimeout(debounceTimer);
@@ -73,6 +118,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Первый расчёт при загрузке
     recalc();
 });

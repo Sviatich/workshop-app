@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             ConstructionSeeder::class,
             CartonColorSeeder::class,
             DeliveryMethodSeeder::class,
+            ConstructionSizeSeeder::class, 
         ]);
     }
 }
