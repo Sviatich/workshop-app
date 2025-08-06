@@ -123,5 +123,49 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.getElementById("add_to_cart").addEventListener("click", () => {
+        const config = {};
+        let allFilled = true;
+
+        fields.forEach(id => {
+            let value = document.getElementById(id).value;
+            if (value === "" || value === null) {
+                allFilled = false;
+            }
+            if (id !== "construction" && id !== "color") {
+                value = Number(value);
+            }
+            config[id] = value;
+        });
+
+        if (!allFilled) {
+            alert("Заполните все поля перед добавлением в корзину.");
+            return;
+        }
+
+        const pricePerUnit = document.getElementById("price_per_unit").textContent;
+        if (pricePerUnit === "—") {
+            alert("Сначала дождитесь расчёта цены.");
+            return;
+        }
+
+        const constructionSelect = document.getElementById("construction");
+        config.construction_name = constructionSelect.options[constructionSelect.selectedIndex].text;
+
+        const colorSelect = document.getElementById("color");
+        config.color_name = colorSelect.options[colorSelect.selectedIndex].text;
+
+        config.price_per_unit = Number(pricePerUnit);
+        config.total_price = Number(document.getElementById("total_price").textContent);
+        config.weight = Number(document.getElementById("weight").textContent);
+        config.volume = Number(document.getElementById("volume").textContent);
+
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        cart.push(config);
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert("Товар добавлен в корзину!");
+    });
+
     recalc();
 });

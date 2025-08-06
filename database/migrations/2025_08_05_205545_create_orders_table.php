@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->enum('payer_type', ['individual', 'company']);
+            $table->string('full_name');
             $table->string('email');
             $table->string('phone');
             $table->string('inn')->nullable();
