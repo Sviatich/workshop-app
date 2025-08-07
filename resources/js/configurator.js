@@ -7,24 +7,28 @@ document.addEventListener("DOMContentLoaded", () => {
     nearestContainer.className = "mt-4 p-3 border rounded bg-white";
     document.querySelector("#result").after(nearestContainer);
 
+    const logoCheckbox = document.getElementById("has_logo");
+    const printCheckbox = document.getElementById("has_fullprint");
+    const logoInput = document.getElementById("logo_file");
+    const logoStatus = document.getElementById("logo_status");
+    const logoPreview = document.getElementById("logo_preview");
+    const printInput = document.getElementById("print_file");
+    const printStatus = document.getElementById("print_status");
+    const printPreview = document.getElementById("print_preview");
+
     async function recalc() {
         const data = {};
         let allFilled = true;
 
         fields.forEach(id => {
             let value = document.getElementById(id).value;
-            if (value === "" || value === null) {
-                allFilled = false;
-            }
-            if (id !== "construction" && id !== "color") {
-                value = Number(value);
-            }
+            if (value === "" || value === null) allFilled = false;
+            if (id !== "construction" && id !== "color") value = Number(value);
             data[id] = value;
         });
 
-        // Добавим флаги
-        data.has_logo = document.getElementById("has_logo").checked;
-        data.has_fullprint = document.getElementById("has_fullprint").checked;
+        data.has_logo = logoCheckbox.checked;
+        data.has_fullprint = printCheckbox.checked;
 
         if (!allFilled) {
             clearResult();
@@ -32,14 +36,36 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Если включён полноцветный макет — расчёт невозможен
+        // 💡 Если включен полноцветный макет — обнуляем цену, показываем подсказку, но НЕ прерываем
         if (data.has_fullprint) {
-            clearResult();
+            // Фиктивный результат с весом и объемом
+            const res = await fetch("/api/calculate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({ ...data, fake_pricing: true }),
+            });
+
+            if (!res.ok) {
+                clearResult();
+                nearestContainer.innerHTML = "";
+                return;
+            }
+
+            const result = await res.json();
+
+            document.getElementById("price_per_unit").textContent = "0";
+            document.getElementById("total_price").textContent = "0";
+            document.getElementById("weight").textContent = result.weight;
+            document.getElementById("volume").textContent = result.volume;
+
             nearestContainer.innerHTML = `
                 <p class="text-orange-600 font-semibold">
-                    Расчёт с полноцветным макетом осуществляется индивидуально.<br>
-                    Ожидайте звонка менеджера после оформления заказа.
+                    Расчёт стоимости с полноцветной печатью будет выполнен менеджером после оформления заказа.
                 </p>`;
+
             return;
         }
 
@@ -79,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (result.nearest_sizes?.length > 0) {
                     html += `<h3 class="font-bold mb-2">Ближайшие размеры:</h3><ul class="space-y-1">`;
-
                     result.nearest_sizes.forEach(size => {
                         html += `<li class="flex items-center justify-between border-b pb-1">
                             <span>${size.length} × ${size.width} × ${size.height} мм</span>
@@ -91,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             </button>
                         </li>`;
                     });
-
                     html += `</ul>`;
                 }
 
@@ -124,32 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("volume").textContent = "—";
     }
 
-    fields.forEach(id => {
-        document.getElementById(id).addEventListener("input", () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(recalc, 300);
-        });
-    });
-
-    const logoCheckbox = document.getElementById("has_logo");
-    const logoOptions = document.getElementById("logo_options");
-    logoCheckbox.addEventListener("change", () => {
-        logoOptions.classList.toggle("hidden", !logoCheckbox.checked);
-    });
-
-    const printCheckbox = document.getElementById("has_fullprint");
-    const printOptions = document.getElementById("fullprint_options");
-    const printInput = document.getElementById("print_file");
-    const printStatus = document.getElementById("print_status");
-    const printPreview = document.getElementById("print_preview");
-
-    printCheckbox.addEventListener("change", () => {
-        printOptions.classList.toggle("hidden", !printCheckbox.checked);
-    });
-
-    [...fields.map(id => document.getElementById(id)), 
-     document.getElementById("has_logo"), 
-     document.getElementById("has_fullprint")].forEach(input => {
+    // Слушатели
+    [...fields.map(id => document.getElementById(id)), logoCheckbox, printCheckbox].forEach(input => {
         input?.addEventListener("input", () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(recalc, 300);
@@ -160,7 +160,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Загрузка макета (печать) с прелоадером
+    logoCheckbox.addEventListener("change", () => {
+        document.getElementById("logo_options").classList.toggle("hidden", !logoCheckbox.checked);
+    });
+
+    printCheckbox.addEventListener("change", () => {
+        document.getElementById("fullprint_options").classList.toggle("hidden", !printCheckbox.checked);
+    });
+
+    // Загрузка макета
     printInput?.addEventListener("change", async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -171,11 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         printStatus.innerHTML = `Загрузка... <span class="inline-block w-4 h-4 border-2 border-blue-500 border-t-transparent animate-spin rounded-full ml-1"></span>`;
 
         try {
-            const res = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-            });
-
+            const res = await fetch("/api/upload", { method: "POST", body: formData });
             const data = await res.json();
 
             if (!data.success) {
@@ -198,12 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
-    // Автозагрузка логотипа с прелоадером 👇
-    const logoInput = document.getElementById("logo_file");
-    const logoStatus = document.getElementById("logo_status"); // 👈 добавлено
-    const logoPreview = document.getElementById("logo_preview"); // 👈 добавлено
-
+    // Загрузка логотипа
     logoInput?.addEventListener("change", async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -211,15 +210,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        // 👇 Показываем "Загрузка..."
         logoStatus.innerHTML = `Загрузка... <span class="inline-block w-4 h-4 border-2 border-blue-500 border-t-transparent animate-spin rounded-full ml-1"></span>`;
 
         try {
-            const res = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-            });
-
+            const res = await fetch("/api/upload", { method: "POST", body: formData });
             const data = await res.json();
 
             if (!data.success) {
@@ -234,7 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 logoPreview.src = data.file_path;
             }
 
-            // 👇 Показываем название файла
             logoStatus.innerHTML = `<span class="text-green-700">Загружен файл: <strong>${data.filename}</strong></span>`;
         } catch (err) {
             console.error("Ошибка загрузки логотипа:", err);
@@ -242,18 +235,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Добавление в корзину
     document.getElementById("add_to_cart").addEventListener("click", () => {
         const config = {};
         let allFilled = true;
 
         fields.forEach(id => {
             let value = document.getElementById(id).value;
-            if (value === "" || value === null) {
-                allFilled = false;
-            }
-            if (id !== "construction" && id !== "color") {
-                value = Number(value);
-            }
+            if (value === "" || value === null) allFilled = false;
+            if (id !== "construction" && id !== "color") value = Number(value);
             config[id] = value;
         });
 
@@ -262,38 +252,28 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const pricePerUnit = document.getElementById("price_per_unit").textContent;
-        if (pricePerUnit === "—") {
-            alert("Сначала дождитесь расчёта цены.");
-            return;
-        }
+        // Сохраняем флаги
+        config.logo = logoCheckbox.checked ? {
+            enabled: true,
+            size: document.getElementById("logo_size").value,
+            file_path: logoInput?.dataset.filePath ?? "",
+            filename: logoInput?.dataset.filename ?? "",
+        } : { enabled: false };
 
-        if (logoCheckbox.checked) {
-            config.logo = {
-                enabled: true,
-                size: document.getElementById("logo_size").value,
-                file_path: logoInput?.dataset.filePath ?? "",
-                filename: logoInput?.dataset.filename ?? "",
-            };
-        }
-
-        if (printCheckbox.checked) {
-            config.fullprint = {
-                enabled: true,
-                description: document.getElementById("print_description").value,
-                file_path: printInput?.dataset.filePath ?? "",
-                filename: printInput?.dataset.filename ?? "",
-            };
-        }
+        config.fullprint = printCheckbox.checked ? {
+            enabled: true,
+            description: document.getElementById("print_description").value,
+            file_path: printInput?.dataset.filePath ?? "",
+            filename: printInput?.dataset.filename ?? "",
+        } : { enabled: false };
 
         const constructionSelect = document.getElementById("construction");
         config.construction_name = constructionSelect.options[constructionSelect.selectedIndex].text;
-
         const colorSelect = document.getElementById("color");
         config.color_name = colorSelect.options[colorSelect.selectedIndex].text;
 
-        config.price_per_unit = Number(pricePerUnit);
-        config.total_price = Number(document.getElementById("total_price").textContent);
+        config.price_per_unit = config.fullprint.enabled ? 0 : Number(document.getElementById("price_per_unit").textContent);
+        config.total_price = config.fullprint.enabled ? 0 : Number(document.getElementById("total_price").textContent);
         config.weight = Number(document.getElementById("weight").textContent);
         config.volume = Number(document.getElementById("volume").textContent);
 

@@ -33,6 +33,12 @@
                         Итого: {{ number_format($item->total_price, 2, '.', ' ') }} ₽
                     </p>
 
+                    @if (!empty($item->config_json['fullprint']['enabled']) && $item->total_price == 0)
+                        <p class="text-orange-600 font-semibold text-sm mt-1">
+                            Цена будет рассчитана менеджером индивидуально после оформления заказа.
+                        </p>
+                    @endif
+
                     {{-- Опции логотипа --}}
                     @if (!empty($item->config_json['logo']['enabled']))
                         <div class="mt-2">

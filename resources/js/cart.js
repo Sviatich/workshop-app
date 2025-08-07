@@ -30,18 +30,21 @@ document.addEventListener("DOMContentLoaded", () => {
             div.className = "p-4 border rounded bg-white";
 
             let html = `
-                <p><strong>${item.construction_name}</strong> — ${item.length} × ${item.width} × ${item.height} мм</p>
-                <p>Цвет: ${item.color_name}</p>
-                <p>Тираж: ${item.tirage}</p>
-                <p>Цена за штуку: ${item.price_per_unit} ₽</p>
-                <p>Общая цена: ${item.total_price} ₽</p>
-            `;
+            <p><strong>${item.construction_name}</strong> — ${item.length} × ${item.width} × ${item.height} мм</p>
+            <p>Цвет: ${item.color_name}</p>
+            <p>Тираж: ${item.tirage}</p>
+            <p>Цена за штуку: ${item.price_per_unit} ₽</p>
+            <p>Общая цена: ${item.total_price} ₽</p>
+            ${item.fullprint?.enabled && item.total_price === 0 ? `
+                <p class="text-orange-600 font-semibold mt-1">
+                    Цена будет рассчитана менеджером индивидуально после оформления заказа.
+                </p>` : ""}
+        `;
 
-            // Логотип
             if (item.logo?.enabled) {
                 html += `
-                    <p class="mt-2"><strong>Логотип:</strong> да (размер: ${item.logo.size || "не указан"})</p>
-                `;
+                <p class="mt-2"><strong>Логотип:</strong> да (размер: ${item.logo.size || "не указан"})</p>
+            `;
                 if (item.logo.filename) {
                     html += `<p class="text-sm text-gray-600">Файл: ${item.logo.filename}</p>`;
                 }
@@ -50,22 +53,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // Полноформатная печать
             if (item.fullprint?.enabled) {
                 html += `<p class="mt-2"><strong>Полноформатная печать:</strong> да</p>`;
                 if (item.fullprint.description) {
                     html += `<p class="text-sm text-gray-600">Комментарий: ${item.fullprint.description}</p>`;
                 }
-                if (item.fullprint.file) {
-                    html += `<p class="text-sm text-gray-600">Файл: ${item.fullprint.file}</p>`;
+                if (item.fullprint.filename) {
+                    html += `<p class="text-sm text-gray-600">Файл: ${item.fullprint.filename}</p>`;
                 }
             }
 
             html += `
-                <button class="mt-4 px-3 py-1 bg-red-500 text-white rounded remove_item" data-index="${index}">
-                    Удалить
-                </button>
-            `;
+            <button class="mt-4 px-3 py-1 bg-red-500 text-white rounded remove_item" data-index="${index}">
+                Удалить
+            </button>
+        `;
 
             div.innerHTML = html;
             cartItemsContainer.appendChild(div);
@@ -75,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cartSummary.classList.remove("hidden");
         emptyCart.classList.add("hidden");
 
-        // Удаление товара
         document.querySelectorAll(".remove_item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = btn.dataset.index;
@@ -85,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
 
     renderCart();
 
