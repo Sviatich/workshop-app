@@ -20,6 +20,8 @@ class CalculateRequest extends FormRequest
             'height' => 'nullable|integer|min:0',
             'color' => 'required|string|exists:carton_colors,code',
             'tirage' => 'required|integer|min:1',
+            'has_logo' => 'sometimes|boolean',
+            'has_fullprint' => 'sometimes|boolean',
         ];
     }
 }

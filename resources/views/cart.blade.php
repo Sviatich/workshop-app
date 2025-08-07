@@ -6,6 +6,15 @@
 
         <div id="cart_items" class="space-y-4"></div>
 
+        <template id="cart_item_template">
+            <div class="border p-4 rounded bg-white">
+                <p class="font-semibold mb-1 config-text"></p>
+                <p class="text-sm text-gray-700 summary-text"></p>
+
+                <div class="options text-sm text-gray-800 space-y-1 mt-2"></div>
+            </div>
+        </template>
+
         <div id="cart_summary" class="mt-6 p-4 border rounded bg-gray-50 hidden">
             <p><strong>Итого:</strong> <span id="cart_total">0</span> ₽</p>
 

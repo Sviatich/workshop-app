@@ -45,6 +45,55 @@
                 <label class="block mb-1 font-semibold">Тираж</label>
                 <input type="number" name="tirage" id="tirage" value="100" class="border rounded w-full p-2">
             </div>
+            <!-- Чёрный логотип -->
+            <div class="border-t pt-4 mt-4">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="has_logo">
+                    <span class="font-semibold">Нанести чёрный логотип (+10 ₽ к каждой коробке)</span>
+                </label>
+
+                <div id="logo_options" class="mt-2 hidden space-y-2">
+                    <div>
+                        <label class="block font-semibold mb-1">Размер логотипа</label>
+                        <select id="logo_size" class="border rounded w-full p-2">
+                            <option value="20x40">20 мм × 40 мм</option>
+                            <option value="10x40">10 мм × 40 мм</option>
+                            <option value="26x40">26 мм × 40 мм</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold mb-1">Файл логотипа</label>
+                        <input type="file" name="logo_file_0" id="logo_file" class="border rounded w-full p-2">
+                        <div id="logo_status" class="text-sm text-gray-600 mt-1"></div>
+                        <img id="logo_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Полноформатная печать -->
+            <div class="border-t pt-4 mt-4">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" id="has_fullprint">
+                    <span class="font-semibold">Полноформатная печать (1–5 цветов)</span>
+                </label>
+
+                <div id="fullprint_options" class="mt-2 hidden space-y-2">
+                    <div>
+                        <label class="block font-semibold mb-1">Файл макета</label>
+                        <input type="file" name="print_file_0" id="print_file" class="border rounded w-full p-2">
+                        <div id="print_status" class="text-sm text-gray-600 mt-1"></div>
+                        <img id="print_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold mb-1">Комментарий к печати</label>
+                        <textarea id="print_description" class="border rounded w-full p-2"
+                            placeholder="Если макета нет — опишите, что нужно напечатать"></textarea>
+                    </div>
+                </div>
+            </div>
+
         </form>
 
         <div id="result" class="mt-6 p-4 border rounded bg-gray-50">

@@ -13,21 +13,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         fields.forEach(id => {
             let value = document.getElementById(id).value;
-
             if (value === "" || value === null) {
                 allFilled = false;
             }
-
             if (id !== "construction" && id !== "color") {
                 value = Number(value);
             }
-
             data[id] = value;
         });
+
+        // Добавим флаги
+        data.has_logo = document.getElementById("has_logo").checked;
+        data.has_fullprint = document.getElementById("has_fullprint").checked;
 
         if (!allFilled) {
             clearResult();
             nearestContainer.innerHTML = "";
+            return;
+        }
+
+        // Если включён полноцветный макет — расчёт невозможен
+        if (data.has_fullprint) {
+            clearResult();
+            nearestContainer.innerHTML = `
+                <p class="text-orange-600 font-semibold">
+                    Расчёт с полноцветным макетом осуществляется индивидуально.<br>
+                    Ожидайте звонка менеджера после оформления заказа.
+                </p>`;
             return;
         }
 
@@ -55,20 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Заполняем результаты
             document.getElementById("price_per_unit").textContent = result.price_per_unit;
             document.getElementById("total_price").textContent = result.total_price;
             document.getElementById("weight").textContent = result.weight;
             document.getElementById("volume").textContent = result.volume;
 
-            // Если размер нестандартный
             if (!result.exact_match) {
                 let html = `<p class="text-red-600 font-semibold mb-2">
                     Выбран нестандартный размер. К стоимости добавлено 5000 ₽.
                 </p>`;
 
-                // Если есть ближайшие размеры — добавляем список
-                if (result.nearest_sizes && result.nearest_sizes.length > 0) {
+                if (result.nearest_sizes?.length > 0) {
                     html += `<h3 class="font-bold mb-2">Ближайшие размеры:</h3><ul class="space-y-1">`;
 
                     result.nearest_sizes.forEach(size => {
@@ -88,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 nearestContainer.innerHTML = html;
 
-                // Обработчики кнопок (если есть)
                 nearestContainer.querySelectorAll("button").forEach(btn => {
                     btn.addEventListener("click", () => {
                         document.getElementById("length").value = btn.dataset.length;
@@ -123,6 +131,117 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    const logoCheckbox = document.getElementById("has_logo");
+    const logoOptions = document.getElementById("logo_options");
+    logoCheckbox.addEventListener("change", () => {
+        logoOptions.classList.toggle("hidden", !logoCheckbox.checked);
+    });
+
+    const printCheckbox = document.getElementById("has_fullprint");
+    const printOptions = document.getElementById("fullprint_options");
+    const printInput = document.getElementById("print_file");
+    const printStatus = document.getElementById("print_status");
+    const printPreview = document.getElementById("print_preview");
+
+    printCheckbox.addEventListener("change", () => {
+        printOptions.classList.toggle("hidden", !printCheckbox.checked);
+    });
+
+    [...fields.map(id => document.getElementById(id)), 
+     document.getElementById("has_logo"), 
+     document.getElementById("has_fullprint")].forEach(input => {
+        input?.addEventListener("input", () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(recalc, 300);
+        });
+        input?.addEventListener("change", () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(recalc, 300);
+        });
+    });
+
+    // Загрузка макета (печать) с прелоадером
+    printInput?.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        printStatus.innerHTML = `Загрузка... <span class="inline-block w-4 h-4 border-2 border-blue-500 border-t-transparent animate-spin rounded-full ml-1"></span>`;
+
+        try {
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await res.json();
+
+            if (!data.success) {
+                printStatus.innerHTML = `<span class="text-red-600">Ошибка загрузки: ${data.error ?? "неизвестная"}</span>`;
+                return;
+            }
+
+            e.target.dataset.filePath = data.file_path;
+            e.target.dataset.filename = data.filename;
+
+            if (printPreview && file.type.startsWith("image/")) {
+                printPreview.src = data.file_path;
+                printPreview.classList.remove("hidden");
+            }
+
+            printStatus.innerHTML = `<span class="text-green-700">Загружен файл: <strong>${data.filename}</strong></span>`;
+        } catch (err) {
+            console.error("Ошибка загрузки макета:", err);
+            printStatus.innerHTML = `<span class="text-red-600">Ошибка при загрузке</span>`;
+        }
+    });
+
+
+    // Автозагрузка логотипа с прелоадером 👇
+    const logoInput = document.getElementById("logo_file");
+    const logoStatus = document.getElementById("logo_status"); // 👈 добавлено
+    const logoPreview = document.getElementById("logo_preview"); // 👈 добавлено
+
+    logoInput?.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        // 👇 Показываем "Загрузка..."
+        logoStatus.innerHTML = `Загрузка... <span class="inline-block w-4 h-4 border-2 border-blue-500 border-t-transparent animate-spin rounded-full ml-1"></span>`;
+
+        try {
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await res.json();
+
+            if (!data.success) {
+                logoStatus.innerHTML = `<span class="text-red-600">Ошибка загрузки: ${data.error ?? "неизвестная"}</span>`;
+                return;
+            }
+
+            e.target.dataset.filePath = data.file_path;
+            e.target.dataset.filename = data.filename;
+
+            if (logoPreview && file.type.startsWith("image/")) {
+                logoPreview.src = data.file_path;
+            }
+
+            // 👇 Показываем название файла
+            logoStatus.innerHTML = `<span class="text-green-700">Загружен файл: <strong>${data.filename}</strong></span>`;
+        } catch (err) {
+            console.error("Ошибка загрузки логотипа:", err);
+            logoStatus.innerHTML = `<span class="text-red-600">Ошибка при загрузке</span>`;
+        }
+    });
+
     document.getElementById("add_to_cart").addEventListener("click", () => {
         const config = {};
         let allFilled = true;
@@ -147,6 +266,24 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pricePerUnit === "—") {
             alert("Сначала дождитесь расчёта цены.");
             return;
+        }
+
+        if (logoCheckbox.checked) {
+            config.logo = {
+                enabled: true,
+                size: document.getElementById("logo_size").value,
+                file_path: logoInput?.dataset.filePath ?? "",
+                filename: logoInput?.dataset.filename ?? "",
+            };
+        }
+
+        if (printCheckbox.checked) {
+            config.fullprint = {
+                enabled: true,
+                description: document.getElementById("print_description").value,
+                file_path: printInput?.dataset.filePath ?? "",
+                filename: printInput?.dataset.filename ?? "",
+            };
         }
 
         const constructionSelect = document.getElementById("construction");

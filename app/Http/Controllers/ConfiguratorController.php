@@ -35,7 +35,21 @@ class ConfiguratorController extends Controller
             return response()->json($result, 422);
         }
 
-        // Проверяем точное совпадение
+        // Если включена полноцветная печать — расчёт не выполняем
+        if (!empty($data['fullprint']['enabled'])) {
+            return response()->json([
+                'error' => false,
+                'manager_approval_required' => true,
+            ]);
+        }
+
+        // +10 ₽ за логотип, если он есть
+        if (!empty($data['has_logo'])) {
+            $result['price_per_unit'] = round($result['price_per_unit'] + 10, 2);
+            $result['total_price'] = round($result['price_per_unit'] * $data['tirage'], 2);
+        }
+
+        // Проверка точного совпадения
         $exactMatch = SizeMatcher::isExactMatch(
             $data['construction'],
             (int) $data['length'],
@@ -43,29 +57,24 @@ class ConfiguratorController extends Controller
             (int) $data['height']
         );
 
-        $nearestSizes = [];
         if ($exactMatch) {
-            // Всё совпало — ничего не предлагаем, надбавки нет
             $result['exact_match'] = true;
             $result['nearest_sizes'] = [];
-            return response()->json($result);
         } else {
-            // Нет совпадения — всегда надбавка 5000 ₽
+            // Добавляем надбавку за нестандарт
             $result['price_per_unit'] = round($result['price_per_unit'] + (5000 / $data['tirage']), 2);
             $result['total_price'] = round($result['total_price'] + 5000, 2);
 
-            // Ищем ближайшие размеры в пределах 80 мм
-            $nearestSizes = SizeMatcher::findNearest(
+            $result['exact_match'] = false;
+            $result['nearest_sizes'] = SizeMatcher::findNearest(
                 $data['construction'],
                 (int) $data['length'],
                 (int) $data['width'],
                 (int) $data['height']
             );
-
-            $result['exact_match'] = false;
-            $result['nearest_sizes'] = $nearestSizes;
         }
 
         return response()->json($result);
     }
+
 }

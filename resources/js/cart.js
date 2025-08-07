@@ -8,13 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Показать поле ИНН только для юр. лица
     payerTypeSelect.addEventListener("change", () => {
-        if (payerTypeSelect.value === "company") {
-            innField.classList.remove("hidden");
-        } else {
-            innField.classList.add("hidden");
-        }
+        innField.classList.toggle("hidden", payerTypeSelect.value !== "company");
     });
 
     function renderCart() {
@@ -34,17 +29,45 @@ document.addEventListener("DOMContentLoaded", () => {
             const div = document.createElement("div");
             div.className = "p-4 border rounded bg-white";
 
-            div.innerHTML = `
+            let html = `
                 <p><strong>${item.construction_name}</strong> — ${item.length} × ${item.width} × ${item.height} мм</p>
                 <p>Цвет: ${item.color_name}</p>
                 <p>Тираж: ${item.tirage}</p>
                 <p>Цена за штуку: ${item.price_per_unit} ₽</p>
                 <p>Общая цена: ${item.total_price} ₽</p>
-                <button class="mt-2 px-3 py-1 bg-red-500 text-white rounded remove_item" data-index="${index}">
+            `;
+
+            // Логотип
+            if (item.logo?.enabled) {
+                html += `
+                    <p class="mt-2"><strong>Логотип:</strong> да (размер: ${item.logo.size || "не указан"})</p>
+                `;
+                if (item.logo.filename) {
+                    html += `<p class="text-sm text-gray-600">Файл: ${item.logo.filename}</p>`;
+                }
+                if (item.logo.file_path && item.logo.file_path.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                    html += `<img src="${item.logo.file_path}" alt="Логотип" class="mt-2 max-w-[200px] rounded border">`;
+                }
+            }
+
+            // Полноформатная печать
+            if (item.fullprint?.enabled) {
+                html += `<p class="mt-2"><strong>Полноформатная печать:</strong> да</p>`;
+                if (item.fullprint.description) {
+                    html += `<p class="text-sm text-gray-600">Комментарий: ${item.fullprint.description}</p>`;
+                }
+                if (item.fullprint.file) {
+                    html += `<p class="text-sm text-gray-600">Файл: ${item.fullprint.file}</p>`;
+                }
+            }
+
+            html += `
+                <button class="mt-4 px-3 py-1 bg-red-500 text-white rounded remove_item" data-index="${index}">
                     Удалить
                 </button>
             `;
 
+            div.innerHTML = html;
             cartItemsContainer.appendChild(div);
         });
 
@@ -52,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cartSummary.classList.remove("hidden");
         emptyCart.classList.add("hidden");
 
-        // Удаление
+        // Удаление товара
         document.querySelectorAll(".remove_item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = btn.dataset.index;
@@ -65,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderCart();
 
-    // Отправка заказа
     document.getElementById("order_form").addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -74,25 +96,36 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const formData = {
-            payer_type: document.getElementById("payer_type").value,
-            full_name: document.getElementById("full_name").value,
-            email: document.getElementById("email").value,
-            phone: document.getElementById("phone").value,
-            inn: document.getElementById("inn").value,
-            delivery_address: document.getElementById("delivery_address").value,
-            delivery_method_id: Number(document.getElementById("delivery_method_id").value),
-            cart: cart
-        };
+        const formData = new FormData();
+        formData.append("payer_type", document.getElementById("payer_type").value);
+        formData.append("full_name", document.getElementById("full_name").value);
+        formData.append("email", document.getElementById("email").value);
+        formData.append("phone", document.getElementById("phone").value);
+        formData.append("inn", document.getElementById("inn").value);
+        formData.append("delivery_address", document.getElementById("delivery_address").value);
+        formData.append("delivery_method_id", Number(document.getElementById("delivery_method_id").value));
+        formData.append("cart", JSON.stringify(cart));
+
+        cart.forEach((item, index) => {
+            if (item.logo?.file) {
+                const input = document.querySelector(`#logo_file_${index}`);
+                if (input?.files[0]) {
+                    formData.append(`logo_file_${index}`, input.files[0]);
+                }
+            }
+
+            if (item.fullprint?.file) {
+                const input = document.querySelector(`#print_file_${index}`);
+                if (input?.files[0]) {
+                    formData.append(`print_file_${index}`, input.files[0]);
+                }
+            }
+        });
 
         try {
             const res = await fetch("/api/order", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify(formData),
+                body: formData,
             });
 
             const result = await res.json();

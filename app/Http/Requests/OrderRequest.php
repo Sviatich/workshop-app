@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class OrderRequest extends FormRequest
 {
@@ -11,10 +13,27 @@ class OrderRequest extends FormRequest
         return true;
     }
 
+    public function expectsJson()
+    {
+        return false;
+    }
+
+    public function validationData()
+    {
+        $data = $this->all();
+        if ($this->has('cart')) {
+            $decoded = json_decode($this->input('cart'), true);
+            if (is_array($decoded)) {
+                $data['cart'] = $decoded;
+            }
+        }
+        return $data;
+    }
+
     public function rules(): array
     {
         return [
-            'payer_type' => 'required|in:individual,company',
+            'payer_type' => ['required', Rule::in(['individual', 'company'])],
             'full_name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string',
@@ -32,7 +51,16 @@ class OrderRequest extends FormRequest
             'cart.*.total_price' => 'required|numeric',
             'cart.*.weight' => 'required|numeric',
             'cart.*.volume' => 'required|numeric',
+            // Опционально: логотип
+            'cart.*.logo.enabled' => 'nullable|boolean',
+            'cart.*.logo.size' => 'nullable|string',
+            'cart.*.logo.file' => 'nullable|string',
+            // Опционально: полноформатная печать
+            'cart.*.fullprint.enabled' => 'nullable|boolean',
+            'cart.*.fullprint.description' => 'nullable|string',
+            'cart.*.fullprint.file' => 'nullable|string',
+            // Файлы (по индексам)
+            // Обрабатываются динамически в контроллере, здесь не валидируются
         ];
     }
-
 }
