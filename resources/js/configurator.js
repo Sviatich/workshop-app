@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nearestContainer = document.createElement("div");
     nearestContainer.id = "nearest_sizes";
-    nearestContainer.className = "mt-4 p-3 border rounded bg-white";
-    document.querySelector("#result").after(nearestContainer);
+    nearestContainer.className = "bg-white";
+    document.querySelector("#nearest_sizes_block").after(nearestContainer);
 
     const logoCheckbox = document.getElementById("has_logo");
     const printCheckbox = document.getElementById("has_fullprint");
@@ -62,8 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("volume").textContent = result.volume;
 
             nearestContainer.innerHTML = `
-                <p class="text-orange-600 font-semibold">
-                    Расчёт стоимости с полноцветной печатью будет выполнен менеджером после оформления заказа.
+                <p class="configurator-warning">
+                    ⓘ Расчёт стоимости с полноцветной печатью будет выполнен менеджером после завершения оформления заказа.
                 </p>`;
 
             return;
@@ -99,12 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("volume").textContent = result.volume;
 
             if (!result.exact_match) {
-                let html = `<p class="text-red-600 font-semibold mb-2">
-                    Выбран нестандартный размер. К стоимости добавлено 5000 ₽.
+                let html = `<p class="configurator-warning">
+                    ⓘ Выбран нестандартный размер. В стоимость включена услуга изготовления штампа. Выберите размер из наличия чтоб не переплачивать.
                 </p>`;
 
                 if (result.nearest_sizes?.length > 0) {
-                    html += `<h3 class="font-bold mb-2">Ближайшие размеры:</h3><ul class="space-y-1">`;
+                    html += `<h3 class="block mb-1 font-semibold">Размеры в наличии:</h3><ul class="space-y-1">`;
                     result.nearest_sizes.forEach(size => {
                         html += `<li class="flex items-center justify-between border-b pb-1">
                             <span>${size.length} × ${size.width} × ${size.height} мм</span>
@@ -122,7 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 nearestContainer.innerHTML = html;
 
                 nearestContainer.querySelectorAll("button").forEach(btn => {
-                    btn.addEventListener("click", () => {
+                    btn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         document.getElementById("length").value = btn.dataset.length;
                         document.getElementById("width").value = btn.dataset.width;
                         document.getElementById("height").value = btn.dataset.height;

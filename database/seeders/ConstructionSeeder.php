@@ -13,7 +13,7 @@ class ConstructionSeeder extends Seeder
             ['code' => 'fefco_0427', 'name' => 'Самосборная коробка (FEFCO 0427)'],
             ['code' => 'fefco_0426', 'name' => 'Коробка для пиццы (FEFCO 0426)'],
             ['code' => 'fefco_0201', 'name' => 'Транспортировочный короб (FEFCO 0201)'],
-            ['code' => 'fefco_0300', 'name' => 'Крышка-дно с полным перекрытием (FEFCO 0300)'],
+            ['code' => 'fefco_0215', 'name' => 'Ласточкин хвост (FEFCO 0215)'],
         ];
 
         foreach ($data as $item) {

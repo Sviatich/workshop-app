@@ -2,7 +2,7 @@
 
 namespace App\Calculators;
 
-class Fefco0300Calculator extends BaseCalculator
+class Fefco0215Calculator extends BaseCalculator
 {
     public function calculate(array $data): array
     {
@@ -12,11 +12,9 @@ class Fefco0300Calculator extends BaseCalculator
         $tirage = $data['tirage'];
         $color = $data['color'];
 
-        $Lsheet = $L + 2 * $H + 30;
-        $Wsheet = $W + 2 * $H + 30;
-
-        // Площадь одной части, короб состоит из двух частей
-        $S = 2 * (($Lsheet * $Wsheet) / 1_000_000);
+        $Lsheet = $L + 2 * $H + 30 + 35;
+        $Wsheet = 2 * $W + $H + 30 + 30;
+        $S = ($Lsheet * $Wsheet) / 1_000_000;
 
         if ($S <= 0 || $S > $this->minArea) {
             return ['error' => 'Недопустимые размеры (площадь больше 0.8 м²)'];

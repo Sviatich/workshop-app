@@ -26,7 +26,7 @@ class ConstructionSizeSeeder extends Seeder
                 ['length' => 420, 'width' => 320, 'height' => 270],
                 ['length' => 450, 'width' => 350, 'height' => 300],
             ],
-            'fefco_0300' => [
+            'fefco_0215' => [
                 ['length' => 150, 'width' => 150, 'height' => 50],
                 ['length' => 160, 'width' => 160, 'height' => 60],
                 ['length' => 180, 'width' => 180, 'height' => 70],

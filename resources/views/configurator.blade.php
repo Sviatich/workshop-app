@@ -1,56 +1,115 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-4">Конфигуратор коробок</h1>
+    @include('partials.hero')
+    @include('partials.threecardsrow')
+    <div class="main-block flex">
 
-        <form id="configForm" class="space-y-4">
+        <form id="configForm" class="space-y-4 configurator-left">
             @csrf
 
             <div>
-                <label class="block mb-1 font-semibold">Конструкция</label>
-                <select name="construction" id="construction" class="border rounded w-full p-2">
-                    <option value="fefco_0427">Самосборная (FEFCO 0427)</option>
-                    <option value="fefco_0426">Пицца (FEFCO 0426)</option>
-                    <option value="fefco_0201">Транспортировочный (FEFCO 0201)</option>
-                    <option value="fefco_0300">Крышка-дно (FEFCO 0300)</option>
+                <label class="hidden-element">Конструкция</label>
+
+                {{-- Твой исходный select остаётся! --}}
+                <select name="construction" id="construction" class="border rounded w-full p-2 select-fixed">
+                    <option value="fefco_0427"
+                        data-img="{{ Vite::asset('resources/images/constructions/fefco_0427.webp') }}"
+                        data-anim="{{ Vite::asset('resources/videos/fefco_0427.webm') }}">
+                        Самосборная коробка
+                    </option>
+                    <option value="fefco_0426"
+                        data-img="{{ Vite::asset('resources/images/constructions/fefco_0426.webp') }}"
+                        data-anim="{{ Vite::asset('resources/videos/fefco_0426.webm') }}">
+                        Коробка для пиццы
+                    </option>
+                    <option value="fefco_0201"
+                        data-img="{{ Vite::asset('resources/images/constructions/fefco_0201.webp') }}"
+                        data-anim="{{ Vite::asset('resources/videos/fefco_0201.webm') }}">
+                        Четырехклапанная коробка
+                    </option>
+                    <option value="fefco_0215"
+                        data-img="{{ Vite::asset('resources/images/constructions/fefco_0201.webp') }}"
+                        data-anim="{{ Vite::asset('resources/videos/fefco_0201.webm') }}">
+                        Ласточкин хвост
+                    </option>
                 </select>
+
+                {{-- Контейнер для карточек поверх селекта --}}
+                <div id="construction_cards" class="construction-grid"></div>
             </div>
 
             <div class="grid grid-cols-3 gap-4">
                 <div>
                     <label class="block mb-1 font-semibold">Длина (мм)</label>
-                    <input type="number" name="length" id="length" value="200" class="border rounded w-full p-2">
+                    <input type="number" name="length" id="length" value="" min="15" class="border rounded w-full p-2"
+                        placeholder="200">
                 </div>
                 <div>
                     <label class="block mb-1 font-semibold">Ширина (мм)</label>
-                    <input type="number" name="width" id="width" value="150" class="border rounded w-full p-2">
+                    <input type="number" name="width" id="width" value="" min="15" class="border rounded w-full p-2"
+                        placeholder="150">
                 </div>
                 <div>
                     <label class="block mb-1 font-semibold">Высота (мм)</label>
-                    <input type="number" name="height" id="height" value="100" class="border rounded w-full p-2">
+                    <input type="number" name="height" id="height" value="" min="15" class="border rounded w-full p-2"
+                        placeholder="100">
                 </div>
             </div>
 
             <div>
                 <label class="block mb-1 font-semibold">Цвет картона</label>
-                <select name="color" id="color" class="border rounded w-full p-2">
-                    <option value="brown">Бурый</option>
-                    <option value="white_in">Белый/Бурый</option>
-                    <option value="white">Белый</option>
-                </select>
+
+                    {{-- Селект остаётся --}}
+                    <select name=" color" id="color" class="border rounded w-full p-2 select-fixed">
+                        <option value=" brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
+                    Бур/Бур
+                    </option>
+                    <option value="white_in" data-img="{{ Vite::asset('resources/images/colors/white_in.jpg') }}">
+                        Бел/Бур
+                    </option>
+                    <option value="white" data-img="{{ Vite::asset('resources/images/colors/white.jpg') }}">
+                        Бел/Бел
+                    </option>
+                    </select>
+
+                    {{-- Контейнер для карточек --}}
+                    <div id="color_cards" class="mt-3 color-card-grid"></div>
             </div>
 
             <div>
                 <label class="block mb-1 font-semibold">Тираж</label>
-                <input type="number" name="tirage" id="tirage" value="100" class="border rounded w-full p-2">
+                <select id="tirage" name="tirage" class="styled-select">
+                    <option value="25">25 штук</option>
+                    <option value="50">50 штук</option>
+                    <option value="100">100 штук</option>
+                    <option value="150">150 штук</option>
+                    <option value="200">200 штук</option>
+                    <option value="250">250 штук</option>
+                    <option value="300">300 штук</option>
+                    <option value="350">350 штук</option>
+                    <option value="400">400 штук</option>
+                    <option value="450">450 штук</option>
+                    <option value="500">500 штук</option>
+                    <option value="1000">1000 штук</option>
+                </select>
             </div>
+
+            <div id="nearest_sizes_block"></div>
+
+            <div class="additional_service">
+                <p class="additional_service_text">дополнительные опции</p>
+            </div>
+
             <!-- Чёрный логотип -->
-            <div class="border-t pt-4 mt-4">
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" id="has_logo">
-                    <span class="font-semibold">Нанести чёрный логотип (+10 ₽ к каждой коробке)</span>
-                </label>
+            <div class="pt-4 mt-4">
+                <div class="switch-block">
+                    <div style="width: 75%;">
+                        <label for="has_logo" class="cursor-pointer font-semibold">Нанести логотип</label>
+                        <p class="text-sm text-gray-600">Логотип будет нанесён в одном цвете на выбранный материал</p>
+                    </div>
+                    <input type="checkbox" id="has_logo" class="switch">
+                </div>
 
                 <div id="logo_options" class="mt-2 hidden space-y-2">
                     <div>
@@ -72,11 +131,14 @@
             </div>
 
             <!-- Полноформатная печать -->
-            <div class="border-t pt-4 mt-4">
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" id="has_fullprint">
-                    <span class="font-semibold">Полноформатная печать (1–5 цветов)</span>
-                </label>
+            <div class="border-t pt-4 mt-4 pb-4">
+                <div class="switch-block">
+                    <div style="width: 75%;">
+                        <label for="has_fullprint" class="cursor-pointer font-semibold">Полноцветная печать</label>
+                        <p class="text-sm text-gray-600">Печать от 1 до 5 цветов на всей площади короба</p>
+                    </div>
+                    <input type="checkbox" id="has_fullprint" class="switch">
+                </div>
 
                 <div id="fullprint_options" class="mt-2 hidden space-y-2">
                     <div>
@@ -96,15 +158,37 @@
 
         </form>
 
-        <div id="result" class="mt-6 p-4 border rounded bg-gray-50">
-            <p><strong>Цена за штуку:</strong> <span id="price_per_unit">—</span> ₽</p>
-            <p><strong>Общая цена:</strong> <span id="total_price">—</span> ₽</p>
-            <p><strong>Вес:</strong> <span id="weight">—</span> кг</p>
-            <p><strong>Объём:</strong> <span id="volume">—</span> м³</p>
-        </div>
+        <div id="result" class="configurator-right">
+            <table class="w-full text-left border-collapse">
+                <tbody>
+                    <tr>
+                        <th class="pr-4 font-semibold">Цена за 1 шт:</th>
+                        <td class="text-right"><span id="price_per_unit">—</span> ₽</td>
+                    </tr>
+                    <tr class="result-main-other">
+                        <th class="pr-4 font-normal">Общая цена:</th>
+                        <td class="text-right"><span id="total_price">—</span> ₽</td>
+                    </tr>
+                    <tr class="result-main-other">
+                        <th class="pr-4 font-normal">Вес:</th>
+                        <td class="text-right"><span id="weight">—</span> кг</td>
+                    </tr>
+                    <tr class="result-main-other">
+                        <th class="pr-4 font-normal">Объём:</th>
+                        <td class="text-right"><span id="volume">—</span> м³</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <button id="add_to_cart" class="mt-4 px-4 py-2 bg-green-600 text-white rounded">
-            Добавить в корзину
-        </button>
-    </div>
+            <button id="add_to_cart" class="add-to-cart-button mt-4">Добавить в корзину</button>
+            <p class="form-copiration-text text-sm mt-2">
+                Нажимая эту кнопку вы соглашаетесь с нашей
+                <a href="/"><u>политикой обработки персональных данных</u></a>
+            </p>
+                </div>
+
+
+        </div>
+        @include('partials.deliverymap')
+        @include('partials.review')
 @endsection

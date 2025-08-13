@@ -6,7 +6,7 @@ use App\Http\Requests\CalculateRequest;
 use App\Calculators\Fefco0427Calculator;
 use App\Calculators\Fefco0426Calculator;
 use App\Calculators\Fefco0201Calculator;
-use App\Calculators\Fefco0300Calculator;
+use App\Calculators\Fefco0215Calculator;
 use App\Helpers\SizeMatcher;
 
 class ConfiguratorController extends Controller
@@ -19,7 +19,7 @@ class ConfiguratorController extends Controller
             'fefco_0427' => Fefco0427Calculator::class,
             'fefco_0426' => Fefco0426Calculator::class,
             'fefco_0201' => Fefco0201Calculator::class,
-            'fefco_0300' => Fefco0300Calculator::class,
+            'fefco_0215' => Fefco0215Calculator::class,
         ];
 
         $calcClass = $calculators[$data['construction']] ?? null;

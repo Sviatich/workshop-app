@@ -14,7 +14,7 @@ class TestCalculator extends Command
      * Название и сигнатура команды
      */
     protected $signature = 'test:calc 
-        {construction : Код конструкции (fefco_0427, fefco_0426, fefco_0201, fefco_0300)} 
+        {construction : Код конструкции (fefco_0427, fefco_0426, fefco_0201, fefco_0215)} 
         {length : Длина (мм)} 
         {width : Ширина (мм)} 
         {height : Высота (мм, можно 0)} 
@@ -39,7 +39,7 @@ class TestCalculator extends Command
             'fefco_0427' => Fefco0427Calculator::class,
             'fefco_0426' => Fefco0426Calculator::class,
             'fefco_0201' => Fefco0201Calculator::class,
-            'fefco_0300' => Fefco0300Calculator::class,
+            'fefco_0215' => Fefco0215Calculator::class,
         ];
 
         if (!isset($calculators[$construction])) {

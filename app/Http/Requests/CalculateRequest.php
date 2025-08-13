@@ -14,7 +14,7 @@ class CalculateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'construction' => 'required|string|in:fefco_0427,fefco_0426,fefco_0201,fefco_0300',
+            'construction' => 'required|string|in:fefco_0427,fefco_0426,fefco_0201,fefco_0215',
             'length' => 'required|integer|min:10',
             'width' => 'required|integer|min:10',
             'height' => 'nullable|integer|min:0',
