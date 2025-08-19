@@ -5,9 +5,9 @@
         <div class="main-3cards-block__card">
             <img src="{{ Vite::asset('resources/images/card1.jpg') }}" alt="Описание 1"
                 class="w-full h-48 object-cover">
-            <div class="p-4">
-                <h3 class="text-lg font-medium">Индивидуальный размер</h3>
-                <p class="">Изготовим различные размеры и формы под вашу продукцию</p>
+            <div class="main-3cards-block__card_title-zone">
+                <h3 class="main-3cards-block__card_title">Любой размер</h3>
+                <p class="main-3cards-block__card_text">Изготовим любой необходимый вам размер</p>
             </div>
         </div>
 
@@ -15,9 +15,9 @@
         <div class="main-3cards-block__card">
             <img src="{{ Vite::asset('resources/images/card2.jpg') }}" alt="Описание 2"
                 class="w-full h-48 object-cover">
-            <div class="p-4">
-                <h3 class="text-lg font-medium">Нанесение логотипа</h3>
-                <p class="">Услуги по нанесению печати на коробки из картона</p>
+            <div class="main-3cards-block__card_title-zone">
+                <h3 class="main-3cards-block__card_title">Нанесение логотипа</h3>
+                <p class="main-3cards-block__card_text">Разработаем и нанесем печать на вашу упаковку</p>
             </div>
         </div>
 
@@ -25,9 +25,9 @@
         <div class="main-3cards-block__card">
             <img src="{{ Vite::asset('resources/images/card3.jpg') }}" alt="Описание 3"
                 class="w-full h-48 object-cover">
-            <div class="p-4">
-                <h3 class="text-lg font-medium">Быстрая доставка</h3>
-                <p class="">Доставляем нашу продукцию по всей России</p>
+            <div class="main-3cards-block__card_title-zone">
+                <h3 class="main-3cards-block__card_title">Доставка по РФ</h3>
+                <p class="main-3cards-block__card_text">Быстрая доставка упаковки по всей России</p>
             </div>
         </div>
 

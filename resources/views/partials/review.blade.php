@@ -13,7 +13,6 @@
           <article class="tcard" role="listitem" aria-label="Алексей, владелец магазина">
             <div class="tcard__quote">«Сервис помог запустить продажи за неделю. Упаковка — топ!»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/alexei.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Алексей</div>
                 <div class="tcard__role">Владелец магазина</div>
@@ -24,7 +23,6 @@
           <article class="tcard" role="listitem" aria-label="Мария, маркетолог">
             <div class="tcard__quote">«Быстрый расчёт, аккуратная печать. Менеджер всегда на связи.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/maria.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Мария</div>
                 <div class="tcard__role">Маркетолог</div>
@@ -35,7 +33,6 @@
           <article class="tcard" role="listitem" aria-label="Игорь, кофе-бренд">
             <div class="tcard__quote">«Коробки под размер стаканов — идеальная посадка, без люфта.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/igor.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Игорь</div>
                 <div class="tcard__role">Основатель кофе‑бренда</div>
@@ -46,7 +43,6 @@
           <article class="tcard" role="listitem" aria-label="Анна, Etsy-продавец">
             <div class="tcard__quote">«Малые тиражи и печать логотипа спасли мой запуск на маркетплейсе.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/anna.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Анна</div>
                 <div class="tcard__role">Продавец на Etsy</div>
@@ -57,7 +53,6 @@
           <article class="tcard" role="listitem" aria-label="Сергей, логистика">
             <div class="tcard__quote">«Транспортные коробки крепкие, выдержали дальние поездки без брака.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/sergey.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Сергей</div>
                 <div class="tcard__role">Руководитель логистики</div>
@@ -72,7 +67,6 @@
           <article class="tcard" role="listitem" aria-label="Алексей, владелец магазина">
             <div class="tcard__quote">«Сервис помог запустить продажи за неделю. Упаковка — топ!»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/alexei.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Алексей</div>
                 <div class="tcard__role">Владелец магазина</div>
@@ -83,7 +77,6 @@
           <article class="tcard" role="listitem" aria-label="Мария, маркетолог">
             <div class="tcard__quote">«Быстрый расчёт, аккуратная печать. Менеджер всегда на связи.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/maria.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Мария</div>
                 <div class="tcard__role">Маркетолог</div>
@@ -94,7 +87,6 @@
           <article class="tcard" role="listitem" aria-label="Игорь, кофе-бренд">
             <div class="tcard__quote">«Коробки под размер стаканов — идеальная посадка, без люфта.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/igor.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Игорь</div>
                 <div class="tcard__role">Основатель кофе‑бренда</div>
@@ -105,7 +97,6 @@
           <article class="tcard" role="listitem" aria-label="Анна, Etsy-продавец">
             <div class="tcard__quote">«Малые тиражи и печать логотипа спасли мой запуск на маркетплейсе.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/anna.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Анна</div>
                 <div class="tcard__role">Продавец на Etsy</div>
@@ -116,7 +107,6 @@
           <article class="tcard" role="listitem" aria-label="Сергей, логистика">
             <div class="tcard__quote">«Транспортные коробки крепкие, выдержали дальние поездки без брака.»</div>
             <div class="tcard__meta">
-              <img src="{{ Vite::asset('resources/images/testimonials/sergey.jpg') }}" alt="" aria-hidden="true" class="tcard__avatar">
               <div>
                 <div class="tcard__name">Сергей</div>
                 <div class="tcard__role">Руководитель логистики</div>

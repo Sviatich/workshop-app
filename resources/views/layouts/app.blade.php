@@ -5,6 +5,8 @@
 
     <title>@yield('title', 'Конфигуратор')</title>
 
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/inter/Inter-VariableFont_opsz,wght.woff2') }}" as="font" type="font/woff2" crossorigin>
+
     <meta name="description" content="@yield('meta_description', 'Онлайн-конфигуратор упаковки: закажите коробки под ваши размеры и дизайн.')">
     <meta name="keywords" content="@yield('meta_keywords', 'коробки, упаковка, конфигуратор, печать')">
 
