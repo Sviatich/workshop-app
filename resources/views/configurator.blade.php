@@ -190,6 +190,8 @@
         </div>
     </div>
     @include('partials.ineeddesign')
+    @include('partials.maingalery')
     @include('partials.review')
     @include('partials.deliverymap')
+    @include('partials.faq')
 @endsection
