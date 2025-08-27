@@ -13,7 +13,7 @@
                     <label class="hidden-element">Конструкция</label>
 
                     {{-- Твой исходный select остаётся! --}}
-                    <select name="construction" id="construction" class="border rounded w-full p-2 select-fixed">
+                    <select name="construction" id="construction" class="border w-full p-2 select-fixed">
                         <option value="fefco_0427"
                             data-img="{{ Vite::asset('resources/images/constructions/fefco_0427.webp') }}"
                             data-anim="{{ Vite::asset('resources/videos/fefco_0427.webm') }}">
@@ -43,17 +43,17 @@
                 <div class="grid grid-cols-3 gap-4">
                     <div>
                         <label class="block mb-1 font-semibold">Длина (мм)</label>
-                        <input type="number" name="length" id="length" value="" min="15" class="border rounded w-full p-2"
+                        <input type="number" name="length" id="length" value="" min="15" class="border w-full p-2"
                             placeholder="200">
                     </div>
                     <div>
                         <label class="block mb-1 font-semibold">Ширина (мм)</label>
-                        <input type="number" name="width" id="width" value="" min="15" class="border rounded w-full p-2"
+                        <input type="number" name="width" id="width" value="" min="15" class="border w-full p-2"
                             placeholder="150">
                     </div>
                     <div>
                         <label class="block mb-1 font-semibold">Высота (мм)</label>
-                        <input type="number" name="height" id="height" value="" min="15" class="border rounded w-full p-2"
+                        <input type="number" name="height" id="height" value="" min="15" class="border w-full p-2"
                             placeholder="100">
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     <label class="block mb-1 font-semibold">Цвет картона</label>
 
                     {{-- Селект остаётся --}}
-                    <select name=" color" id="color" class="border rounded w-full p-2 select-fixed">
+                    <select name=" color" id="color" class="border w-full p-2 select-fixed">
                         <option value=" brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
                             Бур/Бур
                         </option>
@@ -115,7 +115,7 @@
                     <div id="logo_options" class="mt-2 hidden space-y-2">
                         <div>
                             <label class="block font-semibold mb-1">Размер логотипа</label>
-                            <select id="logo_size" class="border rounded w-full p-2">
+                            <select id="logo_size" class="border w-full p-2">
                                 <option value="20x40">20 мм × 40 мм</option>
                                 <option value="10x40">10 мм × 40 мм</option>
                                 <option value="26x40">26 мм × 40 мм</option>
@@ -124,7 +124,7 @@
 
                         <div>
                             <label class="block font-semibold mb-1">Файл логотипа</label>
-                            <input type="file" name="logo_file_0" id="logo_file" class="border rounded w-full p-2">
+                            <input type="file" name="logo_file_0" id="logo_file" class="border w-full p-2">
                             <div id="logo_status" class="text-sm text-gray-600 mt-1"></div>
                             <img id="logo_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
                         </div>
@@ -144,14 +144,14 @@
                     <div id="fullprint_options" class="mt-2 hidden space-y-2">
                         <div>
                             <label class="block font-semibold mb-1">Файл макета</label>
-                            <input type="file" name="print_file_0" id="print_file" class="border rounded w-full p-2">
+                            <input type="file" name="print_file_0" id="print_file" class="border w-full p-2">
                             <div id="print_status" class="text-sm text-gray-600 mt-1"></div>
                             <img id="print_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
                         </div>
 
                         <div>
                             <label class="block font-semibold mb-1">Комментарий к печати</label>
-                            <textarea id="print_description" class="border rounded w-full p-2"
+                            <textarea id="print_description" class="border w-full p-2"
                                 placeholder="Если макета нет — опишите, что нужно напечатать"></textarea>
                         </div>
                     </div>
@@ -191,6 +191,7 @@
     </div>
     @include('partials.ineeddesign')
     @include('partials.maingalery')
+    @include('partials.productioninfo')
     @include('partials.review')
     @include('partials.deliverymap')
     @include('partials.faq')

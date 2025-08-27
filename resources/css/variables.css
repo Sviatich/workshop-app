@@ -3,10 +3,12 @@
     --secondary-color: #FB732D;
     --text-color-black: #000000;
     --text-color-white: #ffffff;
-    --border-color: #ddd;
+    --border-color: #e5e7eb;
     --font-size-base: 16px;
     --border-outside: 8px;
     --border-inside: 4px;
     --block-padding: 30px;
     --main-margin-bottom: 50px;
+    --background-color: #f6f6f6;
+    --muted: #999;
 }

@@ -3,7 +3,7 @@
 
         {{-- Карточка 1 --}}
         <div class="main-3cards-block__card">
-            <img src="{{ Vite::asset('resources/images/card1.jpg') }}" alt="Описание 1"
+            <img src="{{ Vite::asset('resources/images/card1.webp') }}" alt="Описание 1"
                 class="w-full h-48 object-cover">
             <div class="main-3cards-block__card_title-zone">
                 <h3 class="main-3cards-block__card_title">Любой размер</h3>

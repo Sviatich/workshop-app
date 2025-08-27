@@ -5,7 +5,7 @@
   <div class="footer__top">
     <!-- Brand / About -->
     <section class="footer__brand" aria-labelledby="footer-brand-title">
-      <h3 id="footer-brand-title" class="footer__heading">Мистер Пакерс</h3>
+      <img src="{{ Vite::asset('resources/images/main-logo.svg') }}" alt="Мастерская упаковки" width="170" height="40" decoding="async">
       <p class="footer__tagline" itemprop="description">
         Упаковка на заказ от 10 шт. Производство, дизайн и быстрая доставка.
       </p>
@@ -67,18 +67,26 @@
         </ul>
       </div>
       <div>
-      <span class="footer__muted">Наши соц-сети:</span>
-      <ul class="footer__social" aria-label="Мы в соцсетях">
-        <li><a class="footer__social-link" href="#" aria-label="Telegram">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M9.9 16.2 9.8 19c.4 0 .6-.2.8-.4l1.9-1.8 3.9 2.9c.7.4 1.2.2 1.4-.7l2.6-12c.2-.9-.3-1.3-1.1-1L3.6 9c-.9.3-.9.8-.2 1l4.7 1.5 10.9-6.9-9.1 8.8Z" /></svg>
-          <span class="visually-hidden">Telegram</span></a></li>
-        <li><a class="footer__social-link" href="#" aria-label="VK">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M3 7c0-.6.4-1 1-1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Zm4.1 2.5c.2 3 1.7 5 4.5 5.5V12h1.3c.2.8.8 1.5 2.1 2 0 0-1.8 1.6-3.4 1.6-3.1 0-5-2.4-4.5-5.1h0Z"/></svg>
-          <span class="visually-hidden">VK</span></a></li>
-        <li><a class="footer__social-link" href="#" aria-label="YouTube">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M22 12c0-2.2-.2-3.6-.5-4.4-.3-.7-.8-1.2-1.5-1.4C18.9 6 12 6 12 6s-6.9 0-8 .2c-.7.2-1.2.7-1.5 1.4C2.2 8.4 2 9.8 2 12s.2 3.6.5 4.4c.3.7.8 1.2 1.5 1.4 1.1.2 8 .2 8 .2s6.9 0 8-.2c.7-.2 1.2-.7 1.5-1.4.3-.8.5-2.2.5-4.4ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
-          <span class="visually-hidden">YouTube</span></a></li>
-      </ul>
+        <span class="footer__muted">Наши соц-сети:</span>
+        <ul class="footer__social" aria-label="Мы в соцсетях">
+          <li><a class="footer__social-link" href="#" aria-label="Telegram">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M9.9 16.2 9.8 19c.4 0 .6-.2.8-.4l1.9-1.8 3.9 2.9c.7.4 1.2.2 1.4-.7l2.6-12c.2-.9-.3-1.3-1.1-1L3.6 9c-.9.3-.9.8-.2 1l4.7 1.5 10.9-6.9-9.1 8.8Z" /></svg>
+            <span class="visually-hidden">Telegram</span></a></li>
+          <li><a class="footer__social-link" href="#" aria-label="VK">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M3 7c0-.6.4-1 1-1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Zm4.1 2.5c.2 3 1.7 5 4.5 5.5V12h1.3c.2.8.8 1.5 2.1 2 0 0-1.8 1.6-3.4 1.6-3.1 0-5-2.4-4.5-5.1h0Z"/></svg>
+            <span class="visually-hidden">VK</span></a></li>
+          <li><a class="footer__social-link" href="#" aria-label="YouTube">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M22 12c0-2.2-.2-3.6-.5-4.4-.3-.7-.8-1.2-1.5-1.4C18.9 6 12 6 12 6s-6.9 0-8 .2c-.7.2-1.2.7-1.5 1.4C2.2 8.4 2 9.8 2 12s.2 3.6.5 4.4c.3.7.8 1.2 1.5 1.4 1.1.2 8 .2 8 .2s6.9 0 8-.2c.7-.2 1.2-.7 1.5-1.4.3-.8.5-2.2.5-4.4ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
+            <span class="visually-hidden">YouTube</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer__muted">Отзывы Яндекс:</span>
+        <ul class="footer__social" aria-label="Отзывы о нас">
+          <li>
+            <iframe style="outline: 1px solid #ddd;border-radius: 4px;" src="https://yandex.ru/sprav/widget/rating-badge/142486939387?type=rating" width="150" height="50" frameborder="0"></iframe>
+          </li>
+        </ul>
       </div>
     </section>
   </div>

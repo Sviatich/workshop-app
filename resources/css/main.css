@@ -1,5 +1,5 @@
 html {
-    background: #f6f6f6;
+    background: var(--background-color);
 }
 
 h2 {
@@ -30,6 +30,10 @@ h2 {
     width: 100%;
     margin-top: 20px;
     cursor: pointer;
+}
+
+.hero-content {
+    max-width: 50%;
 }
 
 .add-to-cart-button:hover {
@@ -71,7 +75,7 @@ h2 {
 
 .configurator-left {
     margin-right: 30px;
-    border-right: 1px solid #e5e7eb;
+    border-right: 1px solid var(--border-color);
     padding-right: 30px;
     width: 80%;
 }
@@ -111,7 +115,7 @@ h2 {
 }
 
 .construction-card {
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-inside);
     background: #fff;
     overflow: hidden;
@@ -169,7 +173,7 @@ h2 {
 }
 
 .color-card {
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-inside);
     background: #fff;
     overflow: hidden;
@@ -365,7 +369,7 @@ h2 {
 
 #logo_options,
 #fullprint_options {
-    background: #f6f6f6;
+    background: var(--background-color);
     padding: 20px;
     border-radius: var(--border-inside);
 }
@@ -474,7 +478,7 @@ input#length:hover {}
     width: 320px;
     min-height: 180px;
     background: #fff;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-inside);
     padding: var(--block-padding);
     box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
@@ -512,15 +516,10 @@ input#length:hover {}
 /* Footer */
 /* Base */
 .footer {
-    --bg: #f6f6f6;
-    --muted: #999;
-    --txt: #222;
-    --line: #e6e6e6;
-    --acc: #3b82f6;
-    color: var(--txt);
-    background: var(--bg);
-    border-top: 1px solid var(--line);
-    padding: 40px 0;
+    color: var(--text-color-black);
+    background: var(--background-color);
+    border-top: 1px solid var(--border-color);
+    padding: 50px 0;
     font-size: 14px;
     line-height: 1.6;
     max-width: 800px;
@@ -534,7 +533,7 @@ input#length:hover {}
 
 .footer a:hover,
 .footer a:focus {
-    color: var(--acc);
+    color: var(--primary-color);
     text-decoration: underline;
     outline: none;
 }
@@ -608,16 +607,16 @@ input#length:hover {}
 }
 
 .footer__input {
-    border: 1px solid var(--line);
+    border: 1px solid var(--border-color);
     background: #0b0d12;
-    color: var(--txt);
+    color: var(--text-color-black);
     padding: 10px 12px;
     border-radius: 8px;
 }
 
 .footer__btn {
     border: 1px solid transparent;
-    background: var(--acc);
+    background: var(--primary-color);
     color: #fff;
     padding: 10px 14px;
     border-radius: 8px;
@@ -649,7 +648,7 @@ input#length:hover {}
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--line);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 8px;
     background: #0b0d12;
@@ -695,7 +694,7 @@ input#length:hover {}
 
 /* Bottom bar */
 .footer__bottom {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--border-color);
     display: flex;
     gap: 16px;
     align-items: center;
@@ -716,8 +715,8 @@ input#length:hover {}
 
 .footer__lang select {
     background: #0b0d12;
-    color: var(--txt);
-    border: 1px solid var(--line);
+    color: var(--text-color-black);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 8px 10px;
 }
@@ -731,10 +730,15 @@ input#length:hover {}
     align-items: center;
     justify-content: space-between;
     color: var(--muted);
+    font-size: 12px;
+}
+
+.footer__address {
+    font-style: normal;
 }
 
 .footer__to-top {
-    border: 1px solid var(--line);
+    border: 1px solid var(--border-color);
     padding: 3px 10px;
     border-radius: 6px;
 }
@@ -762,5 +766,633 @@ input#length:hover {}
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+}
+
+/* ========== Секция FAQ ========== */
+
+/* layout */
+#faq .faq-wrap {
+    margin-bottom: 50px;
+}
+
+/* items */
+#faq .faq-item {
+    border: 1px solid #e5e7eb;
+    border-radius: var(--border-outside);
+    background: #fff;
+}
+
+#faq .faq-item+.faq-item {
+    margin-top: 10px;
+}
+
+/* summary (кнопка) */
+#faq summary {
+    list-style: none;
+    /* убрать маркер */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: var(--block-padding);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#faq summary::-webkit-details-marker {
+    display: none;
+}
+
+/* скрыть дефолтный треугольник */
+#faq summary:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+#faq .q {
+    line-height: 1.35;
+}
+
+/* иконка: плюс -> минус */
+#faq .faq-icon::before {
+    content: "▼";
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    width: 1em;
+    text-align: center;
+}
+
+#faq details[open] .faq-icon::before {
+    content: "▲";
+}
+
+/* контент */
+#faq .faq-content {
+    padding: var(--block-padding);
+    color: var(--text-color-black);
+}
+
+#faq .faq-content p {
+    margin: 0 0 10px;
+}
+
+#faq .faq-content ul {
+    margin: 0 0 10px 18px;
+}
+
+/* ======= Секция Галерея товаров ======= */
+.works {
+    margin-bottom: 50px;
+}
+
+.works__header {
+    margin-bottom: 1rem;
+}
+
+.works__desc {
+    color: #666;
+    margin: 0;
+}
+
+/* 12‑колоночная управляемая сетка */
+.works__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+}
+
+.grid__item {
+    display: block;
+}
+
+.item--wide {
+    grid-column: span 8;
+}
+
+.item--small {
+    grid-column: span 4;
+}
+
+/* Мобильные: по одной в ряд */
+@media (max-width: 639px) {
+
+    .item--wide,
+    .item--small {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Карточка */
+.card {
+    display: block;
+    margin: 0;
+    background: #fff;
+    border-radius: var(--border-outside);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .06);
+}
+
+.card__link {
+    display: block;
+    line-height: 0;
+}
+
+.card__link:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.card__img {
+    display: block;
+    width: 100%;
+    height: 170px;
+}
+
+.card__caption {
+    font-size: .875rem;
+    color: #444;
+    padding: var(--block-padding);
+}
+
+/* Умеренный hover для мыши */
+@media (hover: hover) and (pointer: fine) {
+    .card__link:hover .card__img {
+        filter: brightness(.98);
+        transform: translateY(-1px);
+        transition: transform .2s ease, filter .2s ease;
+    }
+}
+
+/* ===== Секция производство ===== */
+
+.module {
+    margin-bottom: 50px;
+}
+
+.module__header {
+    margin-bottom: 1rem;
+}
+
+.module__desc {
+    color: #666;
+    margin: 0;
+}
+
+/* Сетка: две карточки рядом на десктопе, одна под другой — на мобиле */
+.module__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .module__grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.card--primary {
+    background: #fff;
+}
+
+.card--accent {
+    background: #0f172a;
+    color: #e5e7eb;
+    border-color: rgba(255, 255, 255, .12);
+}
+
+.card__body {
+    padding: var(--block-padding);
+}
+
+.card__title {
+    font-size: 1.25rem;
+    margin: 0 0 .5rem;
+}
+
+.card__lead {
+    margin: 0 0 .75rem;
+    color: #444;
+}
+
+.card--accent .card__lead {
+    color: #cbd5e1;
+}
+
+.features,
+.bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: grid;
+    gap: .75rem;
+}
+
+.features {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .features {
+        grid-template-columns: 1fr;
+    }
+}
+
+.features__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5rem .75rem;
+    align-items: start;
+    padding: .5rem;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, .02);
+}
+
+.card--accent .features__item {
+    background: rgba(255, 255, 255, .06);
+}
+
+.features__icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.features__title {
+    margin: 0;
+    font-weight: 600;
+}
+
+.features__text {
+    margin: .2rem 0 0;
+    color: #555;
+}
+
+.card--accent .features__text {
+    color: #cbd5e1;
+}
+
+.bullets__item {
+    padding-left: 1.25rem;
+    position: relative;
+    color: #333;
+}
+
+.bullets__item::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.card--accent .bullets__item {
+    color: #dbeafe;
+}
+
+.kp {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.kp__hint {
+    margin: 0;
+    color: #666;
+}
+
+.cta {
+    display: grid;
+    gap: .5rem;
+}
+
+.cta__note {
+    margin: 0;
+    font-size: .9rem;
+    color: #64748b;
+}
+
+.card--accent .cta__note {
+    color: #93c5fd;
+}
+
+.btn {
+    display: inline-block;
+    border: 1px solid #0f172a;
+    background: #0f172a;
+    color: #fff;
+    padding: .625rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn:hover {
+    filter: brightness(.95);
+}
+
+.btn:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+}
+
+.btn--outline {
+    background: transparent;
+    color: currentColor;
+    border-color: currentColor;
+}
+
+/* ======= Стили блока Шапка ======= */
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.skip-link:focus {
+    left: 16px;
+    top: 16px;
+    width: auto;
+    height: auto;
+    background: #fff;
+    color: #000;
+    padding: 8px 12px;
+    border-radius: 8px;
+    z-index: 1000
+}
+
+.site-header {
+    color: var(--c-text);
+    background: linear-gradient(180deg, var(--background-color) 0, var(--background-color) 100%)
+}
+
+.topbar {
+    font-size: 14px;
+    margin-bottom: -15px;
+}
+
+.topbar-list {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    min-height: 40px;
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+.topbar-item {
+    color: var(--c-dim)
+}
+
+.topbar a:hover .topbar-item {
+    color: #c1c1c1;
+    text-decoration: underline
+}
+
+.topbar-right {
+    margin-left: auto
+}
+
+.mainbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    margin: 20px 0;
+}
+
+.mainbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px
+}
+
+.nav-toggle {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--c-text);
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer
+}
+
+.nav-toggle-box {
+    width: 20px;
+    height: 2px;
+    background: var(--muted);
+    position: relative;
+    display: inline-block
+}
+
+.nav-toggle-box::before,
+.nav-toggle-box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 2px;
+    background: var(--muted);
+    transition: transform .2s ease
+}
+
+.nav-toggle-box::before {
+    top: -6px
+}
+
+.nav-toggle-box::after {
+    top: 6px
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-box {
+    background: transparent
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-box::before {
+    transform: translateY(6px) rotate(45deg)
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-box::after {
+    transform: translateY(-6px) rotate(-45deg)
+}
+
+.nav-toggle-label {
+    font-size: 14px
+}
+
+.primary-nav {
+    display: none
+}
+
+.primary-nav.open {
+    display: block
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+.nav-list a,
+.mega-toggle {
+    color: var(--text-color-black);
+    text-decoration: none;
+    padding: 10px 8px;
+    border-radius: 10px;
+    line-height: 1
+}
+
+.nav-list a:hover,
+.mega-toggle:hover {
+    background: var(--background-color)
+}
+
+.has-mega {
+    position: relative
+}
+
+.mega-toggle {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px
+}
+
+.mega-toggle::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--c-dim);
+    transition: transform .2s ease
+}
+
+.mega-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg)
+}
+
+.mega-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 10px);
+    background: #0f1116;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-outside);
+    padding: 18px;
+    display: none;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
+    min-width: 560px
+}
+
+.mega-panel.open {
+    display: block
+}
+
+.mega-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px
+}
+
+.mega-title {
+    font-size: 14px;
+    color: var(--c-dim);
+    margin: 0 0 8px
+}
+
+.mega-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+.mega-col a {
+    display: block;
+    padding: 8px;
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none
+}
+
+.mega-col a:hover {
+    background: rgba(255, 255, 255, .06)
+}
+
+/* Десктоп */
+@media (min-width: 880px) {
+    .nav-toggle {
+        display: none
+    }
+
+    .primary-nav {
+        display: block;
+        margin-left: auto
+    }
+
+    .mega-panel {
+        left: -20px;
+        right: auto
+    }
+}
+
+/* Мобилка */
+@media (max-width: 879.98px) {
+    .primary-nav {
+        border-top: 1px solid var(--c-border);
+        padding-top: 8px
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-block: 8px
+    }
+
+    .has-mega {
+        width: 100%
+    }
+
+    .mega-panel {
+        position: static;
+        display: none;
+        margin-top: 8px;
+        min-width: unset;
+        border-radius: 12px
+    }
+
+    .mega-panel.open {
+        display: block
+    }
+
+    .mega-grid {
+        grid-template-columns: 1fr
     }
 }

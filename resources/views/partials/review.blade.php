@@ -1,5 +1,5 @@
 <section class="py-12 bg-white main-block" aria-labelledby="testimonials-title">
-  <div class="container mx-auto">
+  <div class="mx-auto">
     <h2 id="testimonials-title" class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
       Что говорят клиенты
     </h2>
