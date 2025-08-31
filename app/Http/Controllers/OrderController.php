@@ -24,7 +24,7 @@ class OrderController extends Controller
             'phone' => $request->phone,
             'inn' => $request->payer_type === 'company' ? $request->inn : null,
             'delivery_method_id' => $request->delivery_method_id,
-            'delivery_price' => 0,
+            'delivery_price' => (float) ($request->input('delivery_price', 0)),
             'delivery_address' => $request->delivery_address,
             'total_price' => array_sum(array_column($cart, 'total_price')),
             'status' => 'new'

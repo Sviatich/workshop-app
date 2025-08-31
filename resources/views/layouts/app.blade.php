@@ -12,6 +12,11 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Performance: preconnect for widget and Yandex APIs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://api-maps.yandex.ru" crossorigin>
+    <link rel="preconnect" href="https://geocode-maps.yandex.ru" crossorigin>
+
     {{-- Яндекс.Карты: ключ берём из .env через config/services. Скрипт грузим динамически в yandexmap.js --}}
     <meta name="yandex-maps-api-key" content="{{ config('services.yandex.maps_key') }}">
     {{-- <script src="https://cdn.jsdelivr.net/npm/@cdek-it/widget@3" charset="utf-8"></script> --}}

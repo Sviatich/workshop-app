@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('content')
 <div class="">
@@ -9,8 +9,9 @@
 
     {{-- Основная сетка: 2/1 на md+ --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {{-- ЛЕВАЯ КОЛОНКА (2 части) --}}
+        {{-- ЛЕВАЯ КОЛОНКА (позиции + форма) --}}
         <div class="md:col-span-2 space-y-6">
+
             {{-- Позиции корзины --}}
             <section aria-labelledby="cart-items-title" class="main-block">
                 <h2 id="cart-items-title" class="text-xl font-semibold">Позиции</h2>
@@ -25,19 +26,76 @@
                 </template>
             </section>
 
-            {{-- Блок оформления: реквизиты + доставка --}}
-            <section aria-labelledby="checkout-title" class="space-y-6">
-                <h2 id="checkout-title" class="text-xl font-semibold">Оформление</h2>
+            {{-- ФОРМА: доставка + данные плательщика --}}
+            <form id="order_form" class="space-y-6" novalidate>
+                {{-- СПОСОБ ДОСТАВКИ --}}
+                <section aria-labelledby="delivery-title" class="space-y-6 main-block">
+                    <h2 id="delivery-title" class="text-xl font-semibold">Способ доставки</h2>
 
-                <form id="order_form" class="space-y-6">
-                    {{-- Реквизиты --}}
+                    <fieldset class="space-y-3">
+                        <legend class="sr-only">Выбор способа доставки</legend>
+
+                        <div class="space-y-2">
+                            {{-- Самовывоз --}}
+                            <label class="flex items-center gap-2">
+                                <input type="radio" name="delivery_method_choice" value="pickup" class="delivery-choice" checked>
+                                <span>Самовывоз (0 ₽)</span>
+                            </label>
+                            <div id="pickup_block" class="mt-2">
+                                <div id="pickup_map" class="h-64 rounded border"></div>
+                                <p class="text-sm text-gray-600 mt-2">
+                                    Забрать заказ можно со склада. Адрес уточняем при подтверждении заказа.
+                                </p>
+                            </div>
+
+                            {{-- ПЭК --}}
+                            <label class="flex items-center gap-2 mt-4">
+                                <input type="radio" name="delivery_method_choice" value="pek" class="delivery-choice">
+                                <span>Доставка ПЭК (до терминала, 0 ₽ до терминала)</span>
+                            </label>
+                            <div id="pek_block" class="mt-2 hidden">
+                                <div id="pek_map" class="h-64 rounded border"></div>
+                                <p class="text-sm text-gray-600 mt-2">
+                                    Мы бесплатно отвезём до выбранного терминала ПЭК. Дальше — по тарифам ПЭК.
+                                </p>
+                            </div>
+
+                            {{-- СДЭК --}}
+                            <label class="flex items-center gap-2 mt-4">
+                                <input type="radio" name="delivery_method_choice" value="cdek" class="delivery-choice">
+                                <span>СДЭК (расчёт по адресу или ПВЗ)</span>
+                            </label>
+                            <div id="cdek_block" class="mt-2 hidden space-y-2">
+                                <button type="button" id="open-cdek" class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                                    Выбрать ПВЗ/адрес
+                                </button>
+                                <div id="delivery_summary" class="text-sm text-gray-700"></div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    {{-- Адрес доставки: один раз, без дубликатов.
+                         delivery.js сам делает required только для СДЭК --}}
+                    <div class="space-y-2 mt-4">
+                        <label class="block font-semibold mb-1" for="delivery_address">Адрес доставки</label>
+                        <textarea name="delivery_address" id="delivery_address" class="border rounded w-full p-2"
+                                  placeholder="Для самовывоза/ПЭК можно оставить пустым"></textarea>
+                    </div>
+                </section>
+
+                {{-- ОФОРМЛЕНИЕ: данные плательщика --}}
+                <section aria-labelledby="checkout-title" class="space-y-6">
+                    <h2 id="checkout-title" class="text-xl font-semibold">Оформление</h2>
+
+                    {{-- Реквизиты плательщика --}}
                     <fieldset class="space-y-3 main-block">
-                        <legend class="font-semibold">Данные плательщика</legend>
+                        <legend class="sr-only">Данные плательщика</legend>
 
+                        {{-- Тип плательщика (ФЛ/ЮЛ) --}}
                         <div>
                             <label class="block font-semibold mb-1" for="payer_type">Тип плательщика</label>
                             <select name="payer_type" id="payer_type" class="border rounded w-full p-2">
-                                <option value="individual">Физическое лицо</option>
+                                <option value="individual" selected>Физическое лицо</option>
                                 <option value="company">Юридическое лицо / ИП</option>
                             </select>
                         </div>
@@ -58,32 +116,37 @@
                             </div>
                         </div>
 
+                        {{-- ИНН показывается только для ЮЛ/ИП (cart.js/delivery.js управляют классом hidden) --}}
                         <div id="inn_field" class="hidden">
                             <label class="block font-semibold mb-1" for="inn">ИНН</label>
                             <input type="text" name="inn" id="inn" class="border rounded w-full p-2">
                         </div>
                     </fieldset>
 
-                    {{-- Доставка --}}
-                    <fieldset class="space-y-3 main-block">
-                        <legend class="font-semibold">Доставка</legend>
+                    {{-- СЛУЖЕБНЫЕ ПОЛЯ ДОСТАВКИ — полностью скрыты от пользователя --}}
+                    <div class="hidden" aria-hidden="true">
+                        <select name="delivery_method_id" id="delivery_method_id" class="border rounded w-full p-2">
+                            @foreach(\App\Models\DeliveryMethod::where('active', true)->get() as $method)
+                                <option value="{{ $method->id }}" data-code="{{ $method->code }}">{{ $method->name }}</option>
+                            @endforeach
+                        </select>
 
-                        <div>
-                            <label class="block font-semibold mb-1" for="delivery_address">Адрес доставки</label>
-                            <textarea name="delivery_address" id="delivery_address" class="border rounded w-full p-2" required></textarea>
-                        </div>
+                        <input type="hidden" id="delivery_method_code" name="delivery_method_code" value="pickup">
+                        <input type="hidden" id="delivery_price_input" name="delivery_price" value="0">
 
-                        <div>
-                            <label class="block font-semibold mb-1" for="delivery_method_id">Метод доставки</label>
-                            <select name="delivery_method_id" id="delivery_method_id" class="border rounded w-full p-2">
-                                @foreach(\App\Models\DeliveryMethod::where('active', true)->get() as $method)
-                                    <option value="{{ $method->id }}">{{ $method->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </fieldset>
-                </form>
-            </section>
+                        {{-- CDEK details (optional) --}}
+                        <input type="hidden" id="cdek_mode" name="cdek_mode" value="">
+                        <input type="hidden" id="cdek_tariff_code" name="cdek_tariff_code" value="">
+                        <input type="hidden" id="cdek_tariff_name" name="cdek_tariff_name" value="">
+                        <input type="hidden" id="cdek_delivery_sum" name="cdek_delivery_sum" value="">
+                        <input type="hidden" id="cdek_period_min" name="cdek_period_min" value="">
+                        <input type="hidden" id="cdek_period_max" name="cdek_period_max" value="">
+                        <input type="hidden" id="cdek_pvz_code" name="cdek_pvz_code" value="">
+                        <input type="hidden" id="cdek_pvz_address" name="cdek_pvz_address" value="">
+                        <input type="hidden" id="cdek_recipient_address" name="cdek_recipient_address" value="">
+                    </div>
+                </section>
+            </form>
         </div>
 
         {{-- ПРАВАЯ КОЛОНКА (Итоги) --}}
@@ -91,22 +154,23 @@
             <div id="cart_summary" class="sticky top-6 p-4 border rounded bg-gray-50 hidden space-y-3">
                 <h2 id="summary-title" class="text-lg font-semibold">Итоги заказа</h2>
 
+                {{-- Сумма товаров --}}
                 <p class="flex justify-between">
-                    <span class="font-medium">Итого:</span>
+                    <span class="font-medium">Товары:</span>
                     <span><span id="cart_total">0</span> ₽</span>
                 </p>
 
+                {{-- delivery.js добавит сюда строку «Доставка», а также строку «Итого» --}}
                 <p class="flex justify-between text-sm">
                     <span>Общий вес:</span>
                     <span><span id="cart_weight_total">0</span> кг</span>
                 </p>
-
                 <p class="flex justify-between text-sm">
                     <span>Общий объём:</span>
                     <span><span id="cart_volume_total">0</span> м³</span>
                 </p>
 
-                {{-- Кнопка подтверждения вынесена сюда, но сабмитит форму слева --}}
+                {{-- Кнопка подтверждения: сабмитит левую форму --}}
                 <button type="submit"
                         form="order_form"
                         class="w-full mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
@@ -118,4 +182,4 @@
 </div>
 @endsection
 
-@vite(['resources/js/cart.js'])
+@vite(['resources/js/cart.js', 'resources/js/delivery.js'])

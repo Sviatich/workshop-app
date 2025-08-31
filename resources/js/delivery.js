@@ -1,0 +1,167 @@
+document.addEventListener('DOMContentLoaded', () => {
+  // === UI helpers ===
+  const el = (id) => document.getElementById(id);
+  const show = (node, visible) => node && node.classList.toggle('hidden', !visible);
+
+  // === Summary rows (delivery + grand total) ===
+  const summary = el('cart_summary');
+  if (summary) {
+    const ensureRow = (id, label, afterEl) => {
+      let row = document.getElementById(id);
+      if (!row) {
+        row = document.createElement('p');
+        row.id = id;
+        row.className = 'flex justify-between';
+        row.innerHTML = `<span class="font-medium">${label}:</span><span><span id="${id}_value">0</span> ₽</span>`;
+        if (afterEl && afterEl.nextSibling) summary.insertBefore(row, afterEl.nextSibling);
+        else summary.appendChild(row);
+      }
+      return row;
+    };
+    const rows = summary.querySelectorAll('p.flex.justify-between');
+    const itemsRow = rows[0] || null;
+    ensureRow('delivery_row', 'Доставка', itemsRow);
+
+    let grand = document.getElementById('grand_total_row');
+    if (!grand) {
+      grand = document.createElement('p');
+      grand.id = 'grand_total_row';
+      grand.className = 'flex justify-between font-semibold border-t pt-2';
+      grand.innerHTML = `<span>Итого:</span><span><span id="grand_total">0</span> ₽</span>`;
+      summary.appendChild(grand);
+    }
+  }
+
+  const setDeliveryMethodByCode = (code) => {
+    const sel = el('delivery_method_id');
+    if (!sel) return;
+    const opt = Array.from(sel.options).find(o => (o.dataset && o.dataset.code) === code);
+    if (opt) sel.value = opt.value;
+  };
+
+  const updateGrandTotal = () => {
+    const items = parseFloat((el('cart_total')?.textContent || '0').replace(',', '.')) || 0;
+    const delivery = parseFloat((el('delivery_row_value')?.textContent || '0').replace(',', '.')) || 0;
+    const grand = (items + delivery).toFixed(2);
+    const gEl = el('grand_total');
+    if (gEl) gEl.textContent = grand;
+  };
+
+  const setDeliveryPrice = (price) => {
+    const p = Number(price) || 0;
+    const dEl = document.getElementById('delivery_row_value');
+    if (dEl) dEl.textContent = p.toFixed(2);
+    const hidden = el('delivery_price_input');
+    if (hidden) hidden.value = p.toFixed(2);
+    updateGrandTotal();
+  };
+
+  const setDeliveryCode = (code) => {
+    const hidden = el('delivery_method_code');
+    if (hidden) hidden.value = code;
+    setDeliveryMethodByCode(code);
+  };
+
+  // === Delivery choices ===
+  const choices = document.querySelectorAll('input.delivery-choice[name="delivery_method_choice"]');
+  const pickupBlock = el('pickup_block');
+  const pekBlock = el('pek_block');
+  const cdekBlock = el('cdek_block');
+  const deliveryAddress = el('delivery_address');
+
+  const setAddressText = (text) => {
+    if (!deliveryAddress) return;
+    deliveryAddress.value = text || '';
+  };
+
+  const setAddressRequired = (req) => {
+    if (!deliveryAddress) return;
+    if (req) deliveryAddress.setAttribute('required', 'required');
+    else deliveryAddress.removeAttribute('required');
+  };
+
+  const syncByChoice = (code) => {
+    if (code === 'pickup') {
+      show(pickupBlock, true);  show(pekBlock, false); show(cdekBlock, false);
+      setDeliveryPrice(0);
+      setDeliveryCode('pickup');
+      setAddressText('Самовывоз (адрес склада уточнит менеджер)');
+      setAddressRequired(false);
+    } else if (code === 'pek') {
+      show(pickupBlock, false); show(pekBlock, true);  show(cdekBlock, false);
+      setDeliveryPrice(0);
+      setDeliveryCode('pek');
+      setAddressText('ПЭК: доставка до терминала (уточнит менеджер)');
+      setAddressRequired(false);
+    } else if (code === 'cdek') {
+      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, true);
+      // цену и детали поставит виджет СДЭК
+      setDeliveryCode('cdek_pvz'); // по умолчанию до выбора ПВЗ/адреса
+      setAddressText('');
+      setAddressRequired(true);
+    }
+  };
+
+  choices.forEach(ch => {
+    ch.addEventListener('change', () => {
+      const v = document.querySelector('input.delivery-choice[name="delivery_method_choice"]:checked')?.value;
+      if (v) syncByChoice(v);
+    });
+  });
+
+  // === Yandex Maps init (lon, lat) ===
+  const waitForYMaps = () => new Promise((resolve, reject) => {
+    if (window.ymaps3?.ready) return resolve();
+    let tries = 0;
+    const timer = setInterval(() => {
+      if (window.ymaps3?.ready) {
+        clearInterval(timer);
+        resolve();
+      } else if (++tries > 100) { // ~10 секунд
+        clearInterval(timer);
+        reject(new Error('ymaps3 not available'));
+      }
+    }, 100);
+  });
+
+  const createYMap = async (containerId, center, markers) => {
+    const node = el(containerId);
+    if (!node) return;
+    try {
+      await waitForYMaps();
+      await window.ymaps3.ready;
+      const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker } = window.ymaps3;
+      const map = new YMap(node, { location: { center, zoom: 12 } });
+      map.addChild(new YMapDefaultSchemeLayer());
+      map.addChild(new YMapDefaultFeaturesLayer());
+      (markers || []).forEach(m => {
+        const markerEl = document.createElement('div');
+        markerEl.className = 'custom-marker';
+        markerEl.title = m.title || '';
+        map.addChild(new YMapMarker({ coordinates: m.coords }, markerEl));
+      });
+    } catch (e) {
+      console.warn('Map init error', e);
+    }
+  };
+
+  // Примеры (lon, lat)
+  createYMap('pickup_map', [38.374602, 55.989067], [
+    { coords: [38.374602, 55.989067], title: 'Производство' }
+  ]);
+  createYMap('pek_map', [38.423324, 55.837053], [
+    { coords: [38.428706, 55.837359], title: 'ПЭК Электросталь' },
+    { coords: [37.824799, 56.018574], title: 'ПЭК Пушкино' },
+  ]);
+
+  // === Init defaults ===
+  // стартуем от реального выбранного радио (вёрстка ставит checked на pickup)
+  const checked = document.querySelector('input.delivery-choice[name="delivery_method_choice"]:checked');
+  syncByChoice(checked?.value || 'pickup');
+
+  setDeliveryPrice(0);
+  updateGrandTotal();
+
+  // Recalc on cart updates
+  window.addEventListener('cart:updated', updateGrandTotal);
+});

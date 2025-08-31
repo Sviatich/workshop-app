@@ -41,6 +41,7 @@ class OrderRequest extends FormRequest
             'inn' => 'nullable|string|required_if:payer_type,company',
             'delivery_address' => 'required|string',
             'delivery_method_id' => 'required|exists:delivery_methods,id',
+            'delivery_price' => 'nullable|numeric|min:0',
             'cart' => 'required|array|min:1',
             'cart.*.construction' => 'required|string',
             'cart.*.length' => 'required|integer|min:10',
