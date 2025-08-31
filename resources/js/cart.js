@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cart.splice(idx, 1);
                 localStorage.setItem("cart", JSON.stringify(cart));
                 renderCart();
+                CartUI.update();
             });
         });
     }

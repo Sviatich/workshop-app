@@ -36,9 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // 💡 Если включен полноцветный макет — обнуляем цену, показываем подсказку, но НЕ прерываем
+        // Если включен полноцветный макет — обнуляем цену, показываем подсказку, но НЕ прерываем
         if (data.has_fullprint) {
-            // Фиктивный результат с весом и объемом
             const res = await fetch("/api/calculate", {
                 method: "POST",
                 headers: {
@@ -150,6 +149,63 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("volume").textContent = "—";
     }
 
+    function resetFileInput(inputEl, statusEl, previewEl) {
+        if (!inputEl) return;
+        inputEl.value = "";
+        if (inputEl.dataset) {
+            delete inputEl.dataset.filePath;
+            delete inputEl.dataset.filename;
+        }
+        if (statusEl) statusEl.innerHTML = "";
+        if (previewEl) {
+            previewEl.src = "";
+            previewEl.classList.add("hidden");
+        }
+    }
+
+    function setSelectToEmptyOrFirst(selectEl) {
+        if (!selectEl) return;
+        const emptyOpt = Array.from(selectEl.options).find(o => o.value === "");
+        if (emptyOpt) {
+            selectEl.value = "";
+        } else {
+            selectEl.selectedIndex = 0;
+        }
+        selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function resetFormAfterAdd() {
+        ["length", "width", "height", "tirage"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = "";
+                el.dispatchEvent(new Event("input", { bubbles: true }));
+                el.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+        });
+
+        setSelectToEmptyOrFirst(document.getElementById("construction"));
+        setSelectToEmptyOrFirst(document.getElementById("color"));
+
+        if (logoCheckbox) {
+            logoCheckbox.checked = false;
+            document.getElementById("logo_options")?.classList.add("hidden");
+        }
+        if (printCheckbox) {
+            printCheckbox.checked = false;
+            document.getElementById("fullprint_options")?.classList.add("hidden");
+        }
+
+        resetFileInput(logoInput, logoStatus, logoPreview);
+        resetFileInput(printInput, printStatus, printPreview);
+
+        clearResult();
+        nearestContainer.innerHTML = "";
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(recalc, 0);
+    }
+
     // Слушатели
     [...fields.map(id => document.getElementById(id)), logoCheckbox, printCheckbox].forEach(input => {
         input?.addEventListener("input", () => {
@@ -163,11 +219,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     logoCheckbox.addEventListener("change", () => {
-        document.getElementById("logo_options").classList.toggle("hidden", !logoCheckbox.checked);
-    });
+        const visible = logoCheckbox.checked;
+        document.getElementById("logo_options").classList.toggle("hidden", !visible);
 
-    printCheckbox.addEventListener("change", () => {
-        document.getElementById("fullprint_options").classList.toggle("hidden", !printCheckbox.checked);
+        if (!visible) {
+            resetFileInput(logoInput, logoStatus, logoPreview);
+        } else if (logoInput?.dataset?.filePath && logoPreview) {
+            logoPreview.src = logoInput.dataset.filePath;
+            logoPreview.classList.remove("hidden");
+        }
     });
 
     // Загрузка макета
@@ -228,6 +288,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (logoPreview && file.type.startsWith("image/")) {
                 logoPreview.src = data.file_path;
+                logoPreview.classList.remove("hidden");
+            } else if (logoPreview) {
+                logoPreview.src = "";
+                logoPreview.classList.add("hidden");
             }
 
             logoStatus.innerHTML = `<span class="text-green-700">Загружен файл: <strong>${data.filename}</strong></span>`;
@@ -250,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (!allFilled) {
-            alert("Заполните все поля перед добавлением в корзину.");
+            toast.warning("Заполните все поля перед добавлением в корзину.", { timeout: 5000 });
             return;
         }
 
@@ -283,7 +347,10 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.push(config);
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        alert("Товар добавлен в корзину!");
+        toast.success("Товар добавлен в корзину!");
+
+        resetFormAfterAdd();
+        CartUI.update();
     });
 
     recalc();

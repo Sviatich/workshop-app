@@ -13,16 +13,16 @@
       <nav class="primary-nav" aria-label="Основная навигация">
         <ul class="nav-list" role="list">
 
-          <li class="nav-item">
-            <a class="nav-link" href="/" aria-label="Перейти в корзину">
-              О нас
-            </a>
-          </li>
-
           <li class="nav-item has-mega">
             <a href="#" class="nav-link" id="mega-btn" aria-expanded="false" aria-haspopup="true"
               aria-controls="mega-catalog">
               Помощь
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/" aria-label="Перейти в корзину">
+              О нас
             </a>
           </li>
 
@@ -33,9 +33,12 @@
             </a>
             <div id="contacts-panel" class="dropdown" role="group" aria-label="Контакты" hidden>
               <ul class="dropdown-list" role="list">
-                <li><a href="tel:88005503700" aria-label="Позвонить 8 800 550 37 00">8&nbsp;800&nbsp;550-37-00</a></li>
-                <li><a href="mailto:info@mp.market" aria-label="Написать на info@mp.market">info@mp.market</a></li>
-                <li><span aria-label="Время работы">Пн-Пт 08:00–17:00</span></li>
+                <li><a href="tel:88005503700" aria-label="Позвонить 8 800 550 37 00">8&nbsp;800&nbsp;550-37-00 <br><span
+                      class="contact-label">звонок бесплатный</span></a></li>
+                <li><a href="mailto:info@mp.market" aria-label="Написать на info@mp.market">info@mp.market <span
+                      class="contact-label">по любым вопросам</span></a></li>
+                <li><span aria-label="Время работы">Пн-Пт 08:00–17:00 <span class="contact-label">рабочий
+                      график</span></span></li>
               </ul>
             </div>
           </li>
@@ -43,6 +46,14 @@
           <li class="nav-item cart">
             <a class="nav-link" href="/cart" aria-label="Перейти в корзину">
               Корзина
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="cart" class="icon glyph" fill="#333"
+                width="20px">
+                <g>
+                  <path
+                    d="M22,7.24l-2,8a1,1,0,0,1-.88.76l-11,1H8a1,1,0,0,1-1-.85l-1.38-9v0L5.14,4H3A1,1,0,0,1,3,2H5.14a2,2,0,0,1,2,1.69L7.48,6H21a1,1,0,0,1,.79.38A1,1,0,0,1,22,7.24ZM16.5,19A1.5,1.5,0,1,0,18,20.5,1.5,1.5,0,0,0,16.5,19Zm-6,0A1.5,1.5,0,1,0,12,20.5,1.5,1.5,0,0,0,10.5,19Z"
+                    style="fill:#333"></path>
+                </g>
+              </svg>
               <span class="cart-badge" aria-hidden="true" data-cart-count>0</span>
               <span class="sr-only" id="cart-status">Корзина пуста</span>
             </a>

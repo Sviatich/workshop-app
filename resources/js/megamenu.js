@@ -189,3 +189,71 @@
   });
 
 })();
+
+// Функция обновления корзины, вызывается в других модулях проекта. 
+
+(function () {
+  const CART_KEYS = ['cart', 'cartItems', 'bw_cart']; // подстрой под свой ключ
+  const badges = () => document.querySelectorAll('[data-cart-count]');
+  const statusEl = () => document.getElementById('cart-status');
+  let lastCount = -1;
+
+  function readFromStorage() {
+    let count = 0;
+    for (const k of CART_KEYS) {
+      try {
+        const raw = localStorage.getItem(k);
+        if (!raw) continue;
+        const data = JSON.parse(raw);
+        if (Array.isArray(data)) count = Math.max(count, data.length);
+        else if (data && Array.isArray(data.items)) count = Math.max(count, data.items.length);
+      } catch (_) {}
+    }
+    return count;
+  }
+
+  function coerceCount(arg) {
+    if (typeof arg === 'number' && Number.isFinite(arg)) return Math.max(0, arg|0);
+    if (Array.isArray(arg)) return arg.length;
+    if (arg && Array.isArray(arg.items)) return arg.items.length;
+    return readFromStorage();
+  }
+
+  function bump() {
+    badges().forEach(b => {
+      b.classList.remove('badge-bump');
+      void b.offsetWidth; // перезапуск анимации
+      b.classList.add('badge-bump');
+    });
+  }
+
+  function render(n, { animate = true } = {}) {
+    badges().forEach(b => b.textContent = n);
+    const s = statusEl();
+    if (s) s.textContent = n > 0 ? `В корзине позиций: ${n}` : 'Корзина пуста';
+    if (animate) bump();
+  }
+
+  function update(arg, opts = {}) {
+    const n = coerceCount(arg);
+    if (!opts.force && n === lastCount) return n;
+    lastCount = n;
+    render(n, opts);
+    return n;
+  }
+
+  // Авто-обновление при изменении LS из другой вкладки
+  window.addEventListener('storage', () => update(undefined, { animate: false }));
+
+  // Поддержка события (если удобнее бросать кастомное событие)
+  window.addEventListener('cart:updated', (e) => update(e.detail?.count));
+
+  // Экспорт в глобалку
+  window.CartUI = {
+    update,         
+    readFromStorage,
+  };
+
+  // Первый рендер
+  update();
+})();
