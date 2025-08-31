@@ -198,3 +198,5 @@
     @include('partials.review')
     @include('partials.faq')
 @endsection
+
+@vite(['resources/js/configurator.js', 'resources/js/print-options-guard.js'])

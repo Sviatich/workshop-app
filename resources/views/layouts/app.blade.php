@@ -28,7 +28,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="">
+<body>
 
     @include('partials.header')
 
