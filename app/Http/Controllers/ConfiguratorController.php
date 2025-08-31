@@ -36,11 +36,11 @@ class ConfiguratorController extends Controller
         }
 
         // Если включена полноцветная печать — расчёт не выполняем
-        if (!empty($data['fullprint']['enabled'])) {
-            return response()->json([
-                'error' => false,
-                'manager_approval_required' => true,
-            ]);
+        if (!empty($data['has_fullprint'])) {
+            $result['price_per_unit'] = 0;
+            $result['total_price'] = 0;
+            $result['manager_approval_required'] = true;
+            return response()->json($result);
         }
 
         // +10 ₽ за логотип, если он есть

@@ -15,7 +15,8 @@ class OrderRequest extends FormRequest
 
     public function expectsJson()
     {
-        return false;
+        // Возвращаем JSON на ошибки валидации для API-запросов
+        return true;
     }
 
     public function validationData()
@@ -54,11 +55,13 @@ class OrderRequest extends FormRequest
             // Опционально: логотип
             'cart.*.logo.enabled' => 'nullable|boolean',
             'cart.*.logo.size' => 'nullable|string',
-            'cart.*.logo.file' => 'nullable|string',
+            'cart.*.logo.file_path' => 'nullable|string',
+            'cart.*.logo.filename' => 'nullable|string',
             // Опционально: полноформатная печать
             'cart.*.fullprint.enabled' => 'nullable|boolean',
             'cart.*.fullprint.description' => 'nullable|string',
-            'cart.*.fullprint.file' => 'nullable|string',
+            'cart.*.fullprint.file_path' => 'nullable|string',
+            'cart.*.fullprint.filename' => 'nullable|string',
             // Файлы (по индексам)
             // Обрабатываются динамически в контроллере, здесь не валидируются
         ];

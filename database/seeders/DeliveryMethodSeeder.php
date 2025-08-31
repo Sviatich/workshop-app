@@ -10,9 +10,9 @@ class DeliveryMethodSeeder extends Seeder
     public function run(): void
     {
         $methods = [
-            ['code' => 'pickup', 'name' => 'Самовывоз', 'description' => 'Забрать из точки выдачи'],
-            ['code' => 'cdek_courier', 'name' => 'СДЭК до двери', 'description' => 'Доставка курьером до двери'],
-            ['code' => 'cdek_pvz', 'name' => 'СДЭК до ПВЗ', 'description' => 'Доставка в пункт выдачи заказов'],
+            ['code' => 'pickup', 'name' => 'Самовывоз', 'description' => 'Забрать со склада нашей компании'],
+            ['code' => 'cdek_courier', 'name' => 'СДЭК', 'description' => 'Доставка курьерской компанией СДЭК'],
+            ['code' => 'cdek_pvz', 'name' => 'ПЭК', 'description' => 'Бесплатно доставим до ближайшего пункта приема заказов'],
         ];
 
         foreach ($methods as $method) {

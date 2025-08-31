@@ -14,7 +14,7 @@ class OrderController extends Controller
 {
     public function store(OrderRequest $request)
     {
-        $cart = json_decode($request->cart, true);
+        $cart = $request->input('cart');
 
         $order = Order::create([
             'uuid' => Str::uuid(),

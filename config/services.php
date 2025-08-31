@@ -45,4 +45,9 @@ return [
         'yandex' => env('VERIFY_YANDEX'),
     ],
 
+    'yandex' => [
+        // API ключ для Яндекс.Карт JS v3. Задайте в .env: YANDEX_MAPS_API_KEY=...
+        'maps_key' => env('YANDEX_MAPS_API_KEY'),
+    ],
+
 ];

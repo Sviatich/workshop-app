@@ -12,7 +12,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://api-maps.yandex.ru/v3/?apikey=2270b668-e556-46a1-b36c-7465185a997b&lang=ru_RU"></script>
+    {{-- Яндекс.Карты: ключ берём из .env через config/services. Скрипт грузим динамически в yandexmap.js --}}
+    <meta name="yandex-maps-api-key" content="{{ config('services.yandex.maps_key') }}">
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@cdek-it/widget@3" charset="utf-8"></script> --}}
 
     @production
         @include('partials.analytics.verifications')

@@ -63,8 +63,8 @@
                 <div>
                     <label class="block mb-1 font-semibold configurator-label">Цвет картона</label>
 
-                    <select name=" color" id="color" class="border w-full p-2 select-fixed">
-                        <option value=" brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
+                    <select name="color" id="color" class="border w-full p-2 select-fixed">
+                        <option value="brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
                             Бур/Бур
                         </option>
                         <option value="white_in" data-img="{{ Vite::asset('resources/images/colors/white_in.jpg') }}">
