@@ -12,6 +12,13 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <script src="https://api-maps.yandex.ru/v3/?apikey=2270b668-e556-46a1-b36c-7465185a997b&lang=ru_RU"></script>
+
+    @production
+        @include('partials.analytics.verifications')
+        @includeWhen(config('services.metrica.id'), 'partials.analytics.metrica')
+    @endproduction
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="">
@@ -23,6 +30,6 @@
     </main>
 
     @include('partials.footer')
-
+    @include('partials.popuptamplate')
 </body>
 </html>

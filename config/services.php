@@ -34,5 +34,15 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'metrica' => [
+        'id'          => env('METRICA_ID'),
+        'webvisor'    => filter_var(env('METRICA_WEBVISOR', true), FILTER_VALIDATE_BOOL),
+        'clickmap'    => filter_var(env('METRICA_CLICKMAP', true), FILTER_VALIDATE_BOOL),
+        'track_links' => filter_var(env('METRICA_TRACK_LINKS', true), FILTER_VALIDATE_BOOL),
+    ],
+    'verification' => [
+        'google' => env('VERIFY_GOOGLE'),
+        'yandex' => env('VERIFY_YANDEX'),
+    ],
 
 ];

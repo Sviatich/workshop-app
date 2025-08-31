@@ -1,115 +1,125 @@
 <section class="py-12 bg-white main-block" aria-labelledby="testimonials-title">
   <div class="mx-auto">
-    <h2 id="testimonials-title" class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-      Что говорят клиенты
-    </h2>
-
-    {{-- Маркировка как «ленту» с ролью list, карточки — listitem --}}
+    <div class="flex justify-between items-baseline">
+      <h2 id="testimonials-title" class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+        Что пишут клиенты
+      </h2>
+      <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="flex gap-2 marquee__rating items-center btn-hover-effect-dark"><img
+          width="15px" src="{{ Vite::asset('./resources/images/yandex.svg') }}" alt="Yandex"> оставить отзыв</a>
+    </div>
     <div class="marquee mask-fade" role="region" aria-label="Отзывы клиентов, автопрокрутка справа налево">
       <ul class="marquee__track" role="list">
         {{-- Группа #1 --}}
         <li class="marquee__group" aria-hidden="false">
-          {{-- Карточка --}}
           <article class="tcard" role="listitem" aria-label="Алексей, владелец магазина">
-            <div class="tcard__quote">«Сервис помог запустить продажи за неделю. Упаковка — топ!»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Несколько месяцев работаю с этой компанией. Заказываю самосборные коробки.»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Алексей</div>
-                <div class="tcard__role">Владелец магазина</div>
+                <div class="tcard__name">Рыжова Таня</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Мария, маркетолог">
-            <div class="tcard__quote">«Быстрый расчёт, аккуратная печать. Менеджер всегда на связи.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Сервис на высоте, качество коробок шикарное, высокая клиентоориентированность.»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Мария</div>
-                <div class="tcard__role">Маркетолог</div>
+                <div class="tcard__name">Кирилл Чирятьев</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Игорь, кофе-бренд">
-            <div class="tcard__quote">«Коробки под размер стаканов — идеальная посадка, без люфта.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Все отлично. Быстро, качественно и по очень хорошим ценам. Спасибо!»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Игорь</div>
-                <div class="tcard__role">Основатель кофе‑бренда</div>
+                <div class="tcard__name">Ирина Н.</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Анна, Etsy-продавец">
-            <div class="tcard__quote">«Малые тиражи и печать логотипа спасли мой запуск на маркетплейсе.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Обслуживание и обратная связь на высоте, качество отличное.»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Анна</div>
-                <div class="tcard__role">Продавец на Etsy</div>
+                <div class="tcard__name">Максим Нижников</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Сергей, логистика">
-            <div class="tcard__quote">«Транспортные коробки крепкие, выдержали дальние поездки без брака.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Выражаю огромную благодарность! Всё на высшем уровне!»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Сергей</div>
-                <div class="tcard__role">Руководитель логистики</div>
+                <div class="tcard__name">Регина Бекетова</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
         </li>
 
-        {{-- Группа #2 — точная копия, нужна для бесшовного зацикливания --}}
+        {{-- Группа #2 --}}
         <li class="marquee__group" aria-hidden="true">
-          {{-- Скопируй те же карточки 1:1 --}}
-          <article class="tcard" role="listitem" aria-label="Алексей, владелец магазина">
-            <div class="tcard__quote">«Сервис помог запустить продажи за неделю. Упаковка — топ!»</div>
+           <article class="tcard" role="listitem" aria-label="Алексей, владелец магазина">
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Несколько месяцев работаю с этой компанией. Заказываю самосборные коробки.»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Алексей</div>
-                <div class="tcard__role">Владелец магазина</div>
+                <div class="tcard__name">Рыжова Таня</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Мария, маркетолог">
-            <div class="tcard__quote">«Быстрый расчёт, аккуратная печать. Менеджер всегда на связи.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Сервис на высоте, качество коробок шикарное, высокая клиентоориентированность.»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Мария</div>
-                <div class="tcard__role">Маркетолог</div>
+                <div class="tcard__name">Кирилл Чирятьев</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Игорь, кофе-бренд">
-            <div class="tcard__quote">«Коробки под размер стаканов — идеальная посадка, без люфта.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Все отлично. Быстро, качественно и по очень хорошим ценам. Спасибо!»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Игорь</div>
-                <div class="tcard__role">Основатель кофе‑бренда</div>
+                <div class="tcard__name">Ирина Н.</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Анна, Etsy-продавец">
-            <div class="tcard__quote">«Малые тиражи и печать логотипа спасли мой запуск на маркетплейсе.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Обслуживание и обратная связь на высоте, качество отличное.»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Анна</div>
-                <div class="tcard__role">Продавец на Etsy</div>
+                <div class="tcard__name">Максим Нижников</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>
 
           <article class="tcard" role="listitem" aria-label="Сергей, логистика">
-            <div class="tcard__quote">«Транспортные коробки крепкие, выдержали дальние поездки без брака.»</div>
+            <img width="80px" src="{{ Vite::asset('resources/images/stars.svg') }}" alt="5 звезд" class="object-cover">
+            <div class="tcard__quote">«Выражаю огромную благодарность! Всё на высшем уровне!»</div>
             <div class="tcard__meta">
               <div>
-                <div class="tcard__name">Сергей</div>
-                <div class="tcard__role">Руководитель логистики</div>
+                <div class="tcard__name">Регина Бекетова</div>
+                <div class="tcard__role">Клиент</div>
               </div>
             </div>
           </article>

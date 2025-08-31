@@ -1,5 +1,6 @@
 @import './variables.css';
 @import './main.css';
+@import './popap.css';
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
 

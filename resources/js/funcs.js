@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardsWrap = document.getElementById('construction_cards');
     if (!select || !cardsWrap) return;
 
-    // Спрячем селект визуально, но оставим в DOM для формы и твоего JS
-    select.classList.add('sr-only'); // или style.display='none' если без Tailwind
+    // Спрячем селект визуально, но оставим в DOM
+    select.classList.add('sr-only');
 
-    // Рисуем карточки на основе option'ов
+    // Карточка по option'у
     const makeCard = (opt) => {
         const value = opt.value;
         const label = opt.textContent.trim();
@@ -29,12 +29,35 @@ document.addEventListener("DOMContentLoaded", () => {
         return card;
     };
 
+    // Неактивная карточка «заглушка»
+    const makeComingSoonCard = () => {
+        const stub = document.createElement('button');
+        stub.type = 'button';
+        stub.className = 'construction-card is-disabled coming-soon';
+        stub.disabled = true;
+        stub.setAttribute('aria-disabled', 'true');
+        stub.setAttribute('tabindex', '-1');
+        stub.innerHTML = `
+            <div class="caption">Больше <br>конструкций <br>скоро</div>
+        `;
+        return stub;
+    };
+
+    // Рендерим карточки из options
     const options = Array.from(select.options);
     options.forEach(opt => cardsWrap.appendChild(makeCard(opt)));
+
+    // Добавляем заглушку в конец
+    cardsWrap.appendChild(makeComingSoonCard());
 
     // Активное состояние
     const setActive = (value) => {
         cardsWrap.querySelectorAll('.construction-card').forEach(c => {
+            // заглушка никогда не активна
+            if (c.classList.contains('is-disabled')) {
+                c.classList.remove('active');
+                return;
+            }
             c.classList.toggle('active', c.dataset.value === value);
         });
     };
@@ -45,11 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Клик по карточке → меняем select.value + шлём change
     cardsWrap.addEventListener('click', (e) => {
         const card = e.target.closest('.construction-card');
-        if (!card) return;
+        if (!card || card.classList.contains('is-disabled') || card.disabled) return;
+
         const value = card.dataset.value;
         if (select.value !== value) {
             select.value = value;
-            // Тригерим и input, и change — вдруг у тебя слушатели на разное
             select.dispatchEvent(new Event('input', { bubbles: true }));
             select.dispatchEvent(new Event('change', { bubbles: true }));
         }
@@ -59,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Если кто-то поменял select программно — подсветим карточку
     select.addEventListener('change', () => setActive(select.value));
 });
+
 
 const colorSelect = document.getElementById('color');
 const colorCardsWrap = document.getElementById('color_cards');

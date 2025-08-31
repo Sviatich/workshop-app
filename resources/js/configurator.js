@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     result.nearest_sizes.forEach(size => {
                         html += `<li class="flex items-center justify-between border-b pb-1">
                             <span>${size.length} × ${size.width} × ${size.height} мм</span>
-                            <button class="px-2 py-1 bg-blue-500 text-white rounded text-sm"
+                            <button class="px-2 py-1 bg-blue-500 text-white rounded btn-hover-effect cursor-pointer text-sm"
                                 data-length="${size.length}"
                                 data-width="${size.width}"
                                 data-height="${size.height}">

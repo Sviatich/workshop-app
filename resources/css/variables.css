@@ -1,14 +1,15 @@
 :root {
-    --primary-color: #0C73FE;
-    --secondary-color: #FB732D;
+    --primary-color: #2b6dd1;
+    --secondary-color: #fee48f;
     --text-color-black: #000000;
     --text-color-white: #ffffff;
     --border-color: #e5e7eb;
     --font-size-base: 16px;
-    --border-outside: 8px;
+    --border-outside: 6px;
     --border-inside: 4px;
     --block-padding: 30px;
-    --main-margin-bottom: 50px;
+    --main-margin-bottom: 45px;
     --background-color: #f6f6f6;
     --muted: #999;
+    --container-width: 850px;
 }
