@@ -16,7 +16,7 @@ class Fefco0426Calculator extends BaseCalculator
         $S = ($Lsheet * $Wsheet) / 1_000_000;
 
         if ($S <= 0 || $S > $this->minArea) {
-            return ['error' => 'Недопустимые размеры (площадь больше 0.8 м²)'];
+            return ['error' => 'Недопустимые размеры (площадь больше 4.0 м²)'];
         }
 
         $cartonPrice = $this->getCartonPrice($color);

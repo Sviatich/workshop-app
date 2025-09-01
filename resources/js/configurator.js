@@ -5,7 +5,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const nearestContainer = document.createElement("div");
     nearestContainer.id = "nearest_sizes";
     nearestContainer.className = "bg-white";
-    document.querySelector("#nearest_sizes_block").after(nearestContainer);
+    // Safely place the container after an anchor if present, otherwise append near results
+    (function placeNearestContainer() {
+        const anchor = document.querySelector("#nearest_sizes_block")
+            || document.querySelector("#result")
+            || document.querySelector("#configurator");
+        if (anchor && typeof anchor.after === 'function') {
+            anchor.after(nearestContainer);
+        } else if (anchor && anchor.parentNode) {
+            anchor.parentNode.appendChild(nearestContainer);
+        } else {
+            document.body.appendChild(nearestContainer);
+        }
+    })();
+
+    function showCalcError(message) {
+        const text = message || "Не удалось выполнить расчёт. Пожалуйста, измените размеры и попробуйте снова.";
+        nearestContainer.innerHTML = `
+            <p class="configurator-warning">${text}</p>
+        `;
+        try { toast.warning(text, { timeout: 6000 }); } catch (_) {}
+    }
 
     const logoCheckbox = document.getElementById("has_logo");
     const printCheckbox = document.getElementById("has_fullprint");
@@ -49,7 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!res.ok) {
                 clearResult();
-                nearestContainer.innerHTML = "";
+                let msg = "";
+                try { const j = await res.json(); msg = j?.error || j?.message || ""; } catch (_) {}
+                showCalcError(msg);
                 return;
             }
 
@@ -80,7 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!res.ok) {
                 clearResult();
-                nearestContainer.innerHTML = "";
+                let msg = "";
+                try {
+                    const j = await res.json();
+                    if (j?.errors && typeof j.errors === 'object') {
+                        // Collect first validation error message
+                        const firstKey = Object.keys(j.errors)[0];
+                        if (firstKey) msg = j.errors[firstKey]?.[0] || "";
+                    }
+                    msg = msg || j?.error || j?.message || "";
+                } catch (_) {}
+                showCalcError(msg || "Параметры не приняты сервером. Измените размеры и попробуйте снова.");
                 return;
             }
 
@@ -88,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (result.error) {
                 clearResult();
-                nearestContainer.innerHTML = "";
+                showCalcError(result.error);
                 return;
             }
 

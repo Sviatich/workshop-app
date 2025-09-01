@@ -90,13 +90,24 @@
                             <legend class="sr-only">Данные плательщика</legend>
 
                             {{-- Тип плательщика (ФЛ/ЮЛ) --}}
-                            <div>
-                                <label class="block font-semibold mb-1 cart-labels" for="payer_type">Тип плательщика</label>
-                                <select name="payer_type" id="payer_type" class="border rounded w-full p-2">
-                                    <option value="individual" selected>Физическое лицо</option>
-                                    <option value="company">Юридическое лицо / ИП</option>
-                                </select>
-                            </div>
+                            <fieldset class="space-y-1">
+                                <legend id="payer_type_legend" class="block font-semibold mb-1 cart-labels">
+                                    Тип плательщика
+                                </legend>
+                                <div class="customer-payments relative w-full max-w-full bg-gray-100 border rounded border-gray-200 inline-flex items-center select-none"
+                                    role="radiogroup" aria-labelledby="payer_type_legend">
+                                    <input type="radio" id="payer_individual" name="payer_type" value="individual" class="sr-only peer/ind" checked>
+                                    <input type="radio" id="payer_company" name="payer_type" value="company" class="sr-only peer/comp">
+                                    <div class="payer-slider absolute top-1 left-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded bg-white shadow transition-transform duration-200 ease-out will-change-transform">
+                                    </div>
+                                    <label for="payer_individual" class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/ind:text-gray-900">
+                                        Физическое лицо
+                                    </label>
+                                    <label for="payer_company" class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/comp:text-gray-900">
+                                        Юридическое лицо / ИП
+                                    </label>
+                                </div>
+                            </fieldset>
 
                             <div>
                                 <label class="block font-semibold mb-1 cart-labels" for="full_name">ФИО</label>
@@ -183,7 +194,7 @@
                         Подтвердить заказ
                     </button>
                     <p class="form-copiration-text text-sm mt-2">
-                        Нажимая эту кнопку вы соглашаетесь с 
+                        Нажимая эту кнопку вы соглашаетесь с
                         <a href="/"><u>пользовательским соглашением и политикой обработки персональных данных</u></a>
                     </p>
                 </div>
