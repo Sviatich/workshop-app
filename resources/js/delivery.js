@@ -3,35 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = (id) => document.getElementById(id);
   const show = (node, visible) => node && node.classList.toggle('hidden', !visible);
 
-  // === Summary rows (delivery + grand total) ===
-  const summary = el('cart_summary');
-  if (summary) {
-    const ensureRow = (id, label, afterEl) => {
-      let row = document.getElementById(id);
-      if (!row) {
-        row = document.createElement('p');
-        row.id = id;
-        row.className = 'flex justify-between';
-        row.innerHTML = `<span class="font-medium">${label}:</span><span><span id="${id}_value">0</span> ₽</span>`;
-        if (afterEl && afterEl.nextSibling) summary.insertBefore(row, afterEl.nextSibling);
-        else summary.appendChild(row);
-      }
-      return row;
-    };
-    const rows = summary.querySelectorAll('p.flex.justify-between');
-    const itemsRow = rows[0] || null;
-    ensureRow('delivery_row', 'Доставка', itemsRow);
-
-    let grand = document.getElementById('grand_total_row');
-    if (!grand) {
-      grand = document.createElement('p');
-      grand.id = 'grand_total_row';
-      grand.className = 'flex justify-between font-semibold border-t pt-2';
-      grand.innerHTML = `<span>Итого:</span><span><span id="grand_total">0</span> ₽</span>`;
-      summary.appendChild(grand);
-    }
-  }
-
+  // === Служебные функции для доставки/итога (используют готовую разметку) ===
   const setDeliveryMethodByCode = (code) => {
     const sel = el('delivery_method_id');
     if (!sel) return;
@@ -49,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const setDeliveryPrice = (price) => {
     const p = Number(price) || 0;
-    const dEl = document.getElementById('delivery_row_value');
+    const dEl = el('delivery_row_value');
     if (dEl) dEl.textContent = p.toFixed(2);
     const hidden = el('delivery_price_input');
     if (hidden) hidden.value = p.toFixed(2);
@@ -62,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setDeliveryMethodByCode(code);
   };
 
-  // === Delivery choices ===
+  // === Блоки выбора доставки ===
   const choices = document.querySelectorAll('input.delivery-choice[name="delivery_method_choice"]');
   const pickupBlock = el('pickup_block');
   const pekBlock = el('pek_block');
@@ -95,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setAddressRequired(false);
     } else if (code === 'cdek') {
       show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, true);
-      // Единый код для СДЭК независимо от режима (ПВЗ/курьер)
+      // единый код для СДЭК независимо от режима (ПВЗ/курьер)
       setDeliveryCode('cdek');
       setAddressText('');
       setAddressRequired(true);
@@ -169,6 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setDeliveryPrice(0);
   updateGrandTotal();
 
-  // Recalc on cart updates
+  // пересчёт итога при обновлениях корзины
   window.addEventListener('cart:updated', updateGrandTotal);
 });
