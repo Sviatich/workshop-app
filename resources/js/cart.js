@@ -69,6 +69,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
+  // === Validation helpers ===
+  const hasLetter = (s) => /[A-Za-zА-Яа-яЁё]/.test(s || '');
+  const isValidFullName = (s) => {
+    if (!s) return false;
+    const parts = String(s).trim().split(/\s+/).filter(Boolean);
+    const letterParts = parts.filter(hasLetter);
+    return letterParts.length >= 2;
+  };
+  const isValidEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '').trim());
+  const isValidPhone = (s) => {
+    const digits = String(s || '').replace(/\D/g, '');
+    return digits.length >= 10;
+  };
+  const isValidINN = (s) => {
+    const digits = String(s || '').replace(/\D/g, '');
+    return digits.length === 10 || digits.length === 12;
+  };
+  function setFieldError(input, message) {
+    if (!input) return;
+    let err = input.parentElement?.querySelector('.field-error');
+    if (message) {
+      if (!err) {
+        err = document.createElement('p');
+        err.className = 'field-error text-red-600 text-sm mt-1';
+        input.parentElement.appendChild(err);
+      }
+      err.textContent = message;
+      input.classList.add('border-red-500');
+      input.setAttribute('aria-invalid', 'true');
+    } else {
+      if (err) err.remove();
+      input.classList.remove('border-red-500');
+      input.removeAttribute('aria-invalid');
+    }
+  }
+  function clearErrors() {
+    document.querySelectorAll('.field-error').forEach(n => n.remove());
+    document.querySelectorAll('#order_form input, #order_form textarea').forEach(el => {
+      el.classList.remove('border-red-500');
+      el.removeAttribute('aria-invalid');
+    });
+  }
+
   // === NEW: универсальный способ получить текущий тип плательщика ===
   function getPayerType() {
     // Радио имеют приоритет, если они на странице
@@ -95,6 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const companyField = document.getElementById('company_field');
     if (companyField) companyField.classList.toggle("hidden", t !== "company");
     setPaymentInfo(t);
+    if (t !== 'company') {
+      const innEl = document.getElementById('inn');
+      if (innEl) try { setFieldError(innEl, ''); } catch (_) {}
+    }
   }
 
   // Подписки на изменения: либо на селект, либо на радио
@@ -257,6 +304,38 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Client-side validation
+      clearErrors();
+      const fullNameEl = document.getElementById('full_name');
+      const emailEl = document.getElementById('email');
+      const phoneEl = document.getElementById('phone');
+      const innEl = document.getElementById('inn');
+
+      let valid = true;
+      if (!isValidFullName(fullNameEl?.value)) {
+        setFieldError(fullNameEl, 'Укажите имя и фамилию через пробел');
+        valid = false;
+      }
+      if (!isValidEmail(emailEl?.value)) {
+        setFieldError(emailEl, 'Введите корректный email');
+        valid = false;
+      }
+      if (!isValidPhone(phoneEl?.value)) {
+        setFieldError(phoneEl, 'Введите корректный телефон');
+        valid = false;
+      }
+      if (getPayerType() === 'company') {
+        if (!isValidINN(innEl?.value)) {
+          setFieldError(innEl, 'ИНН должен содержать 10 или 12 цифр');
+          valid = false;
+        }
+      }
+      if (!valid) {
+        const firstInvalid = orderForm.querySelector('[aria-invalid="true"]');
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
       setSubmitting(true);
       const formData = new FormData();
       // === CHANGED: берём значение payer_type через универсальный хелпер ===
@@ -311,4 +390,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Live field validation on input
+  const fullNameEl = document.getElementById('full_name');
+  const emailEl = document.getElementById('email');
+  const phoneEl = document.getElementById('phone');
+  const innEl = document.getElementById('inn');
+
+  fullNameEl?.addEventListener('input', () => setFieldError(fullNameEl, isValidFullName(fullNameEl.value) ? '' : null));
+  emailEl?.addEventListener('input', () => setFieldError(emailEl, isValidEmail(emailEl.value) ? '' : null));
+  phoneEl?.addEventListener('input', () => setFieldError(phoneEl, isValidPhone(phoneEl.value) ? '' : null));
+  innEl?.addEventListener('input', () => {
+    if (getPayerType() !== 'company') { setFieldError(innEl, ''); return; }
+    setFieldError(innEl, isValidINN(innEl.value) ? '' : null);
+  });
 });
