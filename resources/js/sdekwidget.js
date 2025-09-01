@@ -7,8 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const yaKey = keyMeta?.content?.trim();
 
   const FROM_CITY = 'Черноголовка';
-  const MIN_SIDE_MM = 10;
-  const MIN_WEIGHT_G = 1;
+  // Use numeric CDEK city code for sender to avoid encoding issues
+  // 17 corresponds to Pushkino, Moscow region
+  const FROM_CODE = 17;
+  // Default destination city for the widget UI (Moskva)
+  const DEFAULT_LOCATION = 'Москва';
+  // Reasonable bounds for CDEK calculator
+  const MIN_SIDE_MM = 100; // 10 cm min side
+  const MAX_SIDE_MM = 1500; // 150 cm max side
+  const MIN_WEIGHT_G = 100; // 0.1 kg min weight
   const LS_KEY = 'cdek:lastChoice';
 
   const ensureWidgetLib = () =>
@@ -23,16 +30,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   function calcParcels() {
-    const weightText = (document.getElementById('cart_weight_total')?.textContent || '0').replace(',', '.');
-    const volumeText = (document.getElementById('cart_volume_total')?.textContent || '0').replace(',', '.');
+    // Build parcels from cart items rather than using total volume cube.
+    // This avoids a single huge parcel and produces more realistic quotes.
+    let cart = [];
+    try { cart = JSON.parse(localStorage.getItem('cart') || '[]') } catch (_) {}
 
-    const wKg = Math.max(0, parseFloat(weightText)) || 0;
-    const volM3 = Math.max(0, parseFloat(volumeText)) || 0;
+    const MAX_PARCEL_WEIGHT_G = 25000; // 25 kg per parcel (safe for most tariffs)
 
-    const weightGr = Math.max(MIN_WEIGHT_G, Math.round(wKg * 1000));
-    const sideMm = Math.max(MIN_SIDE_MM, Math.round(Math.cbrt(Math.max(1e-6, volM3)) * 1000));
+    // Flatten units with per-unit weight and dims
+    const units = [];
+    for (const item of cart) {
+      const tirage = Math.max(1, Number(item.tirage) || 1);
+      const L = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(Number(item.length) || 0)));
+      const W = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(Number(item.width) || 0)));
+      const H = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(Number(item.height) || 0)));
+      // Weight per unit in kg -> g. Ensure sane min weight per unit.
+      const totalItemWeightKg = Math.max(0, Number(item.weight) || 0);
+      const unitWeightG = Math.max(MIN_WEIGHT_G, Math.round((totalItemWeightKg / tirage) * 1000));
 
-    return [{ length: sideMm, width: sideMm, height: sideMm, weight: weightGr }];
+      for (let i = 0; i < tirage; i++) {
+        units.push({ L, W, H, g: unitWeightG });
+      }
+    }
+
+    // Greedy pack units by weight limit. Keep dims as the max of included units.
+    const parcels = [];
+    let current = null;
+    for (const u of units) {
+      if (!current) {
+        current = { length: u.L, width: u.W, height: u.H, weight: 0 };
+      }
+      if (current.weight + u.g > MAX_PARCEL_WEIGHT_G) {
+        // close current and start new
+        if (current.weight > 0) parcels.push(current);
+        current = { length: u.L, width: u.W, height: u.H, weight: 0 };
+      }
+      current.length = Math.max(current.length, u.L);
+      current.width  = Math.max(current.width,  u.W);
+      current.height = Math.max(current.height, u.H);
+      current.weight += u.g;
+    }
+    if (current && current.weight > 0) parcels.push(current);
+
+    // Fallback: if cart empty or packing failed, return a small minimal parcel
+    if (!parcels.length) {
+      return [{ length: MIN_SIDE_MM, width: MIN_SIDE_MM, height: MIN_SIDE_MM, weight: MIN_WEIGHT_G }];
+    }
+    return parcels;
   }
 
   const setVal = (id, val) => {
@@ -73,19 +117,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!widget) {
         widget = new window.CDEKWidget({
-          from: { city: FROM_CITY },
+          from: { code: FROM_CODE },
           servicePath: '/service.php',
           apiKey: yaKey || undefined,
           lang: 'rus',
           currency: 'RUB',
           popup: true,
 
+          // Allow a broad set of tariffs so widget can match API response
           tariffs: {
-            office: [136, 138],
-            door:   [137, 139],
+            // Office (ПВЗ/постамат) directions
+            office: [
+              // Посылка
+              138, // дверь-склад
+              136, // склад-склад
+              // Магистральный экспресс
+              123, // дверь-склад
+              62,  // склад-склад
+              // Экспресс
+              483, // склад-склад
+              // Постамат
+              606, // постамат-склад
+            ],
+            // Door (курьер)
+            door: [
+              // Посылка
+              139, // дверь-дверь
+              137, // склад-дверь
+              // Магистральный экспресс
+              121, // дверь-дверь
+              122, // склад-дверь
+              // Экспресс
+              480, // дверь-дверь
+              482, // склад-дверь
+              // Постамат (дверь -> постамат)
+              605, // постамат-дверь (в некоторых маршрутах трактуется как курьер)
+            ],
           },
 
-          defaultLocation: FROM_CITY,
+          defaultLocation: DEFAULT_LOCATION,
 
           onReady() {
             try {
