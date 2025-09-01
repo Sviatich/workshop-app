@@ -1543,6 +1543,41 @@ input#length:focus {
     font-weight: 400;
 }
 
+/* кастомная точка выбора для карточек доставки */
+.delivery-option:has(input:checked) {
+    border-color: var(--primary-color);
+    /* tailwind green-600 */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
+}
+
+.delivery-option .bullet {
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    border: 1px solid #9ca3af;
+    /* gray-400 */
+    /* display: grid; */
+    place-items: center;
+    transition: border-color .2s ease;
+    display: none;
+}
+
+.delivery-option .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: transparent;
+    transition: background-color .2s ease;
+}
+
+.delivery-option:has(input:checked) .bullet {
+    border-color: #16a34a;
+}
+
+.delivery-option:has(input:checked) .dot {
+    background: #16a34a;
+}
+
 .cart-labels {
     font-size: 14px;
 }

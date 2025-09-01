@@ -27,49 +27,92 @@
                     <section aria-labelledby="delivery-title" class="space-y-6 main-block">
                         <h2 id="delivery-title" class="text-xl font-semibold">Способ доставки</h2>
 
-                        <fieldset class="space-y-3">
+                        <fieldset class="space-y-4">
                             <legend class="sr-only">Выбор способа доставки</legend>
 
-                            <div class="space-y-2">
+                            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
                                 {{-- Самовывоз --}}
-                                <label class="flex items-center gap-2">
-                                    <input type="radio" name="delivery_method_choice" value="pickup" class="delivery-choice"
-                                        checked>
-                                    <span>Самовывоз (0 ₽)</span>
+                                <label
+                                    class="delivery-option cursor-pointer border rounded p-4 flex gap-3 transition hover:shadow-md">
+                                    <input type="radio" name="delivery_method_choice" value="pickup"
+                                        class="sr-only peer delivery-choice" checked>
+
+                                    {{-- Индикатор выбора --}}
+                                    <span class="bullet">
+                                        <span class="dot"></span>
+                                    </span>
+
+                                    {{-- Контент --}}
+                                    <div class="flex-1 space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-medium">Самовывоз</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">
+                                            Забрать заказ можно со склада. Адрес уточняем при подтверждении заказа.
+                                        </p>
+                                        <div id="pickup_block" class="mt-2">
+                                            <div id="pickup_map" class="h-40 rounded border"></div>
+                                        </div>
+                                    </div>
                                 </label>
-                                <div id="pickup_block" class="mt-2">
-                                    <div id="pickup_map" class="h-64 rounded border"></div>
-                                    <p class="text-sm text-gray-600 mt-2">
-                                        Забрать заказ можно со склада. Адрес уточняем при подтверждении заказа.
-                                    </p>
-                                </div>
 
                                 {{-- ПЭК --}}
-                                <label class="flex items-center gap-2 mt-4">
-                                    <input type="radio" name="delivery_method_choice" value="pek" class="delivery-choice">
-                                    <span>Доставка ПЭК (до терминала, 0 ₽ до терминала)</span>
+                                <label
+                                    class="delivery-option cursor-pointer border rounded p-4 flex gap-3 transition hover:shadow-md">
+                                    <input type="radio" name="delivery_method_choice" value="pek"
+                                        class="sr-only peer delivery-choice">
+
+                                    {{-- Индикатор выбора --}}
+                                    <span class="bullet">
+                                        <span class="dot"></span>
+                                    </span>
+
+                                    {{-- Контент --}}
+                                    <div class="flex-1 space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-medium">Доставка ПЭК</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">
+                                            Бесплатно до терминала, далее — по тарифам ПЭК.
+                                        </p>
+                                        <div id="pek_block" class="mt-2 hidden">
+                                            <div id="pek_map" class="h-40 rounded border"></div>
+                                        </div>
+                                    </div>
                                 </label>
-                                <div id="pek_block" class="mt-2 hidden">
-                                    <div id="pek_map" class="h-64 rounded border"></div>
-                                    <p class="text-sm text-gray-600 mt-2">
-                                        Мы бесплатно отвезём до выбранного терминала ПЭК. Дальше — по тарифам ПЭК.
-                                    </p>
-                                </div>
 
                                 {{-- СДЭК --}}
-                                <label class="flex items-center gap-2 mt-4">
-                                    <input type="radio" name="delivery_method_choice" value="cdek" class="delivery-choice">
-                                    <span>СДЭК (расчёт по адресу или ПВЗ)</span>
+                                <label
+                                    class="delivery-option cursor-pointer border rounded p-4 flex gap-3 transition hover:shadow-md">
+                                    <input type="radio" name="delivery_method_choice" value="cdek"
+                                        class="sr-only peer delivery-choice">
+
+                                    {{-- Индикатор выбора --}}
+                                    <span class="bullet">
+                                        <span class="dot"></span>
+                                    </span>
+
+                                    {{-- Контент --}}
+                                    <div class="flex-1 space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-medium">СДЭК</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">
+                                            Расчёт по адресу или пункту выдачи.
+                                        </p>
+                                        <div id="cdek_block" class="mt-2 hidden space-y-2">
+                                            <button type="button" id="open-cdek"
+                                                class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                                                Выбрать ПВЗ/адрес
+                                            </button>
+                                            <div id="delivery_summary" class="text-sm text-gray-700"></div>
+                                        </div>
+                                    </div>
                                 </label>
-                                <div id="cdek_block" class="mt-2 hidden space-y-2">
-                                    <button type="button" id="open-cdek"
-                                        class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                                        Выбрать ПВЗ/адрес
-                                    </button>
-                                    <div id="delivery_summary" class="text-sm text-gray-700"></div>
-                                </div>
                             </div>
                         </fieldset>
+
+
 
                         {{-- Адрес доставки: один раз, без дубликатов.
                         delivery.js сам делает required только для СДЭК --}}
@@ -96,14 +139,19 @@
                                 </legend>
                                 <div class="customer-payments relative w-full max-w-full bg-gray-100 border rounded border-gray-200 inline-flex items-center select-none"
                                     role="radiogroup" aria-labelledby="payer_type_legend">
-                                    <input type="radio" id="payer_individual" name="payer_type" value="individual" class="sr-only peer/ind" checked>
-                                    <input type="radio" id="payer_company" name="payer_type" value="company" class="sr-only peer/comp">
-                                    <div class="payer-slider absolute top-1 left-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded bg-white shadow transition-transform duration-200 ease-out will-change-transform">
+                                    <input type="radio" id="payer_individual" name="payer_type" value="individual"
+                                        class="sr-only peer/ind" checked>
+                                    <input type="radio" id="payer_company" name="payer_type" value="company"
+                                        class="sr-only peer/comp">
+                                    <div
+                                        class="payer-slider absolute top-1 left-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded bg-white shadow transition-transform duration-200 ease-out will-change-transform">
                                     </div>
-                                    <label for="payer_individual" class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/ind:text-gray-900">
+                                    <label for="payer_individual"
+                                        class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/ind:text-gray-900">
                                         Физическое лицо
                                     </label>
-                                    <label for="payer_company" class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/comp:text-gray-900">
+                                    <label for="payer_company"
+                                        class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/comp:text-gray-900">
                                         Юридическое лицо / ИП
                                     </label>
                                 </div>
@@ -111,25 +159,28 @@
 
                             <div>
                                 <label class="block font-semibold mb-1 cart-labels" for="full_name">ФИО</label>
-                                <input placeholder="Иван Иванов" type="text" name="full_name" id="full_name" class="border rounded w-full p-2"
-                                    required>
+                                <input placeholder="Иван Иванов" type="text" name="full_name" id="full_name"
+                                    class="border rounded w-full p-2" required>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div>
                                     <label class="block font-semibold mb-1 cart-labels" for="email">Email</label>
-                                    <input placeholder="ivanov@yandex.ru" type="email" name="email" id="email" class="border rounded w-full p-2" required>
+                                    <input placeholder="ivanov@yandex.ru" type="email" name="email" id="email"
+                                        class="border rounded w-full p-2" required>
                                 </div>
                                 <div>
                                     <label class="block font-semibold mb-1 cart-labels" for="phone">Телефон</label>
-                                    <input placeholder="+7 (999) 999-99-99" type="text" name="phone" id="phone" class="border rounded w-full p-2" required>
+                                    <input placeholder="+7 (999) 999-99-99" type="text" name="phone" id="phone"
+                                        class="border rounded w-full p-2" required>
                                 </div>
                             </div>
 
                             {{-- ИНН показывается только для ЮЛ/ИП (cart.js/delivery.js управляют классом hidden) --}}
                             <div id="inn_field" class="hidden">
                                 <label class="block font-semibold mb-1" for="inn">ИНН</label>
-                                <input placeholder="Введите ИНН или Наименование компании" type="text" name="inn" id="inn" class="border rounded w-full p-2">
+                                <input placeholder="Введите ИНН или Наименование компании" type="text" name="inn" id="inn"
+                                    class="border rounded w-full p-2">
                             </div>
                         </fieldset>
 
