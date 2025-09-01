@@ -111,25 +111,25 @@
 
                             <div>
                                 <label class="block font-semibold mb-1 cart-labels" for="full_name">ФИО</label>
-                                <input type="text" name="full_name" id="full_name" class="border rounded w-full p-2"
+                                <input placeholder="Иван Иванов" type="text" name="full_name" id="full_name" class="border rounded w-full p-2"
                                     required>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div>
                                     <label class="block font-semibold mb-1 cart-labels" for="email">Email</label>
-                                    <input type="email" name="email" id="email" class="border rounded w-full p-2" required>
+                                    <input placeholder="ivanov@yandex.ru" type="email" name="email" id="email" class="border rounded w-full p-2" required>
                                 </div>
                                 <div>
                                     <label class="block font-semibold mb-1 cart-labels" for="phone">Телефон</label>
-                                    <input type="text" name="phone" id="phone" class="border rounded w-full p-2" required>
+                                    <input placeholder="+7 (999) 999-99-99" type="text" name="phone" id="phone" class="border rounded w-full p-2" required>
                                 </div>
                             </div>
 
                             {{-- ИНН показывается только для ЮЛ/ИП (cart.js/delivery.js управляют классом hidden) --}}
                             <div id="inn_field" class="hidden">
                                 <label class="block font-semibold mb-1" for="inn">ИНН</label>
-                                <input type="text" name="inn" id="inn" class="border rounded w-full p-2">
+                                <input placeholder="Введите ИНН или Наименование компании" type="text" name="inn" id="inn" class="border rounded w-full p-2">
                             </div>
                         </fieldset>
 
