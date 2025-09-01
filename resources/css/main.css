@@ -35,6 +35,10 @@ h2,
     font-size: 14px;
 }
 
+.padding-for-cart {
+    padding: 20vh 0;
+}
+
 .go-to-cart-button {
     background-color: var(--background-color);
     padding: 10px 20px;
@@ -46,6 +50,17 @@ h2,
     font-size: 14px;
     font-weight: 500;
     text-align: center;
+}
+
+.go-to-calculator-button {
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: var(--border-inside);
+    color: var(--text-color-white);
+    width: fit-content;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 .hero-content {
