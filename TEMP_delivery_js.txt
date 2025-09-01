@@ -85,18 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
       show(pickupBlock, true);  show(pekBlock, false); show(cdekBlock, false);
       setDeliveryPrice(0);
       setDeliveryCode('pickup');
-      setAddressText('Самовывоз (адрес уточняется на странице контактов)');
+      setAddressText('Самовывоз (адрес склада уточнит менеджер)');
       setAddressRequired(false);
     } else if (code === 'pek') {
       show(pickupBlock, false); show(pekBlock, true);  show(cdekBlock, false);
       setDeliveryPrice(0);
       setDeliveryCode('pek');
-      setAddressText('ПЭК: укажите адрес или ПВЗ перевозчика (при необходимости)');
+      setAddressText('ПЭК: доставка до терминала (уточнит менеджер)');
       setAddressRequired(false);
     } else if (code === 'cdek') {
       show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, true);
-      // Единый код для СДЭК независимо от режима (ПВЗ/курьер)
-      setDeliveryCode('cdek');
+      // цену и детали поставит виджет СДЭК
+      setDeliveryCode('cdek_pvz'); // по умолчанию до выбора ПВЗ/адреса
       setAddressText('');
       setAddressRequired(true);
     }
@@ -145,17 +145,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // базовые координаты (lon, lat)
+  // Примеры (lon, lat)
   createYMap('pickup_map', [38.374602, 55.989067], [
-    { coords: [38.374602, 55.989067], title: 'Пункт выдачи' }
+    { coords: [38.374602, 55.989067], title: 'Производство' }
   ]);
   createYMap('pek_map', [38.423324, 55.837053], [
-    { coords: [38.428706, 55.837359], title: 'ПЭК склад/ПВЗ' },
-    { coords: [37.824799, 56.018574], title: 'ПЭК ПВЗ' },
+    { coords: [38.428706, 55.837359], title: 'ПЭК Электросталь' },
+    { coords: [37.824799, 56.018574], title: 'ПЭК Пушкино' },
   ]);
 
   // === Init defaults ===
-  // выбор по умолчанию из отмеченной радио-кнопки (по умолчанию pickup)
+  // стартуем от реального выбранного радио (вёрстка ставит checked на pickup)
   const checked = document.querySelector('input.delivery-choice[name="delivery_method_choice"]:checked');
   syncByChoice(checked?.value || 'pickup');
 

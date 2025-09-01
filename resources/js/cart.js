@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("inn", document.getElementById("inn")?.value || '');
       formData.append("delivery_address", document.getElementById("delivery_address")?.value || '');
       formData.append("delivery_method_id", Number(document.getElementById("delivery_method_id")?.value || 0));
+      formData.append("delivery_method_code", document.getElementById("delivery_method_code")?.value || '');
       formData.append("delivery_price", document.getElementById("delivery_price_input")?.value || 0);
       formData.append("cart", JSON.stringify(cart));
 

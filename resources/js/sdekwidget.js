@@ -25,14 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const widget = new window.CDEKWidget({
         from: { city: 'Москва' },
         servicePath: '/service.php',
-        // Ключ Яндекс.Карт для геокодинга и карты внутри виджета
         apiKey: yaKey || undefined,
         lang: 'rus',
         currency: 'RUB',
         popup: true,
         tariffs: { office: [136,138], door: [137,139] },
-        // Начальная локация для виджета (требуется библиотекой)
-        defaultLocation: 'Черноголовка',
+        defaultLocation: 'Россия',
         onReady() {
           widget.resetParcels();
           widget.addParcel(calcParcels());
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         onChoose(mode, tariff, address) {
           const summary = document.getElementById('delivery_summary');
           if (summary) {
-            summary.textContent = `${mode === 'office' ? 'В ПВЗ' : 'Курьером'} за ${tariff.delivery_sum} ₽ за ${tariff.period_min}–${tariff.period_max} дн.`;
+            summary.textContent = `${mode === 'office' ? 'В ПВЗ' : 'Курьером'} от ${tariff.delivery_sum} ₽, срок ${tariff.period_min}–${tariff.period_max} дн.`;
           }
 
           const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
@@ -54,13 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
           if (mode === 'office') {
             set('cdek_pvz_code', address.code);
             set('cdek_pvz_address', address.address);
-            const dm = document.getElementById('delivery_method_code'); if (dm) dm.value = 'cdek_pvz';
           } else {
             set('cdek_recipient_address', address.address);
-            const dm = document.getElementById('delivery_method_code'); if (dm) dm.value = 'cdek_courier';
           }
 
-          // Пробрасываем адрес в общее поле оформления
+          // Единый код для СДЭК
+          const dm = document.getElementById('delivery_method_code'); if (dm) dm.value = 'cdek';
+
+          // Свести адрес в поле доставки (для валидации и видимости пользователю)
           const addrInput = document.getElementById('delivery_address');
           if (addrInput) addrInput.value = address?.address || '';
 
@@ -94,3 +93,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   init();
 });
+
