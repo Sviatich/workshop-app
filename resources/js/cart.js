@@ -143,6 +143,23 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
 
   const orderForm = document.getElementById("order_form");
+  const orderLoader = document.getElementById("order_loader");
+  const submitBtn = orderForm?.querySelector('button[type="submit"]');
+
+  function setSubmitting(isSubmitting) {
+    if (orderLoader) orderLoader.classList.toggle('hidden', !isSubmitting);
+    if (submitBtn) {
+      submitBtn.disabled = isSubmitting;
+      if (isSubmitting) {
+        submitBtn.dataset.originalText = submitBtn.textContent;
+        submitBtn.innerHTML = 'Оформляем… <span class="inline-block w-4 h-4 border-2 border-white/80 border-t-transparent animate-spin rounded-full ml-1 align-[-2px]"></span>';
+        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+      } else {
+        submitBtn.innerHTML = submitBtn.dataset.originalText || 'Оформить заказ';
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    }
+  }
   if (orderForm) {
     orderForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -152,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      setSubmitting(true);
       const formData = new FormData();
       formData.append("payer_type", document.getElementById("payer_type")?.value || 'individual');
       formData.append("full_name", document.getElementById("full_name")?.value || '');
@@ -187,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
           body: formData,
         });
         const result = await res.json();
+        setSubmitting(false);
 
         if (res.ok) {
           alert("Заказ успешно оформлен!");

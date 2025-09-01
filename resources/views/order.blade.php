@@ -8,6 +8,7 @@
         <p><strong>Тип плательщика:</strong>
             {{ $order->payer_type === 'individual' ? 'Физическое лицо' : 'Юридическое лицо / ИП' }}
         </p>
+        <p><strong>ИНН:</strong> {{ $order->inn }}</p>
         <p><strong>ФИО:</strong> {{ $order->full_name }}</p>
         <p><strong>Email:</strong> {{ $order->email }}</p>
         <p><strong>Телефон:</strong> {{ $order->phone }}</p>

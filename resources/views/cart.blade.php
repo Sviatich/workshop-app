@@ -183,3 +183,12 @@
 @endsection
 
 @vite(['resources/js/cart.js', 'resources/js/delivery.js'])
+
+<div id="order_loader" class="fixed inset-0 bg-black/40 z-50 hidden">
+    <div class="absolute inset-0 flex items-center justify-center">
+        <div class="bg-white rounded p-4 shadow flex items-center gap-3">
+            <span class="inline-block w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></span>
+            <span>Оформляем заказ…</span>
+        </div>
+    </div>
+</div>
