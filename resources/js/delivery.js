@@ -77,6 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
       setDeliveryCode('cdek_courier');
       setAddressText('');
       setAddressRequired(true);
+    } else if (code === 'best') {
+      // Новый способ: «Подобрать оптимальную доставку»
+      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, false);
+      setDeliveryPrice(0);
+      setDeliveryCode('best');
+      setAddressText('');
+      setAddressRequired(false);
     }
   };
 

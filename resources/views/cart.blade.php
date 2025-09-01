@@ -109,6 +109,28 @@
                                         </div>
                                     </div>
                                 </label>
+
+                                {{-- Подобрать оптимальную доставку --}}
+                                <label
+                                    class="delivery-option cursor-pointer border rounded p-4 flex gap-3 transition hover:shadow-md">
+                                    <input type="radio" name="delivery_method_choice" value="best"
+                                        class="sr-only peer delivery-choice">
+
+                                    {{-- Индикатор выбора --}}
+                                    <span class="bullet">
+                                        <span class="dot"></span>
+                                    </span>
+
+                                    {{-- Контент --}}
+                                    <div class="flex-1 space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-medium">Подобрать оптимальный тариф</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">
+                                            Менеджер свяжется с вами для согласования способа доставки и окончательной суммы с учетом стоимости доставки.
+                                        </p>
+                                    </div>
+                                </label>
                             </div>
                         </fieldset>
 
@@ -246,7 +268,7 @@
                     </button>
                     <p class="form-copiration-text text-sm mt-2">
                         Нажимая эту кнопку вы соглашаетесь с
-                        <a href="/"><u>пользовательским соглашением и политикой обработки персональных данных</u></a>
+                        <a href="/"><u>пользовательским соглашением</u></a> и <a href="/"><u>политикой обработки персональных данных</u></a>
                     </p>
                 </div>
             </aside>

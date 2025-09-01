@@ -11,6 +11,61 @@ document.addEventListener("DOMContentLoaded", () => {
   const payerTypeRadios = Array.from(document.querySelectorAll('input[name="payer_type"]')); // может быть []
 
   const innField = document.getElementById("inn_field");
+  const fullNameInput = document.getElementById("full_name");
+
+  // Inject company name field (before INN) if missing
+  function ensureCompanyField() {
+    let node = document.getElementById('company_field');
+    if (node) return node;
+    node = document.createElement('div');
+    node.id = 'company_field';
+    node.className = 'hidden';
+    node.innerHTML = `
+      <label class="block font-semibold mb-1 cart-labels" for="company_name">Название компании</label>
+      <input placeholder="ООО «Пример» или ИП Иванов" type="text" name="company_name" id="company_name" class="border rounded w-full p-2">
+    `;
+    if (innField && innField.parentNode) {
+      innField.parentNode.insertBefore(node, innField);
+    }
+    return node;
+  }
+
+  // Inject mini payment info card above full name
+  function ensurePaymentInfo() {
+    if (document.getElementById('payment_info')) return;
+    const wrap = document.createElement('div');
+    wrap.id = 'payment_info';
+    wrap.className = 'flex items-center gap-3 p-3 border rounded bg-white text-sm';
+    wrap.innerHTML = `
+      <div class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded">
+        <span id="payment_info_icon"></span>
+      </div>
+      <div id="payment_info_text" class="text-gray-700">Оплата картой после согласования</div>
+    `;
+    const target = fullNameInput?.parentElement;
+    if (target && target.parentNode) {
+      target.parentNode.insertBefore(wrap, target);
+    }
+  }
+
+  function setPaymentInfo(type) {
+    const textEl = document.getElementById('payment_info_text');
+    const iconHolder = document.getElementById('payment_info_icon');
+    if (!textEl || !iconHolder) return;
+    const cardIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1H3V7Zm0 4h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6Zm3 5h4v2H6v-2Z" fill="#222"/></svg>';
+    const billIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 3a2 2 0 0 0-2 2v14l3-2 3 2 3-2 3 2V5a2 2 0 0 0-2-2H7Zm2 5h6v2H9V8Zm0 4h6v2H9v-2Z" fill="#222"/></svg>';
+    if (type === 'company') {
+      textEl.textContent = 'Оплата по счету после согласования';
+      iconHolder.innerHTML = billIcon;
+    } else {
+      textEl.textContent = 'Оплата картой после согласования';
+      iconHolder.innerHTML = cardIcon;
+    }
+  }
+
+  // Ensure dynamic UI parts exist before we use them
+  ensureCompanyField();
+  ensurePaymentInfo();
 
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -35,8 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Показ/скрытие ИНН по типу плательщика
   function toggleInn() {
-    if (!innField) return;
-    innField.classList.toggle("hidden", getPayerType() !== "company");
+    const t = getPayerType();
+    if (innField) innField.classList.toggle("hidden", t !== "company");
+    const companyField = document.getElementById('company_field');
+    if (companyField) companyField.classList.toggle("hidden", t !== "company");
+    setPaymentInfo(t);
   }
 
   // Подписки на изменения: либо на селект, либо на радио
@@ -48,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   // первичная инициализация
   toggleInn();
+  setPaymentInfo(getPayerType());
 
   function fmt(n, digits = 2) {
     const num = Number(n);
@@ -207,6 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("email", document.getElementById("email")?.value || '');
       formData.append("phone", document.getElementById("phone")?.value || '');
       formData.append("inn", document.getElementById("inn")?.value || '');
+      formData.append("company_name", document.getElementById("company_name")?.value || '');
       formData.append("delivery_address", document.getElementById("delivery_address")?.value || '');
       formData.append("delivery_method_id", Number(document.getElementById("delivery_method_id")?.value || 0));
       formData.append("delivery_method_code", document.getElementById("delivery_method_code")?.value || '');
