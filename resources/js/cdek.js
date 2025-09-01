@@ -2,12 +2,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // Locate existing CDEK option and its content block
   const cdekRadio = document.querySelector('input.delivery-choice[name="delivery_method_choice"][value="cdek"]');
   const cdekLabel = cdekRadio?.closest('label');
+  const grid = cdekLabel?.parentElement;
   const cdekContainer = cdekLabel?.querySelector('#cdek_block');
-  if (!cdekRadio || !cdekLabel || !cdekContainer) return;
+  if (!cdekRadio || !cdekLabel || !cdekContainer || !grid) return;
 
-  // Replace widget block with native PVZ UI
-  cdekContainer.className = 'mt-2 hidden space-y-3';
-  cdekContainer.innerHTML = `
+  // Build courier label (second option)
+  const courierLabel = document.createElement('label');
+  courierLabel.className = 'delivery-option cursor-pointer border rounded p-4 flex gap-3 transition hover:shadow-md';
+  courierLabel.innerHTML = `
+    <input type="radio" name="delivery_method_choice" value="cdek_courier" class="sr-only peer delivery-choice">
+    <span class="bullet"><span class="dot"></span></span>
+    <div class="flex-1 space-y-2">
+      <div class="flex items-center gap-2"><span class="font-medium">Курьер СДЭК</span></div>
+      <p class="text-sm text-gray-600">Введите адрес — рассчитаем стоимость до двери.</p>
+    </div>`;
+
+  // Ensure the content block sits under the grid (not inside the first label)
+  cdekContainer.remove();
+  grid.appendChild(courierLabel);
+
+  // Replace widget block with native PVZ + Courier UI
+  const block = document.createElement('div');
+  block.id = 'cdek_block';
+  block.className = 'mt-2 hidden space-y-3';
+  block.innerHTML = `
     <div id="cdek_pvz_mode" class="space-y-2">
       <div>
         <label class="block text-sm font-medium mb-1" for="cdek_city_input">Город</label>
@@ -19,7 +37,20 @@ document.addEventListener('DOMContentLoaded', () => {
       <div id="cdek_pvz_map" style="height:320px" class="rounded border"></div>
       <div id="cdek_pvz_selected" class="text-sm text-gray-700"></div>
     </div>
+
+    <div id="cdek_courier_mode" class="space-y-2 hidden">
+      <div>
+        <label class="block text-sm font-medium mb-1" for="cdek_courier_address">Адрес доставки</label>
+        <div class="relative">
+          <input type="text" id="cdek_courier_address" class="border rounded w-full p-2" placeholder="Город, улица, дом">
+          <div id="cdek_addr_dropdown" class="absolute left-0 right-0 z-30 mt-1 bg-white border rounded shadow max-h-60 overflow-auto hidden"></div>
+        </div>
+      </div>
+      <div id="cdek_courier_selected" class="text-sm text-gray-700"></div>
+    </div>
+
     <div id="delivery_summary" class="text-sm text-gray-700"></div>`;
+  grid.appendChild(block);
 
   const el = (id) => document.getElementById(id);
   const setVal = (id, val) => { const n = el(id); if (n) n.value = val ?? ''; };
@@ -118,6 +149,22 @@ document.addEventListener('DOMContentLoaded', () => {
   async function apiGet(url){ const res = await fetch(url,{headers:{'Accept':'application/json'}}); if(!res.ok) throw new Error('HTTP '+res.status); return res.json(); }
   async function apiPost(url,body){ const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)}); if(!res.ok) throw new Error('HTTP '+res.status); return res.json(); }
 
+  // Dadata suggestions for courier address
+  const dadataToken = document.querySelector('meta[name="dadata-token"]')?.content?.trim();
+  async function suggestAddress(q){
+    if(!dadataToken) return [];
+    try{
+      const res=await fetch('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json','Authorization':'Token '+dadataToken},
+        body:JSON.stringify({query:q,count:7})
+      });
+      if(!res.ok) return [];
+      const j=await res.json();
+      return Array.isArray(j?.suggestions)?j.suggestions:[];
+    }catch(_){ return []; }
+  }
+
   // PVZ search dropdown
   const cityInput = el('cdek_city_input');
   const cityDD = el('cdek_city_dropdown');
@@ -177,6 +224,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }catch(e){ console.warn('PVZ calc error', e); setDeliveryPrice(0); }
   }
 
+  // Courier suggestions and choose -> calc
+  const addrInput = el('cdek_courier_address');
+  const addrDD = el('cdek_addr_dropdown');
+  function addrHide(){ if(addrDD){ addrDD.classList.add('hidden'); addrDD.innerHTML=''; } }
+  function addrShow(){ if(addrDD && addrDD.children.length) addrDD.classList.remove('hidden'); }
+  let addrTimer=null;
+  async function onAddrInput(){
+    const q = addrInput.value.trim();
+    if(!q||q.length<3){ addrHide(); return; }
+    clearTimeout(addrTimer);
+    addrTimer=setTimeout(async()=>{
+      const list = await suggestAddress(q);
+      addrDD.innerHTML='';
+      (list||[]).forEach(s=>{
+        const b=document.createElement('button');
+        b.type='button'; b.className='w-full text-left px-3 py-2 hover:bg-zinc-50 focus:bg-zinc-50';
+        b.textContent = s.value || '';
+        b.addEventListener('click', async()=>{
+          addrInput.value = s.value || '';
+          addrHide();
+          const cs = el('cdek_courier_selected'); if(cs) cs.textContent = 'Адрес: ' + (s.value || '');
+          setVal('cdek_mode','door');
+          setVal('cdek_recipient_address', s.value || '');
+          setVal('cdek_pvz_code',''); setVal('cdek_pvz_address','');
+          const methodCode = document.getElementById('delivery_method_code'); if(methodCode) methodCode.value='cdek_courier';
+          const da = el('delivery_address'); if(da) da.value = s.value || '';
+          try{
+            const fias = s.data?.fias_id || s.data?.fias_guid || '';
+            const tariffRes = await apiPost('/api/sdek/calc/courier', { address: s.value || '', fias_guid: fias, packages: calcParcels() });
+            const t = tariffRes?.tariff || null;
+            setDeliveryPrice(t?.delivery_sum || 0);
+            paintSummary('door', t, s.value || '');
+            setVal('cdek_tariff_code', t?.tariff_code || '');
+            setVal('cdek_tariff_name', t?.tariff_name || '');
+            setVal('cdek_delivery_sum', t?.delivery_sum ?? '');
+            setVal('cdek_period_min', t?.period_min ?? '');
+            setVal('cdek_period_max', t?.period_max ?? '');
+          }catch(e){ console.warn('Courier calc error', e); setDeliveryPrice(0);} 
+        });
+        addrDD.appendChild(b);
+      });
+      addrShow();
+    },200);
+  }
+  if(addrInput){
+    addrInput.addEventListener('input', onAddrInput);
+    addrInput.addEventListener('focus', onAddrInput);
+    document.addEventListener('click', (e)=>{ if(!addrDD.contains(e.target) && e.target!==addrInput) addrHide(); });
+  }
+
   function setDeliveryMethodSelect(code){
     const sel = document.getElementById('delivery_method_id');
     if (!sel) return;
@@ -186,15 +283,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function onChoiceChange(){
     const v = document.querySelector('input.delivery-choice[name="delivery_method_choice"]:checked')?.value;
+    const pvzMode = document.getElementById('cdek_pvz_mode');
+    const curMode = document.getElementById('cdek_courier_mode');
+    const deliveryAddress = document.getElementById('delivery_address');
+    const block = document.getElementById('cdek_block');
     if(v==='cdek'){
-      cdekContainer?.classList.remove('hidden');
+      block?.classList.remove('hidden'); pvzMode?.classList.remove('hidden'); curMode?.classList.add('hidden');
       setDeliveryMethodSelect('cdek');
       setVal('delivery_method_code', 'cdek');
+      deliveryAddress?.removeAttribute('required');
+    } else if(v==='cdek_courier'){
+      block?.classList.remove('hidden'); pvzMode?.classList.add('hidden'); curMode?.classList.remove('hidden');
+      setDeliveryMethodSelect('cdek_courier');
+      setVal('delivery_method_code', 'cdek_courier');
+      deliveryAddress?.setAttribute('required','required');
     } else {
-      cdekContainer?.classList.add('hidden');
+      block?.classList.add('hidden');
     }
   }
   document.querySelectorAll('input.delivery-choice[name="delivery_method_choice"]').forEach(ch => ch.addEventListener('change', onChoiceChange));
   onChoiceChange();
 });
-

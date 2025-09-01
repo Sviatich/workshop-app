@@ -39,7 +39,7 @@ class OrderRequest extends FormRequest
             'email' => 'required|email',
             'phone' => 'required|string',
             'inn' => 'nullable|string|required_if:payer_type,company',
-            'delivery_method_code' => 'required|string|in:pickup,pek,cdek',
+            'delivery_method_code' => 'required|string|in:pickup,pek,cdek,cdek_courier',
             'delivery_address' => 'nullable|string|required_unless:delivery_method_code,pickup',
             'delivery_method_id' => 'required|exists:delivery_methods,id',
             'delivery_price' => 'nullable|numeric|min:0',

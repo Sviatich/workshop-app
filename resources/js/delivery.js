@@ -71,6 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setDeliveryCode('cdek');
       setAddressText('');
       setAddressRequired(true);
+    } else if (code === 'cdek_courier') {
+      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, true);
+      setDeliveryPrice(0);
+      setDeliveryCode('cdek_courier');
+      setAddressText('');
+      setAddressRequired(true);
     }
   };
 

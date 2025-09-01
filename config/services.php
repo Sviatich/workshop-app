@@ -55,4 +55,15 @@ return [
         'token' => env('DADATA_TOKEN'),
     ],
 
+    // CDEK API settings
+    'sdek' => [
+        'base_url' => env('CDEK_BASE_URL', 'https://api.cdek.ru/v2'),
+        'client_id' => env('CDEK_CLIENT_ID'),
+        'client_secret' => env('CDEK_CLIENT_SECRET'),
+        'sender_code' => env('CDEK_SENDER_CODE', 171),
+        // Allowed tariffs (CSV). 138: Door->PVZ, 139: Door->Door
+        'allowed_tariffs_office' => env('CDEK_ALLOWED_TARIFFS_OFFICE', '138'),
+        'allowed_tariffs_door' => env('CDEK_ALLOWED_TARIFFS_DOOR', '139'),
+    ],
+
 ];
