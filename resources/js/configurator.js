@@ -36,6 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const printStatus = document.getElementById("print_status");
     const printPreview = document.getElementById("print_preview");
 
+    let lastCalcResult = null;
+
     async function recalc() {
         const data = {};
         let allFilled = true;
@@ -76,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const result = await res.json();
+            lastCalcResult = result;
 
             document.getElementById("price_per_unit").textContent = "0";
             document.getElementById("total_price").textContent = "0";
@@ -117,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const result = await res.json();
+            lastCalcResult = result;
 
             if (result.error) {
                 clearResult();
@@ -374,6 +378,19 @@ document.addEventListener("DOMContentLoaded", () => {
         config.total_price = config.fullprint.enabled ? 0 : Number(document.getElementById("total_price").textContent);
         config.weight = Number(document.getElementById("weight").textContent);
         config.volume = Number(document.getElementById("volume").textContent);
+
+        // Persist flat-pack parcel geometry for shipping (from backend calculators)
+        if (lastCalcResult) {
+            if (typeof lastCalcResult.parcel_length_mm !== 'undefined') {
+                config.parcel_length_mm = Number(lastCalcResult.parcel_length_mm);
+            }
+            if (typeof lastCalcResult.parcel_width_mm !== 'undefined') {
+                config.parcel_width_mm = Number(lastCalcResult.parcel_width_mm);
+            }
+            if (typeof lastCalcResult.parcel_unit_height_mm !== 'undefined') {
+                config.parcel_unit_height_mm = Number(lastCalcResult.parcel_unit_height_mm);
+            }
+        }
 
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
         cart.push(config);

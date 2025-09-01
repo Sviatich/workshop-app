@@ -1,5 +1,8 @@
 // cdekwidjet.js
 document.addEventListener('DOMContentLoaded', () => {
+  // Debug: set to false or comment out to disable logs
+  const DEBUG_SDEK = true;
+  const dbg = (...args) => { if (DEBUG_SDEK) { try { console.log('[SDEK]', ...args); } catch (_) {} } };
   const openBtn = document.getElementById('open-cdek');
   if (!openBtn) return;
 
@@ -13,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Default destination city for the widget UI (Moskva)
   const DEFAULT_LOCATION = 'Москва';
   // Reasonable bounds for CDEK calculator
-  const MIN_SIDE_MM = 100; // 10 cm min side
+  const MIN_SIDE_MM = 100; // 10 cm min side for length/width (mm)
+  const MIN_HEIGHT_MM = 10; // 1 cm min height (mm)
   const MAX_SIDE_MM = 1500; // 150 cm max side
   const MIN_WEIGHT_G = 100; // 0.1 kg min weight
   const LS_KEY = 'cdek:lastChoice';
@@ -30,53 +34,111 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   function calcParcels() {
-    // Build parcels from cart items rather than using total volume cube.
-    // This avoids a single huge parcel and produces more realistic quotes.
+    // Build parcels based on flat-pack geometry from backend calculators.
+    // We stack units by thickness until we hit weight/height limits.
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem('cart') || '[]') } catch (_) {}
 
     const MAX_PARCEL_WEIGHT_G = 25000; // 25 kg per parcel (safe for most tariffs)
 
-    // Flatten units with per-unit weight and dims
+    // Flatten per-unit entities with per-unit weight and flat-pack dims
     const units = [];
+    const debugItems = [];
     for (const item of cart) {
       const tirage = Math.max(1, Number(item.tirage) || 1);
-      const L = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(Number(item.length) || 0)));
-      const W = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(Number(item.width) || 0)));
-      const H = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(Number(item.height) || 0)));
+
+      // Prefer precomputed blank dims from backend calculators
+      let L = Number(item.parcel_length_mm);
+      let W = Number(item.parcel_width_mm);
+      let unitH = Number(item.parcel_unit_height_mm);
+
+      // Fallbacks if not present: use conservative defaults
+      if (!Number.isFinite(L) || L <= 0) L = MIN_SIDE_MM;
+      if (!Number.isFinite(W) || W <= 0) W = MIN_SIDE_MM;
+      if (!Number.isFinite(unitH) || unitH <= 0) unitH = 1.5; // mm per unit
+
+      L = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(L)));
+      W = Math.min(MAX_SIDE_MM, Math.max(MIN_SIDE_MM, Math.round(W)));
+
       // Weight per unit in kg -> g. Ensure sane min weight per unit.
       const totalItemWeightKg = Math.max(0, Number(item.weight) || 0);
       const unitWeightG = Math.max(MIN_WEIGHT_G, Math.round((totalItemWeightKg / tirage) * 1000));
 
+      // Collect compact debug info per cart item (not per unit)
+      debugItems.push({
+        construction: item.construction || item.construction_name || 'unknown',
+        tirage,
+        blank_mm: `${L}x${W}`,
+        unit_thickness_mm: unitH,
+        total_thickness_mm: Math.round(unitH * tirage),
+        weight_total_g: Math.round(totalItemWeightKg * 1000),
+        weight_per_unit_g: unitWeightG,
+      });
+
       for (let i = 0; i < tirage; i++) {
-        units.push({ L, W, H, g: unitWeightG });
+        units.push({ L, W, h: unitH, g: unitWeightG });
       }
     }
 
-    // Greedy pack units by weight limit. Keep dims as the max of included units.
+    // Greedy pack by weight/height. Keep footprint as max of included units.
     const parcels = [];
     let current = null;
     for (const u of units) {
       if (!current) {
-        current = { length: u.L, width: u.W, height: u.H, weight: 0 };
+        current = { length: u.L, width: u.W, height: 0, weight: 0 };
       }
-      if (current.weight + u.g > MAX_PARCEL_WEIGHT_G) {
-        // close current and start new
-        if (current.weight > 0) parcels.push(current);
-        current = { length: u.L, width: u.W, height: u.H, weight: 0 };
+
+      const nextWeight = current.weight + u.g;
+      const nextHeight = current.height + u.h;
+
+      // If adding this unit exceeds limits, close current and start a new parcel
+      if (nextWeight > MAX_PARCEL_WEIGHT_G || nextHeight > MAX_SIDE_MM) {
+        if (current.weight > 0) {
+          // Clamp final mm geometry
+          current.length = Math.max(MIN_SIDE_MM, Math.round(current.length));
+          current.width  = Math.max(MIN_SIDE_MM, Math.round(current.width));
+          current.height = Math.max(MIN_HEIGHT_MM, Math.round(current.height));
+          parcels.push(current);
+        }
+        current = { length: u.L, width: u.W, height: 0, weight: 0 };
       }
+
       current.length = Math.max(current.length, u.L);
       current.width  = Math.max(current.width,  u.W);
-      current.height = Math.max(current.height, u.H);
-      current.weight += u.g;
+      current.height = current.height + u.h; // stack by thickness
+      current.weight = current.weight + u.g;
     }
-    if (current && current.weight > 0) parcels.push(current);
+    if (current && current.weight > 0) {
+      current.length = Math.max(MIN_SIDE_MM, Math.round(current.length));
+      current.width  = Math.max(MIN_SIDE_MM, Math.round(current.width));
+      current.height = Math.max(MIN_HEIGHT_MM, Math.round(current.height));
+      parcels.push(current);
+    }
 
-    // Fallback: if cart empty or packing failed, return a small minimal parcel
-    if (!parcels.length) {
-      return [{ length: MIN_SIDE_MM, width: MIN_SIDE_MM, height: MIN_SIDE_MM, weight: MIN_WEIGHT_G }];
+    // Convert mm -> cm for CDEK API, keep weight in grams
+    const cmParcels = parcels.map(p => ({
+      length: Math.max(1, Math.ceil(p.length / 10)),
+      width:  Math.max(1, Math.ceil(p.width  / 10)),
+      height: Math.max(1, Math.ceil(p.height / 10)),
+      weight: Math.max(MIN_WEIGHT_G, Math.round(p.weight)),
+    }));
+
+    // Debug output: what we send to CDEK
+    if (DEBUG_SDEK) {
+      try {
+        console.groupCollapsed('[SDEK] calcParcels summary');
+        console.table(debugItems);
+        dbg('Parcels mm:', parcels);
+        dbg('Parcels cm (final):', cmParcels);
+        console.groupEnd();
+      } catch (_) {}
     }
-    return parcels;
+
+    // Fallback: if cart empty or packing failed, return a minimal parcel 10x10x1 cm, 0.1 kg
+    if (!cmParcels.length) {
+      return [{ length: 10, width: 10, height: 1, weight: MIN_WEIGHT_G }];
+    }
+    return cmParcels;
   }
 
   const setVal = (id, val) => {

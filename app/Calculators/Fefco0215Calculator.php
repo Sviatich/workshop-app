@@ -31,6 +31,11 @@ class Fefco0215Calculator extends BaseCalculator
             'total_price'    => round($totalPrice, 2),
             'weight'         => round($weight, 3),
             'volume'         => round($volume, 3),
+            // Flat-pack parcel geometry for shipping
+            'parcel_length_mm'       => (int) ceil($Lsheet),
+            'parcel_width_mm'        => (int) ceil($Wsheet),
+            'parcel_unit_height_mm'  => $this->thickness * 1000, // 1.5 mm per unit
+            'parcel_total_height_mm' => $this->thickness * 1000 * $tirage,
         ];
     }
 }
