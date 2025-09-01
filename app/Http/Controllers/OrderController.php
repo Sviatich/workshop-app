@@ -13,6 +13,7 @@ use App\Calculators\Fefco0201Calculator;
 use App\Calculators\Fefco0215Calculator;
 use App\Helpers\SizeMatcher;
 use Illuminate\Support\Str;
+use App\Services\Bitrix24Service;
 use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
@@ -129,6 +130,14 @@ class OrderController extends Controller
             'total_price' => round($orderTotal + (float) $order->delivery_price, 2),
         ]);
 
+        // Send to Bitrix24 CRM (non-blocking: errors are logged)
+        try {
+            app(Bitrix24Service::class)->createDealFromOrder($order);
+        } catch (\Throwable $e) {
+            // Safety net: don't fail order flow because of CRM
+            \Log::warning('Bitrix24 integration error', ['message' => $e->getMessage()]);
+        }
+
         return response()->json(['uuid' => $order->uuid]);
     }
 
@@ -159,4 +168,3 @@ class OrderController extends Controller
         return view('order', compact('order'));
     }
 }
-
