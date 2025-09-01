@@ -109,26 +109,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // === Yandex Maps init (lon, lat) ===
-  const waitForYMaps = () => new Promise((resolve, reject) => {
-    if (window.ymaps3?.ready) return resolve();
-    let tries = 0;
-    const timer = setInterval(() => {
-      if (window.ymaps3?.ready) {
-        clearInterval(timer);
-        resolve();
-      } else if (++tries > 100) { // ~10 секунд
-        clearInterval(timer);
-        reject(new Error('ymaps3 not available'));
-      }
-    }, 100);
-  });
+  // === Yandex Maps init (auto-load API v3) ===
+  const yaKey = document.querySelector('meta[name="yandex-maps-api-key"]')?.content?.trim();
+  let yaLoading = null;
+
+  const loadYMaps = () => {
+    if (window.ymaps3?.ready) return Promise.resolve();
+    if (yaLoading) return yaLoading;
+    if (!yaKey) {
+      console.warn('YANDEX_MAPS_API_KEY отсутствует, карты не будут загружены');
+      return Promise.reject(new Error('YANDEX_MAPS_API_KEY missing'));
+    }
+    const s = document.createElement('script');
+    s.src = `https://api-maps.yandex.ru/v3/?apikey=${encodeURIComponent(yaKey)}&lang=ru_RU`;
+    s.async = true;
+    yaLoading = new Promise((resolve, reject) => {
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('Yandex Maps load error'));
+    });
+    document.head.appendChild(s);
+    return yaLoading;
+  };
 
   const createYMap = async (containerId, center, markers) => {
     const node = el(containerId);
     if (!node) return;
     try {
-      await waitForYMaps();
+      await loadYMaps();
       await window.ymaps3.ready;
       const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker } = window.ymaps3;
       const map = new YMap(node, { location: { center, zoom: 12 } });
@@ -165,4 +172,3 @@ document.addEventListener('DOMContentLoaded', () => {
   // Recalc on cart updates
   window.addEventListener('cart:updated', updateGrandTotal);
 });
-

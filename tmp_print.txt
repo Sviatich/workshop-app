@@ -50,9 +50,4 @@ return [
         'maps_key' => env('YANDEX_MAPS_API_KEY'),
     ],
 
-    // Dadata suggestions
-    'dadata' => [
-        'token' => env('DADATA_TOKEN'),
-    ],
-
 ];

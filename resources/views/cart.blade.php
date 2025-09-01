@@ -182,7 +182,7 @@
 </div>
 @endsection
 
-@vite(['resources/js/cart.js', 'resources/js/delivery.js'])
+@vite(['resources/js/cart.js', 'resources/js/delivery.js', 'resources/js/inn-suggest.js'])
 
 <div id="order_loader" class="fixed inset-0 bg-black/40 z-50 hidden">
     <div class="absolute inset-0 flex items-center justify-center">
