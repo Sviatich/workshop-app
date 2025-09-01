@@ -167,6 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
     cartItemsContainer.innerHTML = "";
 
     if (cart.length === 0) {
+      renderEmptyState();
+      const layout = document.querySelector('#order_form')?.closest('.grid');
+      if (layout) layout.classList.add('hidden');
       cartSummary.classList.add("hidden");
       emptyCart.classList.remove("hidden");
       return;
@@ -254,6 +257,8 @@ document.addEventListener("DOMContentLoaded", () => {
     cartWeightTotalElem.textContent = fmt(totalWeight, 3);
     cartVolumeTotalElem.textContent = fmt(totalVolume, 3);
 
+    const layout = document.querySelector('#order_form')?.closest('.grid');
+    if (layout) layout.classList.remove('hidden');
     cartSummary.classList.remove("hidden");
     emptyCart.classList.add("hidden");
 
@@ -400,6 +405,18 @@ document.addEventListener("DOMContentLoaded", () => {
   fullNameEl?.addEventListener('input', () => setFieldError(fullNameEl, isValidFullName(fullNameEl.value) ? '' : null));
   emailEl?.addEventListener('input', () => setFieldError(emailEl, isValidEmail(emailEl.value) ? '' : null));
   phoneEl?.addEventListener('input', () => setFieldError(phoneEl, isValidPhone(phoneEl.value) ? '' : null));
+  function renderEmptyState() {
+    if (!emptyCart) return;
+    emptyCart.innerHTML = `
+      <div class="text-center py-16">
+        <div class="mx-auto w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M7 4H5a1 1 0 0 0 0 2h1.22l1.6 8.02A3 3 0 0 0 10.77 17h5.46a3 3 0 0 0 2.95-2.38l1.1-5.5A1 1 0 0 0 19.3 8H7.87l-.35-2H19a1 1 0 1 0 0-2H7Zm3.77 11a1 1 0 0 1-.98-.8L9.3 10h9.25l-.88 4.4a1 1 0 0 1-.98.8h-5.46Z" fill="#4B5563"/></svg>
+        </div>
+        <p class="mt-4 text-lg text-gray-700">В корзине пусто</p>
+        <a href="/#configurator" class="add-to-cart-button btn-hover-effect mt-6 inline-block">Калькулятор упаковки</a>
+      </div>
+    `;
+  }
   innEl?.addEventListener('input', () => {
     if (getPayerType() !== 'company') { setFieldError(innEl, ''); return; }
     setFieldError(innEl, isValidINN(innEl.value) ? '' : null);
