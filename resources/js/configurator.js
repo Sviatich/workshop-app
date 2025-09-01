@@ -38,6 +38,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastCalcResult = null;
 
+    // Loading shimmer toggling for result fields
+    const resultFieldIds = ["price_per_unit", "total_price", "weight", "volume"];
+    function setResultLoading(isLoading) {
+        resultFieldIds.forEach((id) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (isLoading) {
+                const w = el.offsetWidth;
+                el.style.display = 'inline-block';
+                if (w) el.style.width = w + 'px';
+                el.style.minWidth = '3ch';
+                el.classList.add('shimmer');
+                el.setAttribute('aria-busy', 'true');
+            } else {
+                el.classList.remove('shimmer');
+                el.removeAttribute('aria-busy');
+                el.style.minWidth = '';
+                el.style.width = '';
+                el.style.display = '';
+            }
+        });
+    }
+
     async function recalc() {
         const data = {};
         let allFilled = true;
@@ -58,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        setResultLoading(true);
+
         // Если включен полноцветный макет — обнуляем цену, показываем подсказку, но НЕ прерываем
         if (data.has_fullprint) {
             const res = await fetch("/api/calculate", {
@@ -74,6 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 let msg = "";
                 try { const j = await res.json(); msg = j?.error || j?.message || ""; } catch (_) {}
                 showCalcError(msg);
+                setResultLoading(false);
+                setResultLoading(false);
                 return;
             }
 
@@ -84,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("total_price").textContent = "0";
             document.getElementById("weight").textContent = result.weight;
             document.getElementById("volume").textContent = result.volume;
+            setResultLoading(false);
 
             nearestContainer.innerHTML = `
                 <p class="configurator-warning">
@@ -125,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (result.error) {
                 clearResult();
                 showCalcError(result.error);
+                setResultLoading(false);
                 return;
             }
 
@@ -171,10 +200,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 nearestContainer.innerHTML = "";
             }
 
+            setResultLoading(false);
         } catch (err) {
             console.error("Ошибка расчёта:", err);
             clearResult();
             nearestContainer.innerHTML = "";
+            setResultLoading(false);
         }
     }
 

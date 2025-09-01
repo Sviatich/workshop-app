@@ -249,6 +249,27 @@ div#result {
     position: relative;
 }
 
+/* ======= Loading shimmer for calculated values ======= */
+.shimmer {
+    position: relative;
+    display: inline-block;
+    color: transparent !important;
+    background: linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
+    background-size: 400% 100%;
+    animation: loadingShimmer 1.2s ease-in-out infinite;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+@keyframes loadingShimmer {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
 .configurator-sticky {
     position: sticky;
     top: 20px;

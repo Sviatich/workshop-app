@@ -24,4 +24,30 @@ class CalculateRequest extends FormRequest
             'has_fullprint' => 'sometimes|boolean',
         ];
     }
+    public function attributes(): array
+    {
+        return [
+            'length' => 'длина',
+            'width' => 'ширина',
+            'height' => 'высота',
+            'tirage' => 'тираж',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'length.min' => 'Длина должна быть не меньше :min мм',
+            'length.integer' => 'Длина должна быть целым числом',
+
+            'width.min' => 'Ширина должна быть не меньше :min мм',
+            'width.integer' => 'Ширина должна быть целым числом',
+
+            'height.min' => 'Высота должна быть не меньше :min мм',
+            'height.integer' => 'Высота должна быть целым числом',
+
+            'tirage.min' => 'Тираж должен быть не меньше :min шт',
+            'tirage.integer' => 'Тираж должен быть целым числом',
+        ];
+    }
 }
