@@ -332,6 +332,29 @@ class service
         $time = $this->startMetrics();
         $result = $this->httpRequest('calculator/tarifflist', $this->requestData, false, true);
 
+        // Filter tariff list to allowed codes only (pickup from our door)
+        // 138 — Door -> PVZ, 139 — Door -> Door
+        try {
+            $allowed = [138, 139];
+            // Optional override via env: CDEK_ALLOWED_TARIFFS="138,139"
+            $env = getenv('CDEK_ALLOWED_TARIFFS');
+            if (is_string($env) && $env !== '') {
+                $allowed = array_values(array_filter(array_map(static function ($v) {
+                    return (int)trim($v);
+                }, explode(',', $env)), static function ($v) { return $v > 0; }));
+                if (empty($allowed)) { $allowed = [138, 139]; }
+            }
+            $body = json_decode($result['result'] ?? '', true);
+            if (is_array($body) && isset($body['tariff_codes']) && is_array($body['tariff_codes'])) {
+                $body['tariff_codes'] = array_values(array_filter($body['tariff_codes'], static function ($t) use ($allowed) {
+                    return isset($t['tariff_code']) && in_array((int)$t['tariff_code'], $allowed, true);
+                }));
+                $result['result'] = json_encode($body, JSON_UNESCAPED_UNICODE);
+            }
+        } catch (\Throwable $e) {
+            // If filtering fails for any reason, return original API response
+        }
+
         $this->endMetrics('calc', 'Calculate Request', $time);
         return $result;
     }
