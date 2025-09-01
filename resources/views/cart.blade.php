@@ -95,7 +95,7 @@
                                     {{-- Контент --}}
                                     <div class="flex-1 space-y-2">
                                         <div class="flex items-center gap-2">
-                                            <span class="font-medium">СДЭК</span>
+                                            <span class="font-medium">СДЭК ПВЗ</span>
                                         </div>
                                         <p class="text-sm text-gray-600">
                                             Расчёт по адресу или пункту выдачи.

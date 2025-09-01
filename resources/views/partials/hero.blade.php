@@ -16,7 +16,7 @@
             <p>Выберите параметры, загрузите дизайн или логотип — мы изготовим и доставим готовую коробку в срок.</p>
         </div>
         <div class="flex gap-4">
-            <a href="#configurator" class="main-hero-button btn-hover-effect">Конфигуратор упаковки</a>
+            <a href="#configurator" class="main-hero-button btn-hover-effect">Калькулятор упаковки</a>
             <a target="_blank" title="Telegram" class="btn-hover-effect hero__social-link footer__social-link footer__social-link-tg"
                 href="https://t.me/mister_packers_bot" aria-label="Telegram">
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24">

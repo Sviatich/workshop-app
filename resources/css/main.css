@@ -728,7 +728,7 @@ input#length:focus {
 .footer__heading {
     font-size: 16px;
     font-weight: 700;
-    margin: 0 0 36px;
+    margin: 0 0 30px;
 }
 
 .footer__muted {
@@ -1539,7 +1539,7 @@ input#length:focus {
 #delivery_row,
 .cart-summary-row {
     font-size: 14px;
-    color: #999;
+    color: #333;
     font-weight: 400;
     margin-bottom: 3px;
 }

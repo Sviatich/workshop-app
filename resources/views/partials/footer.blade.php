@@ -67,8 +67,8 @@
       <section class="footer__col" aria-labelledby="footer-col-company">
         <h3 id="footer-col-company" class="footer__heading">Компания</h3>
         <ul class="footer__list">
-          <li><a href="/about">О нас</a></li>
           <li><a href="/production">Производство</a></li>
+          <li><a href="/about">О нас</a></li>
           <li><a href="/blog">Блог</a></li>
         </ul>
       </section>

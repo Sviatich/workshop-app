@@ -66,13 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
       setAddressText('ПЭК: укажите адрес или ПВЗ перевозчика (при необходимости)');
       setAddressRequired(false);
     } else if (code === 'cdek') {
-      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, true);
+      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, false);
       // единый код для СДЭК независимо от режима (ПВЗ/курьер)
       setDeliveryCode('cdek');
       setAddressText('');
       setAddressRequired(true);
     } else if (code === 'cdek_courier') {
-      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, true);
+      show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, false);
       setDeliveryPrice(0);
       setDeliveryCode('cdek_courier');
       setAddressText('');
@@ -150,3 +150,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // пересчёт итога при обновлениях корзины
   window.addEventListener('cart:updated', updateGrandTotal);
 });
+

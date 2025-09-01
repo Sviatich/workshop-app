@@ -4,7 +4,7 @@
     @include('partials.hero')
     @include('partials.threecardsrow')
     <section class="main-block" id="configurator">
-        <h2>Конфигуратор упаковки</h2>
+        <h2>Калькулятор упаковки</h2>
         <div class="flex">
             <form id="configForm" class="space-y-4 configurator-left">
                 @csrf
