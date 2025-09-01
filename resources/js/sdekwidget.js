@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const FROM_CITY = 'Черноголовка';
   // Use numeric CDEK city code for sender to avoid encoding issues
   // 17 corresponds to Pushkino, Moscow region
-  const FROM_CODE = 17;
+  const FROM_CODE = 171;
   // Default destination city for the widget UI (Moskva)
   const DEFAULT_LOCATION = 'Москва';
   // Reasonable bounds for CDEK calculator
