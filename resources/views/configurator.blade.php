@@ -159,7 +159,7 @@
 
             <div id="result" class="configurator-right">
                 <div class="configurator-sticky">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left configurator-sticky-table">
                         <tbody>
                             <tr>
                                 <th class="pr-4 font-semibold">Цена за 1 шт:</th>
@@ -194,6 +194,7 @@
     @include('partials.ineeddesign')
     @include('partials.maingalery')
     @include('partials.productioninfo')
+    {{-- @include('partials.feed-gallery') --}}
     @include('partials.deliverymap')
     @include('partials.review')
     @include('partials.faq')

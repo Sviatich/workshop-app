@@ -401,9 +401,16 @@ document.addEventListener("DOMContentLoaded", () => {
         } : { enabled: false };
 
         const constructionSelect = document.getElementById("construction");
-        config.construction_name = constructionSelect.options[constructionSelect.selectedIndex].text;
+        const selectedConstruction = constructionSelect.options[constructionSelect.selectedIndex];
+        config.construction_name = selectedConstruction.text;
+        // Persist the same image used in configurator cards
+        config.construction_img = selectedConstruction.getAttribute('data-img') || '';
+
         const colorSelect = document.getElementById("color");
-        config.color_name = colorSelect.options[colorSelect.selectedIndex].text;
+        const selectedColor = colorSelect.options[colorSelect.selectedIndex];
+        config.color_name = selectedColor.text;
+        // Persist color swatch image
+        config.color_img = selectedColor.getAttribute('data-img') || '';
 
         config.price_per_unit = config.fullprint.enabled ? 0 : Number(document.getElementById("price_per_unit").textContent);
         config.total_price = config.fullprint.enabled ? 0 : Number(document.getElementById("total_price").textContent);

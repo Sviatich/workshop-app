@@ -199,16 +199,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "p-4 border rounded bg-white relative";
 
-      let html = `
+      // Optional product image (from configurator selection)
+      const topImageSrc = item.construction_img || item.color_img || '';
+      let __cartImagePrefix = '';
+      if (topImageSrc) {
+        __cartImagePrefix = `<img src="${topImageSrc}" alt="${item.construction_name || item.construction}" class="w-24 h-24 object-cover rounded border bg-gray-50 mb-2">`;
+      }
+
+      let html = `<div>
         <p class="font-semibold mb-1">
           ${item.construction_name || item.construction} — ${item.length} × ${item.width} × ${item.height} мм
         </p>
-        <p>Цвет: ${item.color_name || item.color}</p>
-        <p>Тираж: ${item.tirage}</p>
-
         <div class="grid gap-2 md:grid-cols-3 mt-2">
-          <p>Цена за штуку: ${fmt(item.price_per_unit)} ₽</p>
-          <p>Итого: ${fmt(itemTotal)} ₽</p>
+          <p><span>Цвет: </span>${item.color_name || item.color}</p>
+          <p><span>Тираж: </span>${item.tirage}</p>
+        </div>
+        <div class="grid gap-2 md:grid-cols-3 mt-2">
+          <p><span>Цена за штуку: </span>${fmt(item.price_per_unit)} ₽</p>
+          <p><span>Итого: </span>${fmt(itemTotal)} ₽</p>
           <p></p>
         </div>
 
@@ -221,8 +229,13 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Вес позиции:</strong> ${fmt(itemWeight, 3)} кг</p>
           <p><strong>Объём позиции:</strong> ${fmt(itemVolume, 3)} м³</p>
           <p></p>
-        </div>
+        </div></div>
       `;
+
+      // Prepend image if available
+      if (__cartImagePrefix) {
+        html = __cartImagePrefix + html;
+      }
 
       // Логотип
       if (item.logo?.enabled) {
@@ -258,6 +271,20 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
 
       div.innerHTML = html;
+
+      // If color swatch image is available, inject before "Цвет:"
+      if (item.color_img) {
+        try {
+          const colorLine = Array.from(div.querySelectorAll('p')).find(p => /^\s*Цвет:/i.test(p.textContent || ''));
+          if (colorLine) {
+            const swatch = document.createElement('img');
+            swatch.src = item.color_img;
+            swatch.alt = '';
+            swatch.className = 'inline-block w-5 h-5 object-cover rounded border align-text-bottom mr-1';
+            colorLine.insertBefore(swatch, colorLine.firstChild);
+          }
+        } catch (_) {}
+      }
       cartItemsContainer.appendChild(div);
     });
 
