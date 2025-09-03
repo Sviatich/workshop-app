@@ -40,64 +40,6 @@ class Bitrix24Service
         return $this->enabled && !empty($this->webhookBase);
     }
 
-    public function createDealFromOrder(Order $order): void
-    {
-        if (!$this->isEnabled()) {
-            return;
-        }
-
-        try {
-            $order->loadMissing(['items.files', 'deliveryMethod']);
-
-            $contactId = null;
-            if ($this->createContact) {
-                $contactId = $this->ensureContact($order);
-            }
-
-            $title = sprintf('Заказ %s (%s)', $order->uuid, $order->full_name);
-            $comments = $this->buildComments($order);
-
-            $fields = [
-                'TITLE' => $title,
-                'OPENED' => 'Y',
-                'OPPORTUNITY' => (float) $order->total_price,
-                'CURRENCY_ID' => $this->currency,
-                'COMMENTS' => $comments,
-            ];
-
-            if ($this->categoryId > 0) {
-                $fields['CATEGORY_ID'] = $this->categoryId;
-                // Prefer explicit stage id if provided; else target NEW in the category
-                $fields['STAGE_ID'] = $this->stageId ?: ('C' . $this->categoryId . ':NEW');
-            } elseif (!empty($this->stageId)) {
-                $fields['STAGE_ID'] = $this->stageId;
-            }
-
-            if ($this->assignedById > 0) {
-                $fields['ASSIGNED_BY_ID'] = $this->assignedById;
-            }
-
-            if ($contactId) {
-                $fields['CONTACT_ID'] = $contactId;
-            }
-
-            $response = $this->b24('crm.deal.add.json', [
-                'fields' => $fields,
-            ]);
-
-            if (!isset($response['result'])) {
-                $err = $response['error_description'] ?? json_encode($response, JSON_UNESCAPED_UNICODE);
-                Log::warning('Bitrix24: deal add failed', ['err' => $err]);
-            } else {
-                Log::info('Bitrix24: deal added', ['deal_id' => $response['result']]);
-            }
-        } catch (\Throwable $e) {
-            Log::error('Bitrix24: exception during deal creation', [
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
     // Improved variant with enriched title, link, product rows and file links
     public function createDealFromOrderV2(Order $order): void
     {
@@ -132,6 +74,12 @@ class Bitrix24Service
                 'CURRENCY_ID' => $this->currency,
                 'COMMENTS' => $comments,
             ];
+
+            // Attach order UUID to a custom user field in Bitrix24, if configured
+            $orderUuidField = (string) config('bitrix24.order_uuid_field', '');
+            if ($orderUuidField !== '') {
+                $fields[$orderUuidField] = (string) $order->uuid;
+            }
 
             if ($this->categoryId > 0) {
                 $fields['CATEGORY_ID'] = $this->categoryId;
@@ -423,58 +371,6 @@ class Bitrix24Service
             ]);
             return null;
         }
-    }
-
-    private function buildComments(Order $order): string
-    {
-        $lines = [];
-        $lines[] = 'Детали заказа:';
-        $lines[] = sprintf('Сумма: %0.2f %s', (float) $order->total_price, $this->currency);
-        $lines[] = sprintf('Плательщик: %s (%s)', $order->full_name, $order->payer_type);
-        if ($order->inn) {
-            $lines[] = 'ИНН: ' . $order->inn;
-        }
-        if ($order->delivery_address) {
-            $lines[] = 'Доставка: ' . $order->delivery_address;
-        }
-        if ($order->delivery_price !== null) {
-            $lines[] = sprintf('Стоимость доставки: %0.2f', (float) $order->delivery_price);
-        }
-
-        $lines[] = '';
-        $lines[] = 'Позиции:';
-        foreach ($order->items as $idx => $item) {
-            $cfg = $item->config_json;
-            // Ensure array
-            if (is_string($cfg)) {
-                $cfg = json_decode($cfg, true) ?: [];
-            }
-            $construction = Arr::get($cfg, 'construction_name', Arr::get($cfg, 'construction', ''));
-            $color = Arr::get($cfg, 'color_name', Arr::get($cfg, 'color', ''));
-            $length = Arr::get($cfg, 'length');
-            $width = Arr::get($cfg, 'width');
-            $height = Arr::get($cfg, 'height');
-            $tirage = Arr::get($cfg, 'tirage');
-            $logo = Arr::get($cfg, 'logo.enabled') ? 'да' : 'нет';
-            $full = Arr::get($cfg, 'fullprint.enabled') ? 'да' : 'нет';
-
-            $lines[] = sprintf(
-                '%d) %s, цвет: %s, %sx%sx%s, тираж: %s, логотип: %s, полноцвет: %s, цена за шт: %0.2f, сумма: %0.2f',
-                $idx + 1,
-                (string) $construction,
-                (string) $color,
-                (string) $length,
-                (string) $width,
-                (string) ($height ?? '-'),
-                (string) $tirage,
-                $logo,
-                $full,
-                (float) $item->price_per_unit,
-                (float) $item->total_price,
-            );
-        }
-
-        return implode("\n", $lines);
     }
 
     private function b24(string $method, array $payload): array

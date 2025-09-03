@@ -29,4 +29,12 @@ return [
     // Max total size (in MB) for attempting inline file attachments via REST activities
     // Note: actual file attachments via REST are best-effort and may fall back to links
     'max_attachment_mb' => (int) env('BITRIX24_MAX_ATTACHMENT_MB', 5),
+
+    // Incoming webhook secret to protect reverse status updates from Bitrix robots
+    // Pass it as a query/body param: ?token=YOUR_SECRET (headers are not required)
+    'incoming_secret' => env('BITRIX24_INCOMING_SECRET', ''),
+
+    // Bitrix24 user field code used to store the order UUID inside a Deal (e.g. UF_CRM_1756930939)
+    // This lets a robot include {{UF_CRM_1756930939}} in the webhook URL/params
+    'order_uuid_field' => env('BITRIX24_ORDER_UUID_FIELD', ''),
 ];
