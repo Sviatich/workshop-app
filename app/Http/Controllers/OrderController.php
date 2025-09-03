@@ -15,6 +15,8 @@ use App\Helpers\SizeMatcher;
 use Illuminate\Support\Str;
 use App\Services\Bitrix24Service;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderNotification;
 
 class OrderController extends Controller
 {
@@ -137,6 +139,18 @@ class OrderController extends Controller
         } catch (\Throwable $e) {
             // Safety net: don't fail order flow because of CRM
             \Log::warning('Bitrix24 integration error', ['message' => $e->getMessage()]);
+        }
+
+        // Email notifications: customer + internal copy
+        try {
+            $subject = 'Новый заказ ' . (string) $order->uuid . ' принят';
+            $heading = 'Ваш заказ принят в обработку';
+            $text = 'Спасибо за заказ! Мы свяжемся с вами при необходимости.';
+            Mail::to((string) $order->email)
+                ->bcc('info@mp.market')
+                ->send(new OrderNotification($order, $subject, $heading, $text));
+        } catch (\Throwable $e) {
+            \Log::warning('Order email sending failed', ['order_id' => $order->id, 'message' => $e->getMessage()]);
         }
 
         return response()->json(['uuid' => $order->uuid]);

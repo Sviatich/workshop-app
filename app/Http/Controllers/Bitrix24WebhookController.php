@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderNotification;
 
 class Bitrix24WebhookController extends Controller
 {
@@ -111,6 +113,19 @@ class Bitrix24WebhookController extends Controller
 
         $order->public_status = mb_substr($statusText, 0, 255);
         $order->save();
+
+        // Email only the client about status change
+        try {
+            if (!empty($order->email)) {
+                $subject = 'Статус заказа ' . (string) $order->uuid . ' обновлён';
+                $heading = 'Статус вашего заказа обновлён';
+                $text = 'Текущий статус: ' . (string) $order->public_status;
+                Mail::to((string) $order->email)
+                    ->send(new OrderNotification($order, $subject, $heading, $text));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Order status email failed', ['order_id' => $order->id, 'message' => $e->getMessage()]);
+        }
 
         return response()->json(['message' => 'ok']);
     }
