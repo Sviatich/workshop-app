@@ -63,6 +63,10 @@ h2,
     font-size: 14px;
 }
 
+.order-button {
+    background-color: #333;
+}
+
 .hero-content {
     font-size: 14px;
     margin-bottom: 50px;
