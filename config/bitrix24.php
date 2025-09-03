@@ -19,5 +19,14 @@ return [
 
     // Try to create a Contact and link it to the deal
     'create_contact' => env('BITRIX24_CREATE_CONTACT', true),
-];
 
+    // Try to attach product rows to the deal based on order items
+    'add_product_rows' => env('BITRIX24_ADD_PRODUCT_ROWS', true),
+
+    // Include direct links to uploaded files in a timeline comment
+    'include_file_links' => env('BITRIX24_INCLUDE_FILE_LINKS', true),
+
+    // Max total size (in MB) for attempting inline file attachments via REST activities
+    // Note: actual file attachments via REST are best-effort and may fall back to links
+    'max_attachment_mb' => (int) env('BITRIX24_MAX_ATTACHMENT_MB', 5),
+];

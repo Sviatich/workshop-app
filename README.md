@@ -1,5 +1,18 @@
 ## Конфигуратор гофрокоробов на Laravel + Livewire
+ 
+## Bitrix24 CRM интеграция
 
+- Включение: установите `BITRIX24_ENABLED=true` и `BITRIX24_WEBHOOK_URL=https://<portal>.bitrix24.ru/rest/<user>/<token>/`.
+- Дополнительно (опционально):
+  - `BITRIX24_CATEGORY_ID` и `BITRIX24_STAGE_ID` — воронка/стадия сделки.
+  - `BITRIX24_ASSIGNED_BY_ID` — ответственный.
+  - `BITRIX24_CURRENCY_ID` — валюта (по умолчанию RUB).
+  - `BITRIX24_ADD_PRODUCT_ROWS=true` — позиции заказа как товарные строки.
+  - `BITRIX24_INCLUDE_FILE_LINKS=true` — добавить в таймлайн комментарий со ссылками на файлы.
+
+Формирование сделки (новая логика):
+- Заголовок: `#<id> | Заказ <ФИО/Компания> | на <N> коробов` (N = сумма тиражей).
+- В комментарии сделки добавляется ссылка на страницу заказа, реквизиты плательщика, способ и адрес доставки, стоимость доставки и подробные позиции заказа.
 Проект — MVP конфигуратора и калькулятора заказов на гофроупаковку. Пользователь подбирает конструкцию FEFCO, размеры, цвет картона, дополнительные опции печати и получает расчет. Заказ оформляется с контактами и доставкой, данные сохраняются в БД и (опционально) отправляются в CRM Bitrix24.
 
 —
@@ -130,4 +143,3 @@
 - Сервисы: `app/Services/SdekClient.php`, `app/Services/Bitrix24Service.php`.
 - Представления: `resources/views/configurator.blade.php`, `resources/views/cart.blade.php`.
 - Клиентский код: `resources/js/configurator.js`, `resources/js/cdek.js`, `resources/js/delivery.js`.
-

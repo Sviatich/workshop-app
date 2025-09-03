@@ -27,6 +27,7 @@ class OrderController extends Controller
             'uuid' => Str::uuid(),
             'payer_type' => $request->payer_type,
             'full_name' => $request->full_name,
+            'company_name' => $request->payer_type === 'company' ? ($request->company_name ?? null) : null,
             'email' => $request->email,
             'phone' => $request->phone,
             'inn' => $request->payer_type === 'company' ? $request->inn : null,
@@ -132,7 +133,7 @@ class OrderController extends Controller
 
         // Send to Bitrix24 CRM (non-blocking: errors are logged)
         try {
-            app(Bitrix24Service::class)->createDealFromOrder($order);
+            app(Bitrix24Service::class)->createDealFromOrderV2($order);
         } catch (\Throwable $e) {
             // Safety net: don't fail order flow because of CRM
             \Log::warning('Bitrix24 integration error', ['message' => $e->getMessage()]);

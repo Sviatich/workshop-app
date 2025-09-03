@@ -36,6 +36,7 @@ class OrderRequest extends FormRequest
         return [
             'payer_type' => ['required', Rule::in(['individual', 'company'])],
             'full_name' => 'required|string|max:255',
+            'company_name' => 'nullable|string|max:255|required_if:payer_type,company',
             'email' => 'required|email',
             'phone' => 'required|string',
             'inn' => 'nullable|string|required_if:payer_type,company',
