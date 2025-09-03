@@ -23,6 +23,7 @@
 
                 {{-- ФОРМА: доставка + данные плательщика --}}
                 <form id="order_form" class="space-y-6" novalidate>
+                    @honeypot
                     {{-- СПОСОБ ДОСТАВКИ --}}
                     <section aria-labelledby="delivery-title" class="space-y-6 main-block">
                         <h2 id="delivery-title" class="text-xl font-semibold">Способ доставки</h2>

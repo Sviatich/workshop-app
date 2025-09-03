@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\SdekController;
 use App\Http\Controllers\Bitrix24WebhookController;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,7 +17,8 @@ Route::post('/upload', [FileUploadController::class, 'upload']);
 
 Route::post('/calculate', [ConfiguratorController::class, 'calculate']);
 
-Route::post('/order', [OrderController::class, 'store']);
+Route::post('/order', [OrderController::class, 'store'])
+    ->middleware(ProtectAgainstSpam::class);
 
 // CDEK (СДЭК) API endpoints for PVZ search and price calculation
 Route::get('/sdek/cities', [SdekController::class, 'cities']);

@@ -410,6 +410,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      // Include honeypot fields rendered by @honeypot
+      try {
+        const hpNameInput = document.querySelector('input[name="hp_name"]');
+        const hpTimeInput = document.querySelector('input[name="hp_time"]');
+        if (hpNameInput) formData.append('hp_name', hpNameInput.value || '');
+        if (hpTimeInput) formData.append('hp_time', hpTimeInput.value || '');
+      } catch (_) { /* no-op */ }
+
       try {
         const res = await fetch("/api/order", {
           method: "POST",
