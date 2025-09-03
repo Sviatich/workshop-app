@@ -2,6 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const fields = ["construction", "length", "width", "height", "color", "tirage"];
     let debounceTimer;
 
+    // Visually hide weight and volume in results (still calculated)
+    try {
+        // document.getElementById('weight')?.closest('tr')?.classList.add('hidden');
+        document.getElementById('volume')?.closest('tr')?.classList.add('hidden');
+    } catch (_) {}
+
     const nearestContainer = document.createElement("div");
     nearestContainer.id = "nearest_sizes";
     nearestContainer.className = "bg-white";
@@ -22,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function showCalcError(message) {
         const text = message || "Не удалось выполнить расчёт. Пожалуйста, измените размеры и попробуйте снова.";
         nearestContainer.innerHTML = `
-            <p class="configurator-warning">${text}</p>
+            <p class="configurator-warning mb-3">${text}</p>
         `;
         try { toast.warning(text, { timeout: 6000 }); } catch (_) {}
     }
@@ -114,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setResultLoading(false);
 
             nearestContainer.innerHTML = `
-                <p class="configurator-warning">
+                <p class="configurator-warning mb-3">
                     ⓘ Расчёт стоимости с полноцветной печатью будет выполнен менеджером после завершения оформления заказа.
                 </p>`;
 
@@ -163,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("volume").textContent = result.volume;
 
             if (!result.exact_match) {
-                let html = `<p class="configurator-warning">
+                let html = `<p class="configurator-warning mb-3">
                     ⓘ Выбран нестандартный размер. В стоимость включена услуга изготовления штампа. Выберите размер из наличия чтоб не переплачивать.
                 </p>`;
 

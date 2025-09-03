@@ -170,7 +170,7 @@
                                 <td class="text-right"><span id="total_price">—</span> ₽</td>
                             </tr>
                             <tr class="result-main-other">
-                                <th class="pr-4 font-normal">Вес:</th>
+                                <th class="pr-4 font-normal">Общий вес:</th>
                                 <td class="text-right"><span id="weight">—</span> кг</td>
                             </tr>
                             <tr class="result-main-other">

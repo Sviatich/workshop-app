@@ -4,3 +4,4 @@ import './yandexmap.js';
 import './megamenu.js';
 import './notifier.js';
 import './cdek.js';
+import './cookie.js';

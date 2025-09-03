@@ -1,25 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="main-block">
-        <div class="flex justify-center mb-6 mt-6">
-            <svg width="70px" fill="#01a12f" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0ZM11.52,17L6,12.79l1.83-2.37L11.14,13l4.51-5.08,2.24,2Z"></path></g></svg>
-        </div>
-        <h1 class="text-2xl font-bold mb-4 text-center">Ваш заказ в работе</h1>
-        
-        {{-- <p><strong>Статус:</strong> {{ $order->status }}</p> --}}
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-bold mb-4">Заказ №{{ $order->id }}</h1>
 
-        <div>
-            <p class="text-center text-lg p-2 mb-4">Менеджер свяжется с вами в ближайшее время для уточнения деталей заказа. Вы сможете оплатить заказ после подтверждения всех деталей.</p>
-        </div>
-        <p class="configurator-warning mb-6">
-            Страница с информацией заказа будет доступна 30 дней.
+        <p><strong>Статус:</strong> {{ $order->status }}</p>
+        <p><strong>Тип плательщика:</strong>
+            {{ $order->payer_type === 'individual' ? 'Физическое лицо' : 'Юридическое лицо / ИП' }}
         </p>
-        <div class="rounded border p-4 mb-6">
-            <div class="flex justify-between mb-2 border-b"><p>Дата заказа: </p><p class="text-right">{{ $order->created_at->format('d.m.Y') }}</p></div>
-            <div class="flex justify-between mb-2 border-b"><p>Общая сумма заказа: </p><p class="text-right">{{ number_format($order->total_price, 2, '.', ' ') }} ₽ </p></div>
-            <div class="flex justify-between"><p>Идентификатор: </p><p class="text-right">{{ $order->uuid }}</p></div>
-        </div>
+        <p><strong>ИНН:</strong> {{ $order->inn }}</p>
+        <p><strong>ФИО:</strong> {{ $order->full_name }}</p>
+        <p><strong>Email:</strong> {{ $order->email }}</p>
+        <p><strong>Телефон:</strong> {{ $order->phone }}</p>
+        <p><strong>Адрес доставки:</strong> {{ $order->delivery_address }}</p>
+
+        <h2 class="text-xl font-bold mt-4 mb-2">Товары:</h2>
+
         <ul class="space-y-4">
             @foreach($order->items as $item)
                 <li class="border p-4 rounded bg-white">

@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     if (!window.__alertPatched) {
       window.__alertPatched = true;
-      window.alert = (msg) => { try { window.toast?.error(String(msg)); } catch (_) {} };
+      window.alert = (msg) => { try { window.toast?.error(String(msg)); } catch (_) { } };
     }
-  } catch (_) {}
+  } catch (_) { }
 
   // Может существовать старый <select id="payer_type"> или новые <input type="radio" name="payer_type">
   const payerTypeSelect = document.getElementById("payer_type"); // может быть null
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setPaymentInfo(t);
     if (t !== 'company') {
       const innEl = document.getElementById('inn');
-      if (innEl) try { setFieldError(innEl, ''); } catch (_) {}
+      if (innEl) try { setFieldError(innEl, ''); } catch (_) { }
     }
   }
 
@@ -203,32 +203,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const topImageSrc = item.construction_img || item.color_img || '';
       let __cartImagePrefix = '';
       if (topImageSrc) {
-        __cartImagePrefix = `<img src="${topImageSrc}" alt="${item.construction_name || item.construction}" class="w-24 h-24 object-cover rounded border bg-gray-50 mb-2">`;
+        __cartImagePrefix = `<div class="flex gap-4 items-center"><img width="70px" src="${topImageSrc}" alt="${item.construction_name || item.construction}" class="object-cover rounded border bg-gray-50 mb-2">`;
       }
 
-      let html = `<div>
+      let html = `
         <p class="font-semibold mb-1">
-          ${item.construction_name || item.construction} — ${item.length} × ${item.width} × ${item.height} мм
+          ${item.construction_name || item.construction} <br><span class="cart-item-badge gray-999 font-normal"> ${item.length} × ${item.width} × ${item.height} мм</span>
         </p>
-        <div class="grid gap-2 md:grid-cols-3 mt-2">
-          <p><span>Цвет: </span>${item.color_name || item.color}</p>
-          <p><span>Тираж: </span>${item.tirage}</p>
         </div>
-        <div class="grid gap-2 md:grid-cols-3 mt-2">
-          <p><span>Цена за штуку: </span>${fmt(item.price_per_unit)} ₽</p>
-          <p><span>Итого: </span>${fmt(itemTotal)} ₽</p>
-          <p></p>
+        <div class="grid gap-2 md:grid-cols-2 mt-2">
+          <p class="cart-item-badge"><span class="gray-999">Цвет: </span>${item.color_name || item.color}</p>
+          <p class="cart-item-badge"><span class="gray-999">Тираж: </span>${item.tirage}</p>
+        </div>
+        <div class="grid gap-2 md:grid-cols-2 mt-2">
+          <p class="cart-item-badge"><span class="gray-999">Цена за штуку: </span>${fmt(item.price_per_unit)} ₽</p>
+          <p class="cart-item-badge"><span class="gray-999">Итого: </span>${fmt(itemTotal)} ₽</p>
         </div>
 
         ${item.fullprint?.enabled && itemTotal === 0 ? `
-          <p class="text-orange-600 font-semibold mt-1">
+          <p class="configurator-warning mt-3">
             Цена будет рассчитана менеджером индивидуально после оформления заказа.
           </p>` : ""}
 
-        <div class="grid gap-2 md:grid-cols-3 mt-2">
+        <div class="grid gap-2 md:grid-cols-2 mt-2">
           <p><strong>Вес позиции:</strong> ${fmt(itemWeight, 3)} кг</p>
           <p><strong>Объём позиции:</strong> ${fmt(itemVolume, 3)} м³</p>
-          <p></p>
         </div></div>
       `;
 
@@ -240,51 +239,48 @@ document.addEventListener("DOMContentLoaded", () => {
       // Логотип
       if (item.logo?.enabled) {
         html += `
-          <p class="mt-2"><strong>Логотип:</strong> да${item.logo.size ? ` (размер: ${item.logo.size})` : ''}</p>
+          <div class="cart-item-badge"><p class="mt-2"><strong>Логотип:</strong> да${item.logo.size ? ` (размер: ${item.logo.size})` : ''}</p>
         `;
         if (item.logo.filename) {
-          html += `<p class="text-sm text-gray-600">Файл: ${item.logo.filename}</p>`;
+          html += `<p class="text-sm gray-999">Файл: ${item.logo.filename}</p>`;
         }
         if (item.logo.file_path && item.logo.file_path.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
-          html += `<img src="${item.logo.file_path}" alt="Логотип" class="mt-2 max-w-[200px] rounded border">`;
+          html += `<img src="${item.logo.file_path}"  alt="${item.logo.filename || 'Загруженный логотип'}" class="mt-2 max-w-[200px] rounded border cursor-pointer" data-modal-open data-modal-type="photo" data-title="${item.logo.filename || 'Загруженный логотип'}" data-img-src="${item.logo.file_path}" data-img-alt="${item.logo.filename || 'Загруженный логотип'}" class="mt-2 max-w-[200px] rounded border"></div>`;
         }
       }
 
       // Полноформатная печать
       if (item.fullprint?.enabled) {
-        html += `<p class="mt-2"><strong>Полноформатная печать:</strong> да</p>`;
+        html += `<p class="mt-2 cart-item-badge"><strong>Полноформатная печать:</strong> да</p>`;
         if (item.fullprint.description) {
-          html += `<p class="text-sm text-gray-600">Комментарий: ${item.fullprint.description}</p>`;
+          html += `<p class="text-sm"><span class="gray-999">Комментарий: </span>${item.fullprint.description}</p>`;
         }
         if (item.fullprint.filename) {
-          html += `<p class="text-sm text-gray-600">Файл: ${item.fullprint.filename}</p>`;
+          html += `<p class="text-sm"><span class="gray-999">Файл: </span>${item.fullprint.filename}</p>`;
         }
         if (item.fullprint.file_path && item.fullprint.file_path.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
-          html += `<img src="${item.fullprint.file_path}" alt="Макет печати" class="mt-2 max-w-[200px] rounded border">`;
+          html += `<img src="${item.fullprint.file_path}" alt="Макет печати" class="mt-2 max-w-[200px] rounded border cursor-pointer" data-modal-open data-modal-type="photo" data-title="Макет печати" data-img-src="${item.fullprint.file_path}" data-img-alt="Макет печати"/>`;
         }
       }
 
       html += `
-        <button class="cursor-pointer remove_item btn-hover-effect" data-index="${index}">
+        <button class="cursor-pointer remove_item btn-hover-effect-dark" data-index="${index}">
           <svg width="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" fill="#333"></path></g></svg>
         </button>
       `;
 
       div.innerHTML = html;
 
-      // If color swatch image is available, inject before "Цвет:"
-      if (item.color_img) {
-        try {
-          const colorLine = Array.from(div.querySelectorAll('p')).find(p => /^\s*Цвет:/i.test(p.textContent || ''));
-          if (colorLine) {
-            const swatch = document.createElement('img');
-            swatch.src = item.color_img;
-            swatch.alt = '';
-            swatch.className = 'inline-block w-5 h-5 object-cover rounded border align-text-bottom mr-1';
-            colorLine.insertBefore(swatch, colorLine.firstChild);
-          }
-        } catch (_) {}
-      }
+      // Hide per-item weight and volume block (keep totals only)
+      try {
+        const grids = div.querySelectorAll('div.grid.gap-2.mt-2');
+        if (grids && grids.length >= 2) {
+          const lastGrid = grids[grids.length - 1];
+          // Remove the block that displays item weight and volume
+          lastGrid.parentNode?.removeChild(lastGrid);
+        }
+      } catch (_) { }
+
       cartItemsContainer.appendChild(div);
     });
 
@@ -305,13 +301,13 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("cart", JSON.stringify(cart));
         renderCart();
         if (window.CartUI?.update) {
-          try { window.CartUI.update(); } catch (_) {}
+          try { window.CartUI.update(); } catch (_) { }
         }
       });
     });
 
     // Сигнал обновления корзины для модулей доставки
-    try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (_) {}
+    try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (_) { }
   }
 
   renderCart();
@@ -341,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Показываем уведомление вместо alert, если корзина пуста
       if (cart.length === 0) {
-        try { window.toast?.error('В корзине пусто'); } catch (_) {}
+        try { window.toast?.error('В корзине пусто'); } catch (_) { }
         return;
       }
 
@@ -425,7 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Показываем уведомления и не даём выполниться устаревшим alert'ам ниже
         if (res.ok) {
-          try { localStorage.removeItem("cart"); } catch (_) {}
+          try { localStorage.removeItem("cart"); } catch (_) { }
           window.location.href = `/order/${result.uuid}`;
           return;
         }

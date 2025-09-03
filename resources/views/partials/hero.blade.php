@@ -2,11 +2,11 @@
     <div class="hero-col">
         <div class="flex gap-4 mb-4">
             <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank"
-                class="flex gap-3 main-hero-rating"><img width="17px" src="{{ Vite::asset('./resources/images/yandex.svg') }}"
+                class="flex gap-3 main-hero-rating btn-hover-effect-dark"><img width="17px" src="{{ Vite::asset('./resources/images/yandex.svg') }}"
                     alt="Yandex"> 5,0</a>
-            <a href="https://go.2gis.com/ADktq" target="_blank" class="flex gap-3 main-hero-rating"><img
+            <a href="https://go.2gis.com/ADktq" target="_blank" class="btn-hover-effect-dark flex gap-3 main-hero-rating"><img
                     width="17px" src="{{ Vite::asset('./resources/images/2gis.svg') }}" alt="2GIS"> 5,0</a>
-            <a href="https://share.google/VN8Sj9bebDXzbaaAn" target="_blank" class="flex gap-3 main-hero-rating"><img
+            <a href="https://share.google/VN8Sj9bebDXzbaaAn" target="_blank" class="btn-hover-effect-dark flex gap-3 main-hero-rating"><img
                     width="17px" src="{{ Vite::asset('./resources/images/google.svg') }}" alt="Google"> 5,0</a>
         </div>
         <h1 class="main-h1 mb-4">
@@ -17,7 +17,7 @@
         </div>
         <div class="flex gap-4">
             <a href="#configurator" class="main-hero-button btn-hover-effect">Калькулятор</a>
-            <a target="_blank" title="Telegram" class="btn-hover-effect hero__social-link footer__social-link footer__social-link-tg"
+            <a target="_blank" title="Telegram" class="btn-hover-effect-dark hero__social-link footer__social-link footer__social-link-tg"
                 href="https://t.me/mister_packers_bot" aria-label="Telegram"><span class="hero__social-link-title">Телеграм </span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24">
                     <path
@@ -25,7 +25,7 @@
                 </svg>
                 <span class="visually-hidden">Telegram</span>
             </a>
-            <a target="_blank" title="WhatsApp" class="btn-hover-effect hero__social-link footer__social-link footer__social-link-ws"
+            <a target="_blank" title="WhatsApp" class="btn-hover-effect-dark hero__social-link footer__social-link footer__social-link-ws"
               href="https://wa.me/+79154282254" aria-label="WhatsApp"><span class="hero__social-link-title">WhatsApp </span>
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24">
                 <path

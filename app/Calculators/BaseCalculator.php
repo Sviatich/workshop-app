@@ -11,7 +11,7 @@ abstract class BaseCalculator implements BoxCalculatorInterface
     protected float $minArea = 4.0; // м²
     protected float $workCost = 1500; // ₽ / тираж
     protected float $markup = 1.5; // наценка
-    protected float $weightPerM2 = 0.7; // кг
+    protected float $weightPerM2 = 0.32; // кг
 
     protected function getCartonPrice(string $colorCode): float
     {

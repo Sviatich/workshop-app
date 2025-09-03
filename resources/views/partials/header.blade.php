@@ -5,7 +5,7 @@
   <div class="mainbar">
     <div class="main-container header-inner">
       <a class="brand" href="/" aria-label="На главную — Мастерская упаковки">
-        <img src="{{ Vite::asset('resources/images/main-logo.svg') }}" alt="Мастерская упаковки" width="170" height="24"
+        <img src="{{ Vite::asset('resources/images/main-logo.svg') }}" alt="Мастерская упаковки" width="160" height="24"
           decoding="async">
       </a>
       <a href="https://mp.market/" class="brand-sub">проект компании Мистер Пакерс</a>
@@ -46,7 +46,7 @@
           <li class="nav-item cart">
             <a class="nav-link" href="/cart" aria-label="Перейти в корзину">
               Корзина
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="cart" class="icon glyph" fill="#333"
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="cart" fill="#333"
                 width="20px">
                 <g>
                   <path

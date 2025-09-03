@@ -21,7 +21,8 @@
     <meta name="yandex-maps-api-key" content="{{ config('services.yandex.maps_key') }}">
     {{-- Dadata Suggestions token (optional, for INN autocomplete) --}}
     <meta name="dadata-token" content="{{ config('services.dadata.token') }}">
-    {{-- <script src="https://cdn.jsdelivr.net/npm/@cdek-it/widget@3" charset="utf-8"></script> --}}
+    {{-- Bitrix24 --}}
+    {{--  --}}
 
     @production
         @include('partials.analytics.verifications')
@@ -40,5 +41,6 @@
 
     @include('partials.footer')
     @include('partials.popuptamplate')
+    @include('partials.cookiesbanner')
 </body>
 </html>

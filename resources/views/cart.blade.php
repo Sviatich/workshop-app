@@ -201,7 +201,7 @@
                             {{-- ИНН показывается только для ЮЛ/ИП (cart.js/delivery.js управляют классом hidden) --}}
                             <div id="inn_field" class="hidden">
                                 <label class="block font-semibold mb-1" for="inn">ИНН</label>
-                                <input placeholder="Введите ИНН или Наименование компании" type="text" name="inn" id="inn"
+                                <input placeholder="Введите ИНН" type="text" name="inn" id="inn"
                                     class="border rounded w-full p-2">
                             </div>
                         </fieldset>
