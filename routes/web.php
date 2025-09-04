@@ -10,7 +10,7 @@ use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('configurator');
-});
+})->name('home');
 
 Route::get('/cart', function () {
     return view('cart');
