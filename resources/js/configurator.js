@@ -43,10 +43,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const printPreview = document.getElementById("print_preview");
 
     let lastCalcResult = null;
+    let isCalculating = false;
+
+    // Action button state (prevent adding while recalculating or invalid)
+    const addToCartBtn = document.getElementById("add_to_cart");
+    function inputsFilled() {
+        return fields.every((id) => {
+            const el = document.getElementById(id);
+            if (!el) return false;
+            const v = el.value;
+            return !(v === "" || v === null);
+        });
+    }
+    function setAddToCartEnabled(enabled) {
+        if (!addToCartBtn) return;
+        addToCartBtn.disabled = !enabled;
+        addToCartBtn.setAttribute('aria-disabled', String(!enabled));
+    }
+    function updateAddToCartState() {
+        const canEnable = inputsFilled() && !isCalculating;
+        setAddToCartEnabled(canEnable);
+    }
 
     // Loading shimmer toggling for result fields
     const resultFieldIds = ["price_per_unit", "total_price", "weight", "volume"];
     function setResultLoading(isLoading) {
+        isCalculating = !!isLoading;
+        updateAddToCartState();
         resultFieldIds.forEach((id) => {
             const el = document.getElementById(id);
             if (!el) return;
@@ -84,6 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!allFilled) {
             clearResult();
             nearestContainer.innerHTML = "";
+            isCalculating = false;
+            updateAddToCartState();
             return;
         }
 
@@ -284,10 +309,14 @@ document.addEventListener("DOMContentLoaded", () => {
         input?.addEventListener("input", () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(recalc, 300);
+            isCalculating = true;
+            updateAddToCartState();
         });
         input?.addEventListener("change", () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(recalc, 300);
+            isCalculating = true;
+            updateAddToCartState();
         });
     });
 
@@ -330,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 printPreview.classList.remove("hidden");
             }
 
-            printStatus.innerHTML = `<span class="text-green-700">Загружен файл: <strong>${data.filename}</strong></span>`;
+            printStatus.innerHTML = `<span class="primary-text-color">Загружен файл: ${data.filename}</span>`;
         } catch (err) {
             console.error("Ошибка загрузки макета:", err);
             printStatus.innerHTML = `<span class="text-red-600">Ошибка при загрузке</span>`;
@@ -367,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 logoPreview.classList.add("hidden");
             }
 
-            logoStatus.innerHTML = `<span class="text-green-700">Загружен файл: <strong>${data.filename}</strong></span>`;
+            logoStatus.innerHTML = `<span class="primary-text-color">Загружен файл: ${data.filename}</span>`;
         } catch (err) {
             console.error("Ошибка загрузки логотипа:", err);
             logoStatus.innerHTML = `<span class="text-red-600">Ошибка при загрузке</span>`;
@@ -376,6 +405,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Добавление в корзину
     document.getElementById("add_to_cart").addEventListener("click", () => {
+        if (isCalculating) {
+            try { toast.warning("Идёт расчёт. Пожалуйста, дождитесь завершения.", { timeout: 4000 }); } catch (_) {}
+            return;
+        }
         const config = {};
         let allFilled = true;
 
@@ -444,7 +477,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         resetFormAfterAdd();
         CartUI.update();
+        updateAddToCartState();
     });
 
+    updateAddToCartState();
     recalc();
 });

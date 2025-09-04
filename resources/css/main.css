@@ -9,6 +9,10 @@ h2,
     margin-bottom: 25px;
 }
 
+.primary-text-color {
+    color: var(--primary-color);
+}
+
 .main-container {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -33,6 +37,11 @@ h2,
     margin-top: 20px;
     cursor: pointer;
     font-size: 14px;
+}
+
+.add-to-cart-button:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed;
 }
 
 .padding-for-cart {
@@ -1936,10 +1945,7 @@ input#inn:focus {
 
 /* ===== Cookies ===== */
 .cookie-widget {
-    position: fixed;
     bottom: 30px;
-    left: 30px;
-    background: #ffffff;
     color: #000000;
     padding: 15px 15px 15px 20px;
     text-align: left;
@@ -1952,6 +1958,12 @@ input#inn:focus {
     max-width: 440px;
     border-radius: var(--border-outside);
     font-size: 12px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
 }
 .cookie-widget a {
   color: var(--primary-color);
@@ -1975,7 +1987,7 @@ input#inn:focus {
 @media (max-width: 600px) {
     .cookie-widget {
         bottom: 0;
-        left: 0;
+        width: 100%;
         border-radius: 0;
     }
     .cookie-widget-badge {

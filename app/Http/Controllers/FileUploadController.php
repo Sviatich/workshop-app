@@ -25,8 +25,8 @@ class FileUploadController extends Controller
             'file' => [
                 'required',
                 'file',
-                'mimes:jpg,jpeg,png,webp,svg,pdf,doc,docx,ppt,pptx,txt,ai,eps,cdr',
-                'mimetypes:image/jpeg,image/png,image/webp,image/svg+xml,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,application/postscript,application/illustrator,application/vnd.corel-draw,image/x-coreldraw,image/x-cdr,application/x-cdr,application/cdr',
+                'mimes:jpg,jpeg,png,webp,pdf,doc,docx,ppt,pptx,txt,ai,eps,cdr',
+                'mimetypes:image/jpeg,image/png,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,application/postscript,application/illustrator,application/vnd.corel-draw,image/x-coreldraw,image/x-cdr,application/x-cdr,application/cdr',
             ],
         ]);
 
