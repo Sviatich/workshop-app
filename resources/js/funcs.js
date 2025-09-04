@@ -136,3 +136,14 @@ if (colorSelect && colorCardsWrap) {
     // Если select изменился извне — обновляем выделение
     colorSelect.addEventListener('change', () => setActiveColor(colorSelect.value));
 }
+
+
+// Добавить шапке стиль при скроллинге страницы
+document.addEventListener("scroll", () => {
+  const header = document.getElementsByClassName("header-inner")[0];
+  if (window.scrollY > 0) {
+    header.classList.add("header-inner-scrolled");
+  } else {
+    header.classList.remove("header-inner-scrolled");
+  }
+});

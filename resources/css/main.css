@@ -9,6 +9,10 @@ h2,
     margin-bottom: 25px;
 }
 
+main {
+    transform: translateY(110px);
+}
+
 .primary-text-color {
     color: var(--primary-color);
 }
@@ -377,6 +381,7 @@ div#result {
     position: relative;
     width: 100%;
     background: #f8fafc;
+    filter: brightness(1.05);
 }
 
 .construction-card .pic img {
@@ -787,6 +792,7 @@ input#inn:focus {
     line-height: 1.6;
     max-width: var(--container-width);
     margin: 0 auto;
+    transform: translateY(110px);
 }
 
 .footer a {
@@ -1415,7 +1421,10 @@ input#inn:focus {
 
 .site-header {
     position: relative;
-    z-index: 60
+    z-index: 60;
+    margin: 0 auto;
+    position: fixed;
+    width: 100%;
 }
 
 .header--transparent .mainbar {
@@ -1435,6 +1444,12 @@ input#inn:focus {
     gap: 16px;
     min-height: 64px;
     padding: 30px 0;
+    transition: 0.3s;
+}
+
+.header-inner-scrolled {
+    box-shadow: 0px 20px 30px -33px rgba(0, 0, 0, .5);
+    transition: 0.3s;
 }
 
 .brand {
