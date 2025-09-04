@@ -2,12 +2,12 @@
     <div class="hero-col">
         <div class="flex gap-4 mb-4">
             <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank"
-                class="flex gap-3 main-hero-rating btn-hover-effect-dark"><img width="17px" src="{{ Vite::asset('./resources/images/yandex.svg') }}"
+                class="flex gap-3 main-hero-rating btn-hover-effect-dark"><img width="17px" src="{{ Vite::asset('resources/images/yandex.svg') }}"
                     alt="Yandex"> 5,0</a>
             <a href="https://go.2gis.com/ADktq" target="_blank" class="btn-hover-effect-dark flex gap-3 main-hero-rating"><img
-                    width="17px" src="{{ Vite::asset('./resources/images/2gis.svg') }}" alt="2GIS"> 5,0</a>
+                    width="17px" src="{{ Vite::asset('resources/images/2gis.svg') }}" alt="2GIS"> 5,0</a>
             <a href="https://share.google/VN8Sj9bebDXzbaaAn" target="_blank" class="btn-hover-effect-dark flex gap-3 main-hero-rating"><img
-                    width="17px" src="{{ Vite::asset('./resources/images/google.svg') }}" alt="Google"> 5,0</a>
+                    width="17px" src="{{ Vite::asset('resources/images/google.svg') }}" alt="Google"> 5,0</a>
         </div>
         <h1 class="main-h1 mb-4">
             Создайте короб для <br>вашего товара за <br>несколько кликов
@@ -37,7 +37,7 @@
     </div>
     <div class="hero-stream" aria-hidden="true">
         <video autoplay muted playsinline class="static hero-image">
-            <source src="{{ Vite::asset('./resources/videos/herovideo.webm') }}" type="video/webm">
+            <source src="{{ Vite::asset('resources/videos/herovideo.webm') }}" type="video/webm">
         </video>
     </div>
 </section>
