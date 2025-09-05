@@ -197,17 +197,17 @@ document.addEventListener("DOMContentLoaded", () => {
       totalVolume += itemVolume;
 
       const div = document.createElement("div");
-      div.className = "p-4 border rounded bg-white relative";
+      div.className = "bg-white relative cart-items-position";
 
       // Optional product image (from configurator selection)
       const topImageSrc = item.construction_img || item.color_img || '';
       let __cartImagePrefix = '';
       if (topImageSrc) {
-        __cartImagePrefix = `<div class="flex gap-4 items-center"><img width="70px" src="${topImageSrc}" alt="${item.construction_name || item.construction}" class="object-cover rounded border bg-gray-50 mb-2">`;
+        __cartImagePrefix = `<div class="flex gap-4 items-center"><img width="60px" src="${topImageSrc}" alt="${item.construction_name || item.construction}" class="object-cover rounded border bg-gray-50 mb-2">`;
       }
 
       let html = `
-        <p class="font-semibold mb-1">
+        <p class="font-semibold mb-1 cart-items-title">
           ${item.construction_name || item.construction} <br><span class="cart-item-badge gray-999 font-normal"> ${item.length} × ${item.width} × ${item.height} мм</span>
         </p>
         </div>

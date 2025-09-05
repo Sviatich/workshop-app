@@ -29,6 +29,10 @@
         @includeWhen(config('services.metrica.id'), 'partials.analytics.metrica')
     @endproduction
 
+    @hasSection('meta')
+        @yield('meta')
+    @endif
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>

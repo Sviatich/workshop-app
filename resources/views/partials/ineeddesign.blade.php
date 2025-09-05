@@ -1,7 +1,7 @@
 <section class="main-block banner-block-bg-color">
   <div class="banner-block-grid">
     <div>
-      <h2 class="text-2xl font-bold text-gray-900">
+      <h2 class="text-2xl font-bold">
         Нет дизайн макета?
       </h2>
       <p class="mt-2 home-feature-subtitle">

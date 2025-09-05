@@ -45,7 +45,7 @@
         <p aria-label="График работы">
           Пн–Пт: <time datetime="09:00">08:00</time>—<time datetime="19:00">17:00</time><br> Сб–Вс: выходной
         </p>
-        <img width="120px" class="mt-4" src="{{ Vite::asset('resources/images/workdays.svg') }}" alt="Рабочий график">
+        <img width="140px" class="mt-4" src="{{ Vite::asset('resources/images/workdays.svg') }}" alt="Рабочий график">
       </address>
 
     </section>
@@ -54,20 +54,22 @@
     <nav class="footer__nav" aria-label="Разделы сайта">
 
       <section class="footer__col" aria-labelledby="footer-col-help">
-        <h3 id="footer-col-help" class="footer__heading">Помощь</h3>
+        <h3 id="footer-col-help" class="footer__heading">Справка</h3>
         <ul class="footer__list">
-          <li><a href="/how-to-order">Как оформить заказ</a></li>
-          <li><a href="/delivery">Доставка и оплата</a></li>
-          <li><a href="/file-requirements">Требования к макетам</a></li>
-          <li><a href="/returns">Возврат и обмен</a></li>
-          <li><a href="/contacts">Контакты</a></li>
+          <li><a href="/help/how-to-order">Как оформить заказ</a></li>
+          <li><a href="/help/returns">Возврат и обмен</a></li>
+          <li><a href="/help/delivery">Условия доставки</a></li>
+          <li><a href="/help/payment">Условия оплаты</a></li>
+          <li><a href="/help/faq">FAQ</a></li>
         </ul>
       </section>
 
       <section class="footer__col" aria-labelledby="footer-col-company">
         <h3 id="footer-col-company" class="footer__heading">Компания</h3>
         <ul class="footer__list">
-          <li><a href="/production">Производство</a></li>
+          {{-- <li><a href="/production">Производство</a></li> --}}
+          <li><a href="/requisites">Реквизиты</a></li>
+          <li><a href="/contacts">Контакты</a></li>
           <li><a href="/about">О нас</a></li>
           <li><a href="/blog">Блог</a></li>
         </ul>
@@ -106,7 +108,7 @@
           </li>
           <li aria-label="Мир" title="Мир">
             <span class="pay pay--mir" aria-hidden="true">
-              <svg height="22px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              <svg height="22px" width="40px" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 780 440" xml:space="preserve" fill="#000000">
                 <g transform="translate(-91.000000, -154.000000)">
                   <g transform="translate(91.000000, 154.000000)">
@@ -169,8 +171,8 @@
   <!-- Bottom bar -->
   <div class="footer__bottom" role="navigation" aria-label="Правовая информация и язык">
     <ul class="footer__legal">
-      <li><a href="/privacy">Политика конфиденциальности</a></li>
-      <li><a href="/terms">Пользовательское соглашение</a></li>
+      <li><a href="/privacy-policy">Политика конфиденциальности</a></li>
+      <li><a href="/user-agreement">Пользовательское соглашение</a></li>
       <li><a href="/cookies" aria-describedby="cookie-note">Cookies</a></li>
     </ul>
 

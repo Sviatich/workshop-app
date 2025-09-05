@@ -14,20 +14,20 @@
         <ul class="nav-list" role="list">
 
           <li class="nav-item has-mega">
-            <a href="#" class="nav-link" id="mega-btn" aria-expanded="false" aria-haspopup="true"
+            <a href="/help" class="nav-link" id="mega-btn" aria-expanded="false" aria-haspopup="true"
               aria-controls="mega-catalog">
-              Помощь
+              Меню
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/" aria-label="Перейти в корзину">
+            <a class="nav-link" href="/about" aria-label="Перейти в корзину">
               О нас
             </a>
           </li>
 
           <li class="nav-item has-contacts">
-            <a href="#" class="nav-link" id="contacts-btn" aria-expanded="false" aria-haspopup="true"
+            <a href="/contacts" class="nav-link" id="contacts-btn" aria-expanded="false" aria-haspopup="true"
               aria-controls="contacts-panel">
               Контакты
             </a>
@@ -77,7 +77,7 @@
     <div class="main-container">
       <div class="mega-grid">
         <section class="mega-col">
-          <h3 class="mega-title">Коробки</h3>
+          <h3 class="mega-title">Конструкции</h3>
           <ul role="list" class="mega-list">
             <li><a href="/fefco-0427">FEFCO 0427 (самосборные)</a></li>
             <li><a href="/lid-bottom">Крышка-дно</a></li>
@@ -87,21 +87,21 @@
         </section>
 
         <section class="mega-col">
-          <h3 class="mega-title">Клиентам</h3>
+          <h3 class="mega-title">Справка</h3>
           <ul role="list" class="mega-list">
-            <li><a href="/delivery">О доставке</a></li>
-            <li><a href="/payment">Об оплате</a></li>
-            <li><a href="/returns">О возвратах</a></li>
-            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/help/delivery">О доставке</a></li>
+            <li><a href="/help/payment">Об оплате</a></li>
+            <li><a href="/help/returns">О возвратах</a></li>
+            <li><a href="/help/faq">FAQ</a></li>
           </ul>
         </section>
 
         <section class="mega-col">
           <h3 class="mega-title">Опции</h3>
           <ul role="list" class="mega-list">
-            <li><a href="/logo-print">Печать логотипа</a></li>
-            <li><a href="/fullprint">Полноцветная печать</a></li>
-            <li><a href="/design">Разработка дизайна</a></li>
+            <li><a href="/services/logo-print">Печать логотипа</a></li>
+            <li><a href="/services/fullprint">Полноцветная печать</a></li>
+            <li><a href="/services/logo-design">Разработка дизайна</a></li>
           </ul>
         </section>
 

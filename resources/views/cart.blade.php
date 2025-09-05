@@ -1,5 +1,8 @@
 ﻿@extends('layouts.app')
 
+@section('title', 'Корзина — ' . config('app.name'))
+@section('meta_description', 'Корзина: проверьте товары и оформите заказ.')
+
 @section('content')
     <div>
 
@@ -268,8 +271,8 @@
                         Подтвердить заказ
                     </button>
                     <p class="form-copiration-text text-sm mt-2">
-                        Нажимая эту кнопку вы соглашаетесь с
-                        <a href="/"><u>пользовательским соглашением</u></a> и <a href="/"><u>политикой обработки персональных данных</u></a>
+                        Нажимая эту кнопку вы соглашаетесь с нашей
+                        <a href="/privacy-policy"><u>политикой обработки персональных данных</u></a>
                     </p>
                 </div>
             </aside>

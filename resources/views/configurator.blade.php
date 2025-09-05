@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', ' Мастерская Упаковки — онлайн‑калькулятор упаковки')
+@section('meta_description', 'Соберите коробку по своим размерам: цена, сроки и варианты печати.')
+
 @section('content')
     @include('partials.hero')
     @include('partials.threecardsrow')
@@ -106,7 +109,7 @@
                     <div class="switch-block">
                         <div style="width: 75%;">
                             <label for="has_logo" class="cursor-pointer font-semibold configurator-label">Нанести логотип</label>
-                            <p class="text-sm text-gray-600">Логотип будет нанесён в одном цвете на выбранный материал</p>
+                            <p class="text-sm main-gray-color">Логотип будет нанесён в одном цвете на выбранный материал</p>
                         </div>
                         <input type="checkbox" id="has_logo" class="switch">
                     </div>
@@ -134,7 +137,7 @@
                     <div class="switch-block">
                         <div style="width: 75%;">
                             <label for="has_fullprint" class="cursor-pointer font-semibold configurator-label">Полноцветная печать</label>
-                            <p class="text-sm text-gray-600">Печать от 1 до 5 цветов на всей площади короба</p>
+                            <p class="text-sm main-gray-color">Печать от 1 до 5 цветов на всей площади короба</p>
                         </div>
                         <input type="checkbox" id="has_fullprint" class="switch">
                     </div>
@@ -184,8 +187,8 @@
                         <a href="/cart">Перейти в корзину</a>
                     </div>
                     <p class="form-copiration-text text-sm mt-2">
-                        Нажимая эту кнопку вы соглашаетесь с 
-                        <a href="/"><u>условиями использования сервиса</u></a>
+                        Нажимая эту кнопку вы соглашаетесь с нашим
+                        <a href="/user-agreement"><u>пользовательским соглашением</u></a>
                     </p>
                 </div>
             </div>

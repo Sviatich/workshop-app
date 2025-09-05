@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Страница заказа — Мастерская Упаковки')
+@section('meta_description', 'Информация по вашему заказу: состав, стоимость и статус.')
+
 @section('content')
     <div class="main-block">
         <div class="flex justify-center mb-6 mt-6">

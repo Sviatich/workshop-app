@@ -1,7 +1,7 @@
 <section class="py-12 bg-white main-block" aria-labelledby="testimonials-title">
   <div class="mx-auto">
     <div class="flex justify-between items-baseline">
-      <h2 id="testimonials-title" class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+      <h2 id="testimonials-title" class="text-2xl md:text-3xl font-bold mb-6">
         Что пишут клиенты
       </h2>
       <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="flex gap-2 marquee__rating items-center btn-hover-effect-dark"><img

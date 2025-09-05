@@ -6,7 +6,7 @@ h2,
 .h2 {
     font-size: 22px;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 main {
@@ -22,14 +22,17 @@ main {
     margin: 0 auto;
 }
 
+.main-gray-color {
+    color: var(--main-gray-color);
+}
+
 .main-hero-button {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     padding: 10px 20px;
     border-radius: var(--border-inside);
-    color: var(--text-color-white);
+    color: var(--text-color-black);
     width: 100%;
     text-align: center;
-    font-size: 14px;
 }
 
 .add-to-cart-button {
@@ -40,7 +43,6 @@ main {
     width: 100%;
     margin-top: 20px;
     cursor: pointer;
-    font-size: 14px;
 }
 
 .add-to-cart-button:disabled {
@@ -60,7 +62,6 @@ main {
     width: 100%;
     margin-top: 10px;
     cursor: pointer;
-    font-size: 14px;
     font-weight: 500;
     text-align: center;
 }
@@ -81,7 +82,6 @@ main {
 }
 
 .hero-content {
-    font-size: 14px;
     margin-bottom: 50px;
 }
 
@@ -120,7 +120,9 @@ main {
     margin-bottom: var(--main-margin-bottom);
     border-radius: var(--border-outside);
     gap: 20px;
-    background: #FFFFFF;
+    /* background: #FFFFFF; */
+    background-color: var(--primary-color);
+    color: #fff;
 }
 
 @media (max-width: 600px) {
@@ -140,19 +142,22 @@ main {
 }
 
 .main-hero-rating {
-    background: var(--background-color);
+    background: #2359aa;
     padding: 6px 10px;
     border-radius: var(--border-inside);
     font-weight: 700;
     font-size: 14px;
+    color: #fff;
+    max-height: 33px;
 }
 
 .hero-image {
     width: 100%;
-    height: 330px;
+    height: 339px;
     object-fit: cover;
     /* object-position: center top; */
     margin: auto;
+    transform: scale(1.1);
 }
 
 .hero-stream {
@@ -160,7 +165,8 @@ main {
     overflow: hidden;
     contain: paint;
     /* max-height: 290px; */
-    filter: brightness(1.05);
+    /* filter: contrast(1.09) saturate(0.985) brightness(0.98); */
+    filter: brightness(0.99) contrast(0.95);
 }
 
 @keyframes scrollY {
@@ -190,7 +196,7 @@ main {
 }
 
 .main-h1 {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 700;
     line-height: normal;
 }
@@ -223,12 +229,11 @@ main {
     pointer-events: none;
     object-fit: cover;
     object-position: top;
-    width: 70%;
+    width: 90%;
 }
 
 .banner-block-button {
     background-color: var(--primary-color);
-    font-size: 14px;
     color: #fff;
     padding: 12px 25px;
     width: fit-content;
@@ -241,7 +246,7 @@ main {
 }
 
 .home-feature-subtitle {
-    font-size: 14px;
+
 }
 
 #map {
@@ -320,7 +325,7 @@ div#result {
 }
 
 .configurator-label {
-    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .main-3cards-block {
@@ -337,7 +342,7 @@ div#result {
 }
 
 .main-3cards-block__card_title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -350,7 +355,7 @@ div#result {
 }
 
 .main-3cards-block__card_text {
-    font-size: 14px;
+
 }
 
 .construction-grid {
@@ -406,12 +411,12 @@ div#result {
 }
 
 .construction-card .caption {
-    padding: 5px 10px;
-    font-size: 12px;
+    padding: 5px 15px;
+    font-size: 14px;
     text-align: center;
     font-weight: 600;
     line-height: normal;
-    height: 40px;
+    height: 60px;
     display: grid;
     place-items: center;
 }
@@ -426,7 +431,7 @@ div#result {
 .construction-card.is-disabled .caption {
     text-transform: none;
     padding: 5px 16px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .color-card-grid {
@@ -473,7 +478,6 @@ div#result {
     padding: 5px 0px;
     text-align: center;
     font-weight: 600;
-    color: #1f2937;
     font-size: 12px;
 }
 
@@ -525,8 +529,7 @@ div#result {
 }
 
 .result-main-other {
-    font-size: 14px;
-    color: #333;
+    color: #444;
 }
 
 .switch {
@@ -626,8 +629,8 @@ div#result {
     background: #fff;
     padding-right: 10px;
     width: fit-content;
-    font-size: 14px;
     color: #999;
+    font-size: 14px;
 }
 
 #logo_options,
@@ -670,9 +673,8 @@ input#inn:focus {
     line-height: normal;
     background: #fff6da;
     border: 1px solid #e5d16d;
-    padding: 5px 10px;
+    padding: 10px;
     border-radius: 4px;
-    font-size: 14px;
 }
 
 #fullprint_overlay {
@@ -758,9 +760,8 @@ input#inn:focus {
 }
 
 .tcard__quote {
-    color: #111827;
-    font-size: 14px;
     line-height: 1.45;
+    margin-top: 10px;
 }
 
 .tcard__meta {
@@ -772,14 +773,11 @@ input#inn:focus {
 
 .tcard__name {
     font-weight: 700;
-    color: #111827;
     line-height: 1.1;
-    font-size: 14px;
 }
 
 .tcard__role {
-    font-size: 14px;
-    color: #6b7280;
+    color: var(--main-gray-color);
 }
 
 /* ======= Footer ======= */
@@ -808,9 +806,9 @@ input#inn:focus {
 }
 
 .footer__heading {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
-    margin: 0 0 30px;
+    margin: 0 0 28px;
 }
 
 .footer__muted {
@@ -819,8 +817,9 @@ input#inn:focus {
 }
 
 .footer__tagline {
-    color: #999;
     font-size: 12px;
+    line-height: normal;
+    color: var(--muted);
 }
 
 .visually-hidden {
@@ -837,8 +836,8 @@ input#inn:focus {
 
 .footer__top {
     display: grid;
-    gap: 32px;
-    grid-template-columns: 1.2fr 2fr 1.2fr;
+    gap: 40px;
+    grid-template-columns: 1.2fr 2fr 1fr;
     align-items: start;
     max-width: var(--container-width);
     margin: 0 auto 24px;
@@ -847,12 +846,14 @@ input#inn:focus {
 .footer__brand {
     display: grid;
     gap: 12px;
+    font-size: 16px;
 }
 
 .footer__nav {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 40px;
+    font-size: 16px;
 }
 
 .footer__col .footer__list {
@@ -927,12 +928,12 @@ input#inn:focus {
 }
 
 .hero__social-link {
-    background: #eee;
+    background: #fff;
 }
 
 .hero__social-link-title {
-    font-size: 14px;
     margin-right: 5px;
+    color: var(--text-color-black);
 }
 
 @media (max-width: 560px) {
@@ -997,13 +998,14 @@ input#inn:focus {
     max-width: var(--container-width);
     margin: 0 auto;
     padding-top: 16px;
+    font-size: 16px;
 }
 
 .footer__legal {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 20px;
     padding: 0;
     margin: 0;
 }
@@ -1024,7 +1026,7 @@ input#inn:focus {
     align-items: center;
     justify-content: space-between;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .footer__address {
@@ -1081,7 +1083,7 @@ input#inn:focus {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 10px 15px;
+    padding: 15px;
     cursor: pointer;
     font-weight: 600;
 }
@@ -1098,7 +1100,6 @@ input#inn:focus {
 
 #faq .q {
     line-height: 1.35;
-    font-size: 14px;
     font-weight: 500;
 }
 
@@ -1119,7 +1120,6 @@ input#inn:focus {
 
 #faq .faq-content {
     padding: 10px 15px;
-    font-size: 14px;
     border-top: 1px solid var(--border-color);
 }
 
@@ -1142,9 +1142,9 @@ input#inn:focus {
 }
 
 .works__desc {
-    color: var(--color-gray-600);
+    color: var(--main-gray-color);
     margin: 0;
-    font-size: 14px;
+    margin-bottom: 25px;
 }
 
 .works__grid {
@@ -1226,9 +1226,9 @@ input#inn:focus {
 }
 
 .module__desc {
-    color: var(--color-gray-600);
-    font-size: 14px;
+    color: var(--main-gray-color);
     margin: 0;
+    margin-bottom: 20px;
 }
 
 .module__grid {
@@ -1301,7 +1301,6 @@ input#inn:focus {
     padding: 0;
     display: grid;
     gap: 10px;
-    font-size: 14px;
 }
 
 .features {
@@ -1327,13 +1326,13 @@ input#inn:focus {
 .features__title {
     margin: 0;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .features__text {
     margin: .2rem 0 0;
-    color: var(--color-gray-600);
-    font-size: 14px;
+    color: var(--main-gray-color);
+    font-size: 16px;
 }
 
 .card--accent .features__text {
@@ -1381,7 +1380,6 @@ input#inn:focus {
     background: var(--secondary-color);
     padding: 12px;
     font-weight: 500;
-    font-size: 14px;
 }
 
 /* ======= Стили блока Шапка ======= */
@@ -1639,7 +1637,23 @@ input#inn:focus {
 }
 
 .cart-item-badge {
-    font-size: 14px;
+    font-size: 16px;
+}
+
+.cart-items-title {
+    font-size: 18px;
+}
+
+.cart-items-position {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-items-position:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none
 }
 
 .gray-999 {
@@ -1648,10 +1662,10 @@ input#inn:focus {
 
 #delivery_row,
 .cart-summary-row {
-    font-size: 14px;
     color: #333;
     font-weight: 400;
     margin-bottom: 5px;
+    font-size: 16px;
 }
 
 /* кастомная точка выбора для карточек доставки */
@@ -1690,19 +1704,24 @@ input#inn:focus {
 }
 
 .cart-labels {
-    font-size: 14px;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .customer-payments {
-    font-size: 14px;
+    font-size: 16px;
+}
+
+#grand_total_row {
+    font-size: 18px;
 }
 
 .remove_item {
     background-color: var(--background-color);
     padding: 4px;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0px;
+    right: 0px;
     border: 1px solid var(--border-color);
     border-radius: 2px;
 }
@@ -1970,9 +1989,9 @@ input#inn:focus {
     align-items: center;
     z-index: 1000;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, .1);
-    max-width: 440px;
+    max-width: 500px;
     border-radius: var(--border-outside);
-    font-size: 12px;
+    font-size: 14px;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
@@ -1995,8 +2014,8 @@ input#inn:focus {
 .cookie-widget-badge {
     width: 30px;
     position: absolute;
-    top: 18px;
-    left: -16px;
+    top: 21px;
+    left: -18px;
 }
 
 @media (max-width: 600px) {
@@ -2008,4 +2027,22 @@ input#inn:focus {
     .cookie-widget-badge {
         display: none;
     }
+}
+
+.guide-header {
+    text-align: center;
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* ==== Guide styles ==== */
+
+.guide-text {
+    color: var(--main-gray-color);
+}
+
+.guide-icon-bg {
+    background: var(--primary-color);
+    padding: 6px;
+    border-radius: var(--border-inside);
 }
