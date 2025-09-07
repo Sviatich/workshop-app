@@ -34,6 +34,8 @@
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Fallback styles for modal when Vite is unavailable -->
+    <link rel="stylesheet" href="{{ asset('css/popap.css') }}">
 </head>
 <body>
 
@@ -46,5 +48,6 @@
     @include('partials.footer')
     @include('partials.popuptamplate')
     @include('partials.cookiesbanner')
+    
 </body>
 </html>

@@ -2,7 +2,7 @@
   <div class="faq-wrap">
     <h2 id="faq-heading">Часто задаваемые вопросы</h2>
 
-    <details class="faq-item btn-hover-effect-dark" open>
+    <details class="faq-item btn-hover-effect-dark">
       <summary>
         <span class="q">Как оформить заказ?</span>
         <span class="faq-icon" aria-hidden="true"></span>

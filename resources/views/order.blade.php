@@ -4,17 +4,17 @@
 @section('meta_description', 'Информация по вашему заказу: состав, стоимость и статус.')
 
 @section('content')
-    <div class="main-block">
+    <div class="main-block order-block">
         <div class="flex justify-center mb-6 mt-6">
-            <svg width="70px" fill="#01a12f" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0ZM11.52,17L6,12.79l1.83-2.37L11.14,13l4.51-5.08,2.24,2Z"></path></g></svg>
+            <svg width="70px" fill="#2a6dcf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0ZM11.52,17L6,12.79l1.83-2.37L11.14,13l4.51-5.08,2.24,2Z"></path></g></svg>
         </div>
         <h1 class="text-2xl font-bold mb-4 text-center">Заказ успешно оформлен</h1>
 
         <div>
-            <p class="text-center text-lg p-2 mb-4">Наш менеджер свяжется с вами в ближайшее время и уточнит детали заказа. После этого вы сможете оплатить заказ и мы поставим его в производство.</p>
+            <p class="text-center text p-2 mb-4">Наш менеджер свяжется с вами в ближайшее время и уточнит детали заказа. После этого вы сможете оплатить заказ и мы поставим его в производство.</p>
             </div>
             <p class="configurator-warning mb-6">
-            Ссылка на заказ будет доступна в течение 30 дней. Сохраните ее, она может пригодится в случае необходимости обратиться в поддержку.
+            Ссылка на заказ будет доступна в течение 30 дней.
         </p>
         <div class="rounded border p-4 mb-6">
             <div class="flex justify-between mb-2 border-b"><p>Статус заказа: </p><p class="text-right">{{ $order->public_status ?? 'В обработке' }}</p></div>
@@ -100,7 +100,7 @@
             @endforeach
         </ul>
         <div class="mt-4 flex justify-center">
-            <a class="rounded text-center p-4 order-button text-white btn-hover-effect cursor-pointer w-full" href="/">Вернуться в калькулятор</a>
+            <a class="rounded text-center p-4 order-button text-white btn-hover-effect cursor-pointer w-full" href="/">Вернуться на главную</a>
         </div>
     </div>
 @endsection

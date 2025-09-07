@@ -17,12 +17,7 @@
             <a href="/help" class="nav-link" id="mega-btn" aria-expanded="false" aria-haspopup="true"
               aria-controls="mega-catalog">
               Меню
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="/about" aria-label="Перейти в корзину">
-              О нас
+              <svg class="nav-link-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M17.9188 8.17969H11.6888H6.07877C5.11877 8.17969 4.63877 9.33969 5.31877 10.0197L10.4988 15.1997C11.3288 16.0297 12.6788 16.0297 13.5088 15.1997L15.4788 13.2297L18.6888 10.0197C19.3588 9.33969 18.8788 8.17969 17.9188 8.17969Z" fill="#999"></path></g></svg>
             </a>
           </li>
 
@@ -30,17 +25,24 @@
             <a href="/contacts" class="nav-link" id="contacts-btn" aria-expanded="false" aria-haspopup="true"
               aria-controls="contacts-panel">
               Контакты
+              <svg class="nav-link-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M17.9188 8.17969H11.6888H6.07877C5.11877 8.17969 4.63877 9.33969 5.31877 10.0197L10.4988 15.1997C11.3288 16.0297 12.6788 16.0297 13.5088 15.1997L15.4788 13.2297L18.6888 10.0197C19.3588 9.33969 18.8788 8.17969 17.9188 8.17969Z" fill="#999"></path></g></svg>
             </a>
             <div id="contacts-panel" class="dropdown" role="group" aria-label="Контакты" hidden>
               <ul class="dropdown-list" role="list">
                 <li><a href="tel:88005503700" aria-label="Позвонить 8 800 550 37 00">8&nbsp;800&nbsp;550-37-00 <br><span
                       class="contact-label">звонок бесплатный</span></a></li>
-                <li><a href="mailto:info@mp.market" aria-label="Написать на info@mp.market">info@mp.market <span
+                <li><a href="mailto:workshop@mp.market" aria-label="Написать на workshop@mp.market">workshop@mp.market <span
                       class="contact-label">по любым вопросам</span></a></li>
                 <li><span aria-label="Время работы">Пн-Пт 08:00–17:00 <span class="contact-label">рабочий
                       график</span></span></li>
               </ul>
             </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/about" aria-label="Перейти в корзину">
+              О нас
+            </a>
           </li>
 
           <li class="nav-item cart">
@@ -74,46 +76,54 @@
   </div>
 
   <div id="mega-catalog" class="mega-layer" hidden>
-    <div class="main-container">
-      <div class="mega-grid">
-        <section class="mega-col">
-          <h3 class="mega-title">Конструкции</h3>
-          <ul role="list" class="mega-list">
-            <li><a href="/fefco-0427">FEFCO 0427 (самосборные)</a></li>
-            <li><a href="/lid-bottom">Крышка-дно</a></li>
-            <li><a href="/transport">Транспортировочные</a></li>
-            <li><a href="/dovetail">«Ласточкин хвост»</a></li>
-          </ul>
-        </section>
+  <div class="main-container">
+    <div class="mega-grid">
 
-        <section class="mega-col">
-          <h3 class="mega-title">Справка</h3>
-          <ul role="list" class="mega-list">
-            <li><a href="/help/delivery">О доставке</a></li>
-            <li><a href="/help/payment">Об оплате</a></li>
-            <li><a href="/help/returns">О возвратах</a></li>
-            <li><a href="/help/faq">FAQ</a></li>
-          </ul>
-        </section>
+      <section class="mega-col">
+        <h3 class="mega-title">Справка</h3>
+        <ul role="list" class="mega-list">
+          <li><a href="/help/delivery">Доставка товара</a></li>
+          <li><a href="/help/returns">Возврат товара</a></li>
+          <li><a href="/help/payment">Оплата заказа</a></li>
+          <li><a href="/help/faq">Частые вопросы</a></li>
+          <li><a href="/help/how-to-order">Как оформить заказ</a></li>
+        </ul>
+      </section>
 
-        <section class="mega-col">
-          <h3 class="mega-title">Опции</h3>
-          <ul role="list" class="mega-list">
-            <li><a href="/services/logo-print">Печать логотипа</a></li>
-            <li><a href="/services/fullprint">Полноцветная печать</a></li>
-            <li><a href="/services/logo-design">Разработка дизайна</a></li>
-          </ul>
-        </section>
+      <section class="mega-col">
+        <h3 class="mega-title">Дополнительные услуги</h3>
+        <ul role="list" class="mega-list">
+          <li><a href="/services/logo-print">Печать логотипа</a></li>
+          <li><a href="/services/fullprint">Полноцветная печать</a></li>
+          <li><a href="/services/logo-design">Разработка дизайна</a></li>
+        </ul>
+      </section>
 
-        <section class="mega-col only-mobile">
-          <h3 class="mega-title">Контакты</h3>
-          <ul role="list" class="mega-list">
-            <li><a href="tel:+79990000000">+7&nbsp;999&nbsp;000-00-00</a></li>
-            <li><a href="mailto:hello@mp.market">hello@mp.market</a></li>
-            <li><span>Пн-Пт 10:00–19:00</span></li>
-          </ul>
-        </section>
-      </div>
+      <section class="mega-col">
+        <div class="p-4 bg-gray-100 border rounded h-full flex flex-col justify-center items-center">
+          <h3 class="text-sm font-semibold mb-2">Нужна другая конструкция?</h3>
+          <p class="mb-3 text-xs text-center">
+            Разработаем индивидуальное решение или предложим готовый вариант под ваши задачи
+          </p>
+          <img width="120px" src="{{ Vite::asset('resources/images/dieline.webp') }}" class="mb-4" alt="Конструкция">
+          <a target="_blank" href="https://mp.market/factory/" 
+             class="inline-block mt-auto px-4 py-2 text-center primary-bg-color btn-hover-effect text-white text-sm font-medium rounded hover:bg-blue-700 transition">
+            Разработаем для вас
+          </a>
+        </div>
+      </section>
+
+      <section class="mega-col only-mobile">
+        <h3 class="mega-title">Контакты</h3>
+        <ul role="list" class="mega-list">
+          <li><a href="tel:88005503700">+7&nbsp;800&nbsp;550-37-00</a></li>
+          <li><a href="mailto:workshop@mp.market">workshop@mp.market</a></li>
+          <li><span>Пн-Пт 08:00–17:00</span></li>
+        </ul>
+      </section>
+
     </div>
   </div>
+</div>
+
 </header>

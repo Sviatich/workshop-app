@@ -5,7 +5,7 @@
 
 @section('content')
 <section class="main-block">
-    <h1 class="h2 font-bold mb-4">Реквизиты</h1>
+    <h1 class="h2 mb-4">Реквизиты</h1>
 
     <div class="space-y-3 text-gray-800">
         <p><strong>Наименование:</strong> ООО «Новая Упаковочная Компания»</p>

@@ -40,7 +40,7 @@
               </rect>
             </g>
           </svg>
-          <a href="mailto:info@mp.market" itemprop="email">info@mp.market</a>
+          <a href="mailto:workshop@mp.market" itemprop="email">workshop@mp.market</a>
         </p>
         <p aria-label="График работы">
           Пн–Пт: <time datetime="09:00">08:00</time>—<time datetime="19:00">17:00</time><br> Сб–Вс: выходной
@@ -57,9 +57,9 @@
         <h3 id="footer-col-help" class="footer__heading">Справка</h3>
         <ul class="footer__list">
           <li><a href="/help/how-to-order">Как оформить заказ</a></li>
-          <li><a href="/help/returns">Возврат и обмен</a></li>
-          <li><a href="/help/delivery">Условия доставки</a></li>
-          <li><a href="/help/payment">Условия оплаты</a></li>
+          <li><a href="/help/returns">Возврат товара</a></li>
+          <li><a href="/help/delivery">Доставка товара</a></li>
+          <li><a href="/help/payment">Оплата заказа</a></li>
           <li><a href="/help/faq">FAQ</a></li>
         </ul>
       </section>
@@ -67,11 +67,10 @@
       <section class="footer__col" aria-labelledby="footer-col-company">
         <h3 id="footer-col-company" class="footer__heading">Компания</h3>
         <ul class="footer__list">
-          {{-- <li><a href="/production">Производство</a></li> --}}
           <li><a href="/requisites">Реквизиты</a></li>
           <li><a href="/contacts">Контакты</a></li>
           <li><a href="/about">О нас</a></li>
-          <li><a href="/blog">Блог</a></li>
+          {{-- <li><a href="/blog">Блог</a></li> --}}
         </ul>
       </section>
     </nav>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'О доставке — ' . config('app.name'))
+@section('title', 'Доставка товара — Мастерская Упаковки')
 @section('meta_description', 'Информация о способах и сроках доставки, самовывоз и транспортные компании.')
 
 @section('content')
@@ -10,155 +10,188 @@
                 <nav aria-label="Навигация по разделам" class="mb-2">
                     <a class="underline" href="/help">Справка</a>
                 </nav>
-                <h1 id="shipping-page-title" class="main-h1">О доставке</h1>
+                <h1 id="shipping-page-title" class="main-h1">Доставка товара</h1>
             </div>
-
-            <section class="main-block space-y-12">
-                <div class="space-y-12">
-
-                    <!-- Иллюстрация / баннер -->
-                    <iframe
-                        src="https://yandex.ru/map-widget/v1/?um=constructor%3A3d3301515131ab79f791647d6919c21b7d09618f51108abb85888f98206eac3e&amp;source=constructor"
-                        width="100%" height="450" frameborder="0"></iframe>
-
-                    <!-- Способы доставки -->
-                    <section role="region" aria-labelledby="shipping-methods-title">
-                        <h2 id="shipping-methods-title" class="text-2xl font-semibold mb-4">🚚 Способы доставки</h2>
-
-                        <ul class="space-y-6 guide-text">
-                            <li>
-                                <p>
-                                    <span class="font-bold">Курьер до двери</span> — удобная доставка по указанному адресу в
-                                    рабочие дни.
-                                    Курьер заранее свяжется с вами для согласования времени визита.
-                                </p>
-                                <div class="mt-3 flex flex-wrap gap-2">
-                                    <span
-                                        class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">Курьер</span>
-                                    <span class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">До
-                                        двери</span>
+            <!-- Табы -->
+            <section class="main-block">
+                <h2 class="sr-only">Варианты получения заказа</h2>
+                <div class="overflow-hidden">
+                    <!-- Desktop tablist -->
+                    <div role="tablist" aria-label="Варианты получения" class="mb-6 rounded p-2 flex bg-gray-100 border">
+                        <button role="tab" id="tab-pickup" aria-controls="panel-pickup" aria-selected="true" tabindex="0"
+                            class="cursor-pointer w-full rounded flex-1 px-4 py-3 text-sm font-medium focus:outline-none focus-visible:ring">
+                            Самовывоз
+                        </button>
+                        <button role="tab" id="tab-carriers" aria-controls="panel-carriers" aria-selected="false"
+                            tabindex="-1"
+                            class="cursor-pointer w-full rounded flex-1 px-4 py-3 text-sm font-medium focus:outline-none focus-visible:ring">
+                            Транспортные компании
+                        </button>
+                    </div>
+                    <!-- Panels -->
+                    <div>
+                        <!-- Самовывоз -->
+                        <section id="panel-pickup" role="tabpanel" aria-labelledby="tab-pickup" tabindex="0"
+                            class="md:pt-0">
+                            <div class="grid lg:grid-cols-1 gap-6">
+                                <!-- Карта склада -->
+                                <div class="rounded border overflow-hidden bg-gray-100">
+                                    <div class="aspect-video md:h-full">
+                                        <iframe
+                                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A3d3301515131ab79f791647d6919c21b7d09618f51108abb85888f98206eac3e&amp;source=constructor"
+                                            class="w-full h-full" frameborder="0" title="Карта: адрес самовывоза"></iframe>
+                                    </div>
                                 </div>
-                            </li>
-
-                            <li>
-                                <p>
-                                    <span class="font-bold">Пункты выдачи СДЭК</span> — заберите заказ неподалёку от дома
-                                    или офиса.
-                                    Уведомление о поступлении придёт в СМС/мессенджер.
-                                </p>
-                                <div class="mt-3 flex flex-wrap gap-2">
-                                    <span class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">ПВЗ</span>
-                                    <span
-                                        class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">СДЭК</span>
+                                <div class="mb-4 grid sm:grid-cols-2 gap-4">
+                                    <div class="p-4 md:p-6 rounded bg-gray-100">
+                                        <h4 class="font-semibold mb-2 flex gap-2">
+                                            <svg width="15px" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g>
+                                                    <path
+                                                        d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z"
+                                                        fill="#333"></path>
+                                                    <path
+                                                        d="M12 5C11.4477 5 11 5.44771 11 6V12.4667C11 12.4667 11 12.7274 11.1267 12.9235C11.2115 13.0898 11.3437 13.2343 11.5174 13.3346L16.1372 16.0019C16.6155 16.278 17.2271 16.1141 17.5032 15.6358C17.7793 15.1575 17.6155 14.5459 17.1372 14.2698L13 11.8812V6C13 5.44772 12.5523 5 12 5Z"
+                                                        fill="#333"></path>
+                                                </g>
+                                            </svg>
+                                            График работы
+                                        </h4>
+                                        <div class="space-y-1">
+                                            <p>Пн–Пт: 09:00–17:00</p>
+                                            <p>Сб/Вс: выходной</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 md:p-6 rounded bg-gray-100">
+                                        <h4 class="font-semibold mb-2 flex gap-2">
+                                            <svg width="15px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                                fill="#333">
+                                                <g>
+                                                    <path
+                                                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z">
+                                                    </path>
+                                                    <path
+                                                        d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z">
+                                                    </path>
+                                                </g>
+                                            </svg>
+                                            Адрес склада
+                                        </h4>
+                                        <address class="not-italic">
+                                            <a target="_blank" href="https://yandex.ru/profile/142486939387?lang=ru"
+                                                class="block underline primary-text-color">Московская область, г.
+                                                Черноголовка, ул. Первый проезд,
+                                                зд. 8, стр. 1</a>
+                                        </address>
+                                    </div>
                                 </div>
-                            </li>
-
-                            <li>
-                                <p>
-                                    <span class="font-bold">Самовывоз</span> — доступен по предварительному согласованию,
-                                    когда партия готова.
-                                    Точные адрес и график выдачи сообщит менеджер.
-                                </p>
-                                <div class="mt-3 flex flex-wrap gap-2">
-                                    <span
-                                        class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">Самовывоз</span>
-                                    <span class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">По
-                                        записи</span>
+                                <div class="space-y-5">
+                                    <h3 class="text-xl font-semibold">Самовывоз со склада </h3>
+                                    <div class="mb-6">
+                                        <h4 class="font-semibold mb-2">Условия самовывоза</h4>
+                                        <ul class="list-disc pl-5 space-y-1">
+                                            <li>Выдача только после уведомления о готовности заказа.</li>
+                                            <li>Необходимо заранее согласовать дату и время с менеджером компании. Вам
+                                                приготовят пропуск на территорию.</li>
+                                            <li>Для водителя — при необходимости доверенность.</li>
+                                            <li>Сотрудники склада помогут с подъемом и погрузкой в ваш транспорт.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="">
+                                        <h4 class="font-semibold mb-2">Порядок получения</h4>
+                                        <ol class="list-decimal pl-6 space-y-2">
+                                            <li>Согласуем дату/окно выдачи с менеджером.</li>
+                                            <li>Готовим партию и документы, отправляем уведомление.</li>
+                                            <li>Забираете на складе, проверяете комплектность.</li>
+                                            <li>Если возникли вопросы по качеству или количеству товара, Вы можете
+                                                обратиться к менеджеру компании на месте.</li>
+                                        </ol>
+                                    </div>
                                 </div>
-                            </li>
-                        </ul>
-                    </section>
-
-                    <!-- География и сроки -->
-                    <section role="region" aria-labelledby="zones-lead-time-title">
-                        <h2 id="zones-lead-time-title" class="text-2xl font-semibold mb-4">🗺️ География и сроки</h2>
-                        <div class="grid md:grid-cols-2 gap-6 guide-text">
-                            <div class="p-4 border rounded">
-                                <h3 class="font-semibold mb-2">Москва и область</h3>
-                                <ul class="list-disc pl-5 space-y-1">
-                                    <li>Курьер/ПВЗ: обычно <span class="font-medium">2–5 рабочих дней</span> после
-                                        готовности партии.</li>
-                                    <li>Доставка в ТТК/ЦАО согласовывается по времени и доступу.</li>
-                                </ul>
                             </div>
-                            <div class="p-4 border rounded">
-                                <h3 class="font-semibold mb-2">Регионы РФ</h3>
-                                <ul class="list-disc pl-5 space-y-1">
-                                    <li>Сроки зависят от адреса и тарифа перевозчика — ориентир даст менеджер при
-                                        оформлении.</li>
-                                    <li>Дальние регионы и труднодоступные зоны — по индивидуальному расчёту.</li>
-                                </ul>
+                        </section>
+                        <!-- Транспортные компании -->
+                        <section id="panel-carriers" role="tabpanel" aria-labelledby="tab-carriers" tabindex="0" hidden
+                            class="md:pt-0">
+                            <div class="space-y-6">
+                                <!-- ПЭК -->
+                                <div class="p-4 md:p-8 border rounded">
+                                    <div class="flex items-center justify-start gap-4 mb-4">
+                                        <figure
+                                            class="p-2 bg-gray-100 border rounded overflow-hidden flex items-center justify-center">
+                                            <img width="70px" src="{{ Vite::asset('resources/images/pek.webp') }}"
+                                                alt="ТК «ПЭК»" class="object-contain md:object-cover">
+                                        </figure>
+                                        <h3 class="text-xl font-semibold">ТК ПЭК</h3>
+                                    </div>
+                                    <p class="mt-1">Бесплатно довезём до терминала «ПЭК» по адресу ниже. Оплата
+                                        межгорода — по тарифам «ПЭК» при получении или по счёту перевозчика.</p>
+                                    <div class="mt-4 grid sm:grid-cols-1 gap-4">
+                                        <div>
+                                            <h4 class="font-semibold mb-1">Терминал отгрузки</h4>
+                                            <address class="not-italic">
+                                                <a target="_blank" href="https://yandex.ru/maps/-/CLQoJTor" class="block underline primary-text-color">Электростальское шоссе, 25, Ногинск, Богородский городской округ, Московская область, 142410</a>
+                                            </address>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-1">Что важно знать</h4>
+                                            <ul class="list-disc pl-5 space-y-1">
+                                                <li>Габариты/вес — по факту приёмки на терминале.</li>
+                                                <li>Подъем и разгрузка при получении согласуется с представителем транспортной компании.</li>
+                                                <li>Менеджер заранее свяжется с вами и сообщит о передаче вашего заказа транспортной компании.</li>
+                                                <li>Мы не несем ответственности за целостность груза, после его передачи транспорной компании.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- СДЭК -->
+                                <div class="p-8 border rounded space-y-4">
+                                    <div class="flex items-center justify-start gap-4 mb-4">
+                                        <figure
+                                            class="p-2 bg-gray-100 border rounded overflow-hidden flex items-center justify-center">
+                                            <img width="70px" src="{{ Vite::asset('resources/images/sdek.webp') }}"
+                                                alt="ТК «СДЭК»" class="object-contain md:object-cover">
+                                        </figure>
+                                        <h3 class="text-xl font-semibold">ТК СДЭК</h3>
+                                    </div>
+                                    <p class="mt-1">Оплата доставки — по тарифам «СДЭК». Вы можете получить расчет доставки по вашему адресу или до ближайшего к вам ПВЗ на странице оформления заказа.</p>
+                                    <div class="grid md:grid-cols-1 gap-4">
+                                        <div>
+                                            <h4 class="font-semibold mb-2">Доставка до двери</h4>
+                                            <ul class="list-disc pl-5 space-y-1">
+                                                <li>Курьерская доставка по указанному адресу.</li>
+                                                <li>Сроки и цена зависят от региона и габаритов и веса.</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-2">Доставка до ПВЗ</h4>
+                                            <ul class="list-disc pl-5 space-y-1">
+                                                <li>Получение в удобном пункте выдачи.</li>
+                                                <li>Сроки и цена зависят от региона и габаритов и веса.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Любая другая ТК -->
+                                <div class="p-8 border rounded">
+                                    <h3 class="text-xl font-semibold">Другая ТК по вашему выбору</h3>
+                                    <p class="mt-1">Можем отправить любой транспортной компанией по вашему желанию или
+                                        передать груз вашему перевозчику.</p>
+                                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                                        <li>Передача со склада в будни в рабочее время.</li>
+                                        <li>Необходимы данные ТК/контакты менеджера/номер заявки.</li>
+                                        <li>Условия упаковки/паллетирования — по требованиям выбранной ТК.</li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <p class="guide-text mt-3 text-gray-600">
-                            В праздники и периоды пиковой нагрузки сроки могут увеличиваться — мы обязательно предупредим
-                            заранее.
-                        </p>
-                    </section>
-
-                    <!-- Стоимость и расчет -->
-                    <section role="region" aria-labelledby="shipping-pricing-title">
-                        <h2 id="shipping-pricing-title" class="text-2xl font-semibold mb-4">💰 Стоимость доставки</h2>
-                        <div class="space-y-3 guide-text">
-                            <p>Цена зависит от габаритов, веса, количества мест, адреса и выбранного способа (курьер / ПВЗ).
-                                Мы считаем доставку по актуальным тарифам перевозчика (СДЭК) и показываем ориентир до
-                                подтверждения.</p>
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li><span class="font-medium">Стандартные партии</span> — быстрая калькуляция по тарифам.
-                                </li>
-                                <li><span class="font-medium">Крупногабарит</span> (большие коробки/объёмный вес) —
-                                    индивидуальный расчёт.</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <!-- Упаковка и маркировка -->
-                    <section role="region" aria-labelledby="packing-title">
-                        <h2 id="packing-title" class="text-2xl font-semibold mb-4">📦 Упаковка и маркировка</h2>
-                        <div class="space-y-3 guide-text">
-                            <p>Учитываем особенности коробок: упаковываем аккуратно, защищаем от влаги и деформаций,
-                                маркируем каждое место для удобного приёма на ПВЗ/складе.</p>
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Групповая термоусадка / стретч по необходимости.</li>
-                                <li>Маркировка с номером заказа и контактами получателя.</li>
-                                <li>Отдельные места под печатные образцы и документацию.</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <!-- Процесс -->
-                    <section role="region" aria-labelledby="shipping-process-title">
-                        <h2 id="shipping-process-title" class="text-2xl font-semibold mb-4">📝 Как всё происходит</h2>
-                        <ol class="list-decimal pl-6 space-y-3 guide-text">
-                            <li>Вы оформляете заявку в конфигураторе и выбираете удобный способ доставки.</li>
-                            <li>Мы подтверждаем заказ, сроки производства и ориентир по доставке.</li>
-                            <li>Формируем партию и передаём в доставку (курьер / ПВЗ СДЭК / самовывоз).</li>
-                            <li>Вы получаете уведомление с номером отправления и отслеживанием.</li>
-                            <li>Получаете заказ и проверяете комплектность на месте выдачи.</li>
-                        </ol>
-                    </section>
-
-                    <!-- Получение и проверка -->
-                    <section role="region" aria-labelledby="receiving-title">
-                        <h2 id="receiving-title" class="text-2xl font-semibold mb-4">✅ Получение и проверка</h2>
-                        <div class="space-y-3 guide-text">
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Осмотрите упаковку при выдаче: целостность, следы вскрытия, влажность.</li>
-                                <li>При повреждениях — зафиксируйте фото/видео, попросите акт у сотрудника ПВЗ/курьера и
-                                    свяжитесь с нами.</li>
-                                <li>Несоответствия по количеству/комплектности — сообщите менеджеру в течение 24 часов после
-                                    получения.</li>
-                            </ul>
-                            <p>Мы оперативно поможем с урегулированием и организуем замену/допоставку
-                                при подтверждении случая.</p>
-                        </div>
-                    </section>
-
+                        </section>
+                    </div>
                 </div>
             </section>
 
-            <!-- Контакты/вопросы -->
-            <section role="region" aria-labelledby="shipping-questions-title" class="main-block text-center">
+            <!-- Общие правила и условия -->
+            <section role="region" aria-labelledby="shipping-terms-title" class="main-block text-center">
                 <div class="flex justify-center mb-6" aria-hidden="true">
                     <svg class="guide-icon-bg" width="50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -171,14 +204,18 @@
                         </g>
                     </svg>
                 </div>
-                <h2 id="shipping-questions-title" class="text-2xl font-semibold">Нужна помощь с доставкой?</h2>
-                <ul class="space-y-1 guide-text">
-                    <li>Email: <a href="mailto:workshop@mp.market" class="text-blue-600 underline">workshop@mp.market</a>
-                    </li>
-                    <li>Телефон: 8 (800) 550-37-00</li>
-                </ul>
+                <h2 id="shipping-terms-title" class="guide-h2-margin text-2xl font-semibold text-center mb-4">Остались
+                    вопросы?</h2>
+                <p>Наши менеджеры всегда готовы помочь</p>
+                <div class="mt-4">
+                    <x-contact-form-button button-text="Задать вопрос" title="Вопрос по доставке"
+                        select-label="Тема обращения" :select-options="['Вопрос по доставке', 'Другое']" />
+                </div>
             </section>
         </div>
+
     </section>
 
 @endsection
+
+@vite(['resources/js/deliverypagescript.js'])

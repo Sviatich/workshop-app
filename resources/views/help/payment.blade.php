@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Об оплате — Мастерская Упаковки')
+@section('title', 'Оплата заказа — Мастерская Упаковки')
 @section('meta_description', 'Доступные способы оплаты и реквизиты.')
 
 @section('content')
@@ -23,11 +23,12 @@
                         <!-- Левая колонка: Способы оплаты -->
                         <section role="region" aria-labelledby="payment-methods-title" class="order-2 md:order-1 mt-0">
 
-                            <ul class="space-y-6 guide-text">
+                            <ul class="space-y-6">
                                 <li>
                                     <p>
                                         <span class="font-bold">Для физических лиц.</span>
-                                        После подтверждения заказа менеджером вы получаете безопасную ссылку на оплату онлайн через сервис
+                                        После подтверждения заказа менеджером вы получаете безопасную ссылку на оплату
+                                        онлайн через сервис
                                         ЮKassa.
                                     </p>
                                     <div class="mt-3 flex flex-wrap gap-2">
@@ -47,7 +48,8 @@
                                         счёта вашей компании.
                                     </p>
                                     <div class="mt-3 flex flex-wrap gap-2">
-                                        <span class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">Оплата по счету</span>
+                                        <span class="px-3 py-1 rounded text-sm bg-blue-100 text-blue-800 font-medium">Оплата
+                                            по счету</span>
                                     </div>
                                 </li>
                             </ul>
@@ -65,7 +67,7 @@
                     <!-- Безопасность -->
                     <section role="region" aria-labelledby="payment-security-title">
                         <h2 id="payment-security-title" class="text-2xl font-semibold mb-4">Это безопасно</h2>
-                        <ul class="space-y-3 guide-text">
+                        <ul class="space-y-3">
                             <li>
                                 Платёжная страница защищена: данные карты обрабатываются на стороне платёжного провайдера с
                                 использованием
@@ -78,7 +80,7 @@
                     <!-- Процесс -->
                     <section role="region" aria-labelledby="payment-process-title">
                         <h2 id="payment-process-title" class="text-2xl font-semibold mb-4">Как всё происходит</h2>
-                        <ol class="list-decimal pl-6 space-y-3 guide-text">
+                        <ol class="list-decimal pl-6 space-y-3">
                             <li>Вы формируете заявку через калькулятор.</li>
                             <li>Менеджер уточняет детали и подтверждает заказ.</li>
                             <li>
@@ -93,10 +95,10 @@
                     <!-- Возвраты/корректировки -->
                     <section role="region" aria-labelledby="refunds-title">
                         <h2 id="refunds-title" class="text-2xl font-semibold mb-4">Возвраты и корректировки</h2>
-                        <p class="guide-text mb-2">
+                        <p class="mb-2">
                             Если нужно изменить заказ — сообщите менеджеру. Пересчитаем стоимость и согласуем новые условия.
                         </p>
-                        <p class="guide-text">
+                        <p>
                             Возвраты (при необходимости) оформляем в соответствии с согласованным договором и действующим
                             законодательством:
                             <span class="font-medium">физ. лицам</span> — на карту/способ оплаты; <span
@@ -120,12 +122,12 @@
                         </g>
                     </svg>
                 </div>
-                <h2 id="questions-title" class="text-2xl font-semibold">Остались вопросы?</h2>
-                <ul class="space-y-1 guide-text">
-                    <li>Email: <a href="mailto:workshop@mp.market" class="text-blue-600 underline">workshop@mp.market</a>
-                    </li>
-                    <li>Телефон: 8 (800) 550-37-00</li>
-                </ul>
+                <h2 id="questions-title" class="guide-h2-margin text-2xl font-semibold">Остались вопросы?</h2>
+                <p>Наши менеджеры всегда готовы помочь</p>
+                <div class="mt-4">
+                    <x-contact-form-button button-text="Задать вопрос" title="Вопрос по оплате" select-label="Тема обращения"
+                        :select-options="['Вопрос по оплате заказа', 'Другое']" />
+                </div>
             </section>
         </div>
     </section>

@@ -5,11 +5,11 @@
       <h2 class="text-2xl font-bold">
         Доставка по России
       </h2>
-      <p class="home-feature-subtitle mt-2 main-gray-color">
+      <p class="home-feature-subtitle mt-2">
         Мы осуществляем доставку по всей стране. Подробнее об условиях и стоимости доставки можете узнать здесь.
       </p>
       <div class="banner-block-button btn-hover-effect mt-6">
-        <a href="/">Узнать подробнее</a>
+        <a href="/help/delivery">Узнать подробнее</a>
       </div> 
     </div>
     <div id="map"></div>

@@ -3,7 +3,20 @@
 @section('content')
     <div role="main" aria-labelledby="error-title">
         <div class="main-block">
-            <h1>404</h1>
+            <div class="page-404-block">
+                <div class="flex flex-col justify-center items-center text-center">
+                    <img width="230px" src="{{ Vite::asset('resources/images/404.webp') }}" class="image-on-404 mt-2"
+                        alt="404 Error">
+                    <h1 class="text-2xl font-semibold">Хмм.. такой страницы нет</h1>
+                    <p class="mb-8">Вернитесь назад или поищите что-нибудь другое.<br>Код ошибки: 404</p>
+                </div>
+                <section role="region" aria-labelledby="questions-title" class="text-center">
+                    <div class="mt-4">
+                        <x-contact-form-button button-text="Сообщить об ошибке" title="Что-то сломалось?"
+                            select-label="Тема обращения" :select-options="['Страница недоступна', 'Другое']" />
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 @endsection

@@ -14,6 +14,8 @@
     <section id="faq" aria-labelledby="faq-heading" class="main-block">
         <div class="faq-wrap">
 
+            <!-- Группа 1: Заказ и оплата -->
+            <h2>Заказ и оплата</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Как оформить заказ?</span>
@@ -21,25 +23,11 @@
                 </summary>
                 <div class="faq-content main-gray-color">
                     <p>Выберите конструкцию и укажите размеры, тираж и опции. После расчёта добавьте позицию в корзину и
-                        заполните
-                        контакты — система создаст номер и ссылку на заказ.</p>
+                        заполните контакты — система создаст номер и ссылку на заказ.</p>
                     <ul>
                         <li>Нестандартные размеры возможны — надбавка считается автоматически.</li>
                         <li>Файлы (логотип/макет) можно загрузить сразу или позже на странице заказа.</li>
                     </ul>
-                </div>
-            </details>
-
-            <details class="faq-item btn-hover-effect-dark">
-                <summary>
-                    <span class="q">Какие сроки изготовления?</span>
-                    <span class="faq-icon" aria-hidden="true"></span>
-                </summary>
-                <div class="faq-content main-gray-color">
-                    <p>Производство: 2–7 рабочих дней (зависит от тиража и опций). Доставка по России курьером/ТК, самовывоз
-                        — по
-                        согласованию.</p>
-                    <p>Итоговые сроки и стоимость доставки считаются при оформлении заказа после указания адреса.</p>
                 </div>
             </details>
 
@@ -57,6 +45,56 @@
 
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
+                    <span class="q">Можно ли внести предоплату, а остаток оплатить позже?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>Нет. Заказ будет поставлен в производство только после 100% предоплаты.</p>
+                </div>
+            </details>
+
+            <!-- Группа 2: Сроки и доставка -->
+            <h2 class="mt-8">Сроки и доставка</h2>
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
+                    <span class="q">Какие сроки изготовления?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>Производство: 2–7 рабочих дней (зависит от тиража и опций). Доставка по России курьером/ТК, самовывоз
+                        — по
+                        согласованию.</p>
+                    <p>Итоговые сроки и стоимость доставки считаются при оформлении заказа после указания адреса.</p>
+                </div>
+            </details>
+
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
+                    <span class="q">Сколько занимает доставка?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>После передачи заказа транспортной компании, доставка занимает в среднем 1-2 рабочих дня по Москве и
+                        области, в регионы — индивидуально.</p>
+                </div>
+            </details>
+
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
+                    <span class="q">Можно ли ускорить изготовление?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>Все заказы выполняются в порядке очереди. Однако мы готовы рассмотреть приоритетное размещение, если
+                        у вас форс-мажорная ситуация. В таком случае обратитесь к менеджеру компании по телефону
+                        8&nbsp;800&nbsp;550-37-00.</p>
+                </div>
+            </details>
+
+            <!-- Группа 3: Печать и дизайн -->
+            <h2 class="mt-8">Печать и дизайн</h2>
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
                     <span class="q">Какие требования к макету?</span>
                     <span class="faq-icon" aria-hidden="true"></span>
                 </summary>
@@ -65,17 +103,6 @@
                         согласуется
                         после проверки файла.</p>
                     <p>Требования: поля 5 мм, шрифты в кривых, профиль CMYK.</p>
-                </div>
-            </details>
-
-            <details class="faq-item btn-hover-effect-dark">
-                <summary>
-                    <span class="q">Есть ли минимальный тираж?</span>
-                    <span class="faq-icon" aria-hidden="true"></span>
-                </summary>
-                <div class="faq-content main-gray-color">
-                    <p>Минимальный тираж — от 25 шт. Пробный образец возможен, но только по согласованию и оплачивается
-                        отдельно.</p>
                 </div>
             </details>
 
@@ -106,6 +133,20 @@
                 </div>
             </details>
 
+            <!-- Группа 4: Производство и материалы -->
+            <h2 class="mt-8">Производство и материалы</h2>
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
+                    <span class="q">Есть ли минимальный тираж?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>Минимальный тираж — от 25 шт. Пробный образец возможен, но только по согласованию и оплачивается
+                        отдельно.
+                    </p>
+                </div>
+            </details>
+
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Что с нестандартными размерами?</span>
@@ -113,19 +154,7 @@
                 </summary>
                 <div class="faq-content main-gray-color">
                     <p>Сначала предложим ближайшие стандартные размеры (±80 мм) — это дешевле и быстрее. Если требуется свой
-                        размер,
-                        применяется надбавка 5 000 ₽ и срок согласуется индивидуально.</p>
-                </div>
-            </details>
-
-            <details class="faq-item btn-hover-effect-dark">
-                <summary>
-                    <span class="q">Сколько занимает доставка?</span>
-                    <span class="faq-icon" aria-hidden="true"></span>
-                </summary>
-                <div class="faq-content main-gray-color">
-                    <p>После передачи заказа транспортной компании, доставка занимает в среднем 1-2 рабочих дня по Москве и
-                        области, в регионы — индивидуально.</p>
+                        размер, применяется надбавка 5 000 ₽ и срок согласуется индивидуально.</p>
                 </div>
             </details>
 
@@ -136,19 +165,34 @@
                 </summary>
                 <div class="faq-content main-gray-color">
                     <p>Предлагаем бурый, бело-бурый и бело-белый картон разной прочности. Подбор зависит от тиража и условий
-                        использования упаковки. По умолчанию коробки изготавливаются из картона профиля Е (1.5 мм) и картона
-                        профиля В (2.0 мм).</p>
+                        использования упаковки. По умолчанию коробки изготавливаются из картона профиля Е (1.5 мм) и профиля
+                        В
+                        (2.0 мм).</p>
                 </div>
             </details>
 
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
+                    <span class="q">Можно ли заказать разные конструкции в одном тираже?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>Да, в заказ можно добавить несколько конструкций. Каждая позиция рассчитывается отдельно и
+                        учитывается в
+                        общем заказе.</p>
+                </div>
+            </details>
+
+            <!-- Группа 5: Дополнительно -->
+            <h2 class="mt-8">Дополнительно</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Делаете ли вы бесплатные образцы?</span>
                     <span class="faq-icon" aria-hidden="true"></span>
                 </summary>
                 <div class="faq-content main-gray-color">
-                    <p>Образцы коробок изготавливаются платно по согласованию. Бесплатно предоставляем 3D визуализацию
-                        вашего короба.</p>
+                    <p>Образцы коробок изготавливаются платно по предварительному согласованию. Бесплатно можем предоставить
+                        3D визуализацию вашего короба.</p>
                 </div>
             </details>
 
@@ -163,9 +207,20 @@
                 </div>
             </details>
 
-        </div>
+            <details class="faq-item btn-hover-effect-dark">
+                <summary>
+                    <span class="q">Предоставляете ли вы скидки на большие тиражи?</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-content main-gray-color">
+                    <p>Акции, персональные скидки и купоны не предоставляются, однако цена за одну коробку автоматически
+                        уменьшается обратно пропорционально тиражу — чем больше тираж, тем ниже стоимость одной коробки.</p>
+                </div>
+            </details>
 
+        </div>
     </section>
+
     <!-- Контакты/вопросы -->
     <section role="region" aria-labelledby="questions-title" class="main-block text-center">
         <div class="flex justify-center mb-6" aria-hidden="true">
@@ -180,11 +235,11 @@
                 </g>
             </svg>
         </div>
-        <h2 id="questions-title" class="text-2xl font-semibold">Остались вопросы?</h2>
-        <ul class="space-y-1 guide-text">
-            <li>Email: <a href="mailto:workshop@mp.market" class="text-blue-600 underline">workshop@mp.market</a>
-            </li>
-            <li>Телефон: 8 (800) 550-37-00</li>
-        </ul>
+        <h2 id="questions-title" class="guide-h2-margin text-2xl font-semibold">Остались вопросы?</h2>
+        <p>Наши менеджеры всегда готовы помочь</p>
+        <div class="mt-4">
+            <x-contact-form-button button-text="Задать вопрос" title="Что хотели бы узнать?" select-label="Тема обращения"
+                :select-options="['Оплата заказа', 'Сроки и доставка', 'Печать и дизайн', 'Производство и материалы', 'Другое']" />
+        </div>
     </section>
 @endsection

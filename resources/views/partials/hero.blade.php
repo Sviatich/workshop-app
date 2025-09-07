@@ -36,8 +36,8 @@
         </div>
     </div>
     <div class="hero-stream" aria-hidden="true">
-        <video autoplay muted playsinline class="static hero-image">
-            <source src="{{ Vite::asset('resources/videos/herovideo.mp4') }}" type="video/mp4">
+        <video autoplay muted playsinline loop class="static hero-image">
+            <source src="{{ Vite::asset('resources/videos/production-video.webm') }}" type="video/webm">
         </video>
     </div>
 </section>

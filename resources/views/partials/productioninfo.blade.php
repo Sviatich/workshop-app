@@ -10,7 +10,7 @@
       <div class="card__body">
         <div class="features-video-container">
           <video autoplay loop muted playsinline class="static features-video">
-            <source src="http://[::1]:5173/./resources/videos/production-video.webm" type="video/webm">
+            <source src="http://[::1]:5173/./resources/videos/production-video-3.mp4" type="video/mp4">
           </video>
         </div>
 

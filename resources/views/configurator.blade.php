@@ -118,9 +118,9 @@
                         <div>
                             <label class="block font-semibold mb-1 configurator-label">Размер логотипа</label>
                             <select id="logo_size" class="rounded border w-full p-2">
-                                <option value="20x40">20 мм × 40 мм</option>
-                                <option value="10x40">10 мм × 40 мм</option>
-                                <option value="26x40">26 мм × 40 мм</option>
+                                <option value="26x100">26 мм × 100 мм</option>
+                                <option value="26x50">26 мм × 50 мм</option>
+                                <option value="12x40">12 мм × 40 мм</option>
                             </select>
                         </div>
 
@@ -166,7 +166,7 @@
                         <tbody>
                             <tr>
                                 <th class="pr-4 font-semibold">Цена за 1 шт:</th>
-                                <td class="text-right"><span id="price_per_unit">—</span> ₽</td>
+                                <td class="text-right font-semibold"><span id="price_per_unit">—</span> ₽</td>
                             </tr>
                             <tr class="result-main-other">
                                 <th class="pr-4 font-normal">Общая цена:</th>

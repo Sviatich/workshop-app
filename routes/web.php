@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\FeedbackController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -59,3 +60,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Feedback / contact form (non‑Vite, plain POST endpoint)
+Route::post('/feedback', [FeedbackController::class, 'send'])->name('feedback.send');
