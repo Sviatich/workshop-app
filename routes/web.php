@@ -29,7 +29,7 @@ Route::view('/privacy-policy', 'legal.privacy-policy')->name('legal.privacy');
 Route::view('/cookies', 'legal.cookies')->name('legal.cookies');
 Route::view('/requisites', 'legal.requisites')->name('legal.requisites');
 
-// Help section
+// Help section (+ moved former services pages)
 Route::prefix('help')->name('help.')->group(function () {
     Route::view('/', 'help.index')->name('index');
     Route::view('/how-to-order', 'help.how-to-order')->name('how_to_order');
@@ -37,15 +37,18 @@ Route::prefix('help')->name('help.')->group(function () {
     Route::view('/payment', 'help.payment')->name('payment');
     Route::view('/returns', 'help.returns')->name('returns');
     Route::view('/faq', 'help.faq')->name('faq');
+
+    // former /services/* pages
+    Route::view('/logo-print', 'help.logo-print')->name('logo_print');
+    Route::view('/fullprint', 'help.fullprint')->name('fullprint');
+    Route::view('/logo-design', 'help.logo-design')->name('logo_design');
 });
 
-// Additional services section
-Route::prefix('services')->name('services.')->group(function () {
-    Route::view('/', 'services.index')->name('index');
-    Route::view('/logo-print', 'services.logo-print')->name('logo_print');
-    Route::view('/fullprint', 'services.fullprint')->name('fullprint');
-    Route::view('/logo-design', 'services.logo-design')->name('logo_design');
-});
+// Permanent redirects from old services URLs
+Route::redirect('/services', '/help', 301);
+Route::redirect('/services/logo-print', '/help/logo-print', 301);
+Route::redirect('/services/fullprint', '/help/fullprint', 301);
+Route::redirect('/services/logo-design', '/help/logo-design', 301);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

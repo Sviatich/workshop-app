@@ -93,9 +93,9 @@
       <section class="mega-col">
         <h3 class="mega-title">Дополнительные услуги</h3>
         <ul role="list" class="mega-list">
-          <li><a href="/services/logo-print">Печать логотипа</a></li>
-          <li><a href="/services/fullprint">Полноцветная печать</a></li>
-          <li><a href="/services/logo-design">Разработка дизайна</a></li>
+          <li><a href="/help/logo-print">Печать логотипа</a></li>
+          <li><a href="/help/fullprint">Полноцветная печать</a></li>
+          <li><a href="/help/logo-design">Разработка дизайна</a></li>
         </ul>
       </section>
 

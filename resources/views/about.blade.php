@@ -1,301 +1,158 @@
 @extends('layouts.app')
 
-@section('title', 'О нас — ' . config('app.name'))
+@section('title', 'Упаковка, которая работает на вас')
 @section('meta_description', 'О компании: производство упаковки на заказ, опыт, команда и преимущества.')
 
 @section('content')
-<section class="main-block">
-{{-- Hero --}}
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-amber-50 to-orange-50"></div>
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-      <div class="grid lg:grid-cols-12 gap-10 items-center">
-        <div class="lg:col-span-7">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-            Мистер Пакерс — умная упаковка для малого бизнеса
-          </h1>
-          <p class="mt-5 text-lg text-gray-600 max-w-2xl">
-            Производим <span class="font-medium text-gray-900">короба по FEFCO</span>, печать логотипа и доставку. 
-            Онлайн-конфигуратор считает стоимость, а команда — помогает с выбором.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="{{ route('help.delivery') }}" class="inline-flex items-center px-5 py-3 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 transition">
-              Запустить конфигуратор
-            </a>
-            <a href="{{ route('contacts') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition">
-              Связаться с нами
-            </a>
-          </div>
-          <dl class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6">
-            <div class="p-4 rounded-xl bg-white/70 border">
-              <dt class="text-sm text-gray-500">Срок производства</dt>
-              <dd class="text-2xl font-semibold">от 3 дней</dd>
-            </div>
-            <div class="p-4 rounded-xl bg-white/70 border">
-              <dt class="text-sm text-gray-500">Тираж</dt>
-              <dd class="text-2xl font-semibold">от 10 шт</dd>
-            </div>
-            <div class="p-4 rounded-xl bg-white/70 border">
-              <dt class="text-sm text-gray-500">Типов коробов</dt>
-              <dd class="text-2xl font-semibold">20+</dd>
-            </div>
-            <div class="p-4 rounded-xl bg-white/70 border">
-              <dt class="text-sm text-gray-500">Клиентов</dt>
-              <dd class="text-2xl font-semibold">1 500+</dd>
-            </div>
-          </dl>
-        </div>
-        <div class="lg:col-span-5">
-          <div class="aspect-[4/3] w-full rounded-2xl border bg-white shadow-sm overflow-hidden">
-            {{-- Плейсхолдер: заменишь фото производства/упаковки --}}
-            <img src="{{ Vite::asset('resources/images/about/production.jpg') }}" alt="Производство упаковки" class="h-full w-full object-cover">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  {{-- Кто мы / Миссия --}}
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid lg:grid-cols-12 gap-10 items-start">
+  {{-- Hero --}}
+  <section class="relative main-block primary-bg-color">
+    <div class="grid lg:grid-cols-12 gap-10 items-center">
       <div class="lg:col-span-7">
-        <h2 class="text-2xl sm:text-3xl font-bold">Кто мы</h2>
-        <p class="mt-4 text-gray-600 leading-relaxed">
-          Мы — команда инженеров, дизайнеров и производственников. Делаем упаковку, которая помогает продавать:
-          аккуратную, прочную и экономичную. Фокус — быстрые малые и средние тиражи для e-commerce и маркетплейсов.
-        </p>
-        <p class="mt-4 text-gray-600">
-          Ценим прозрачность, сроки и внятные расчёты — поэтому сделали онлайн-конфигуратор и понятные спецификации к заказу.
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
+          Мастерская Упаковки — делаем коробки, которые продают
+        </h1>
+        <p class="mt-5 text-lg max-w-2xl text-white">
+          Производим <span class="font-bold">короба по каталогу FEFCO</span>, печать логотипа и доставку.
+          Онлайн-конфигуратор считает стоимость, а команда — помогает с выбором.
         </p>
       </div>
       <div class="lg:col-span-5">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="p-5 rounded-2xl border">
-            <h3 class="font-semibold">Миссия</h3>
-            <p class="mt-2 text-sm text-gray-600">Сделать профессиональную упаковку доступной малому бизнесу без сложностей и затяжных сроков.</p>
-          </div>
-          <div class="p-5 rounded-2xl border">
-            <h3 class="font-semibold">Ценности</h3>
-            <ul class="mt-2 text-sm text-gray-600 list-disc list-inside space-y-1">
-              <li>Честные расчёты</li>
-              <li>Скорость и аккуратность</li>
-              <li>Поддержка клиента</li>
-            </ul>
-          </div>
+        <div class="aspect-[4/3] w-full">
+          <img src="{{ Vite::asset('resources/images/doggy.png') }}" alt="Собака в коробке" class="object-cover">
         </div>
       </div>
     </div>
   </section>
+  <section class="main-block">
 
-  {{-- Преимущества --}}
-  <section class="bg-gray-50 border-y">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+      <div class="p-4 rounded border">
+        <dt class="text-sm text-gray-500">Богатый опыт</dt>
+        <dd class="text-2xl font-semibold">{{ now()->year - 2009 }} лет</dd>
+      </div>
+      <div class="p-4 rounded border">
+        <dt class="text-sm text-gray-500">Клиентов</dt>
+        <dd class="text-2xl font-semibold">2 500 +</dd>
+      </div>
+      <div class="p-4 rounded border">
+        <dt class="text-sm text-gray-500">Создали конструкций</dt>
+        <dd class="text-2xl font-semibold">3 000 +</dd>
+      </div>
+      <div class="p-4 rounded border">
+        <dt class="text-sm text-gray-500">Готовых форм</dt>
+        <dd class="text-2xl font-semibold">1 200+</dd>
+      </div>
+    </dl>
+
+    {{-- Кто мы / Миссия --}}
+    <section class="mx-auto pt-8">
+      <div class="grid lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-6">
+          <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+            <a href="#" data-modal-open="" data-modal-type="video" data-title="Видео о производстве"
+              data-video-src="https://rutube.ru/play/embed/ВАШ-ID"
+              data-video-text="Короткий ролик о наших производственных мощностях.">
+              <img class="btn-hover-effect rounded" src="http://[::1]:5173/resources/images/product-image.webp"
+                alt="Ссылка на видео о производстве">
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-6">
+          <h2 class="text-2xl sm:text-3xl font-bold">Кто мы</h2>
+          <p class="mt-4 leading-relaxed">
+            Мы — команда инженеров, дизайнеров и производственников. Делаем упаковку, которая помогает продавать:
+            аккуратную, прочную и экономичную. Фокус — быстрые малые и средние тиражи для e-commerce и маркетплейсов.
+          </p>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="main-block">
+    {{-- Преимущества --}}
+    <div class="mx-auto">
       <h2 class="text-2xl sm:text-3xl font-bold">Почему нас выбирают</h2>
       <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @php
           $benefits = [
-            ['title'=>'Конфигуратор с расчётом','desc'=>'Стоимость и параметры считаются на лету, видны ближайшие стандартные размеры.'],
-            ['title'=>'Малые тиражи','desc'=>'Печатаем от 10 штук — идеально для тестовых партий и нишевых запусков.'],
-            ['title'=>'Печать и брендинг','desc'=>'Логотип одной краской или полноцвет — подскажем, как выгоднее.'],
-            ['title'=>'Доставка по РФ','desc'=>'Сотрудничаем с СДЭК; рассчитываем габариты и вес автоматически.'],
-            ['title'=>'Контроль качества','desc'=>'Спецификации и фотопруфы перед запуском партии.'],
-            ['title'=>'Поддержка','desc'=>'Менеджер на связи в мессенджерах, быстрые ответы по макетам.'],
+            [
+              'icon' => 'calculator',
+              'title' => 'Конфигуратор с расчётом',
+              'desc' => 'Стоимость и параметры считаются на лету, видны ближайшие стандартные размеры.'
+            ],
+            [
+              'icon' => 'layers',
+              'title' => 'Малые тиражи',
+              'desc' => 'Печатаем от 10 штук — идеально для тестовых партий и нишевых запусков.'
+            ],
+            [
+              'icon' => 'paint-brush',
+              'title' => 'Печать и брендинг',
+              'desc' => 'Логотип одной краской или полноцвет — подскажем, как выгоднее.'
+            ],
+            [
+              'icon' => 'truck',
+              'title' => 'Доставка по РФ',
+              'desc' => 'Сотрудничаем с СДЭК; рассчитываем габариты и вес автоматически.'
+            ],
+            [
+              'icon' => 'check-circle',
+              'title' => 'Контроль качества',
+              'desc' => 'Спецификации и фотопруфы перед запуском партии.'
+            ],
+            [
+              'icon' => 'headset',
+              'title' => 'Поддержка',
+              'desc' => 'Менеджер на связи в мессенджерах, быстрые ответы по макетам.'
+            ],
+          ];
+
+          // Иконки SVG (можно заменить на компонент или @svg)
+          $icons = [
+            'calculator' => '<svg class="w-8 h-8" fill="none" stroke="#296fd1" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h2M12 15h2"/></svg>',
+            'layers' => '<svg class="w-8 h-8" fill="none" stroke="#296fd1" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+            'paint-brush' => '<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none""><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="#296fd1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 21.1679V14L12 7L16 14V21.1679" stroke="#296fd1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 14C8 14 9.12676 15 10 15C10.8732 15 12 14 12 14C12 14 13.1268 15 14 15C14.8732 15 16 14 16 14" stroke="#296fd1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
+            'truck' => '<svg class="w-8 h-8" fill="none" stroke="#296fd1" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+            'check-circle' => '<svg class="w-8 h-8" fill="none" stroke="#296fd1" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2l4-4"/></svg>',
+            'headset' => '<svg class="w-8 h-8" fill="none" stroke="#296fd1" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="2" y="15" width="4" height="6" rx="2"/><rect x="18" y="15" width="4" height="6" rx="2"/></svg>',
           ];
         @endphp
 
         @foreach($benefits as $b)
-          <div class="p-6 rounded-2xl border bg-white">
-            <h3 class="font-semibold">{{ $b['title'] }}</h3>
-            <p class="mt-2 text-gray-600">{{ $b['desc'] }}</p>
+          <div class="p-6 rounded border bg-white flex flex-col items-start">
+            {!! $icons[$b['icon']] ?? '' !!}
+            <h3 class="font-semibold mt-4">{{ $b['title'] }}</h3>
+            <p class="mt-2">{{ $b['desc'] }}</p>
           </div>
         @endforeach
       </div>
     </div>
   </section>
+  <section class="main-block">
 
-  {{-- Таймлайн --}}
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <h2 class="text-2xl sm:text-3xl font-bold">Как мы росли</h2>
-    <ol class="mt-10 relative border-s pl-6 space-y-10">
-      <li class="relative">
-        <div class="absolute -left-3 top-1 w-6 h-6 rounded-full bg-white border"></div>
-        <h3 class="font-semibold">2022 — Запуск MVP</h3>
-        <p class="mt-2 text-gray-600">Первые клиенты из Telegram-магазинов, отладка процессов.</p>
-      </li>
-      <li class="relative">
-        <div class="absolute -left-3 top-1 w-6 h-6 rounded-full bg-white border"></div>
-        <h3 class="font-semibold">2023 — Собственное производство</h3>
-        <p class="mt-2 text-gray-600">Расширили линейку FEFCO, внедрили контроль качества и фотопруфы.</p>
-      </li>
-      <li class="relative">
-        <div class="absolute -left-3 top-1 w-6 h-6 rounded-full bg-white border"></div>
-        <h3 class="font-semibold">2024 — Интеграции</h3>
-        <p class="mt-2 text-gray-600">СДЭК, CRM, автоспецификации; ускорили расчёты и согласования макетов.</p>
-      </li>
-      <li class="relative">
-        <div class="absolute -left-3 top-1 w-6 h-6 rounded-full bg-white border"></div>
-        <h3 class="font-semibold">2025 — Масштабирование</h3>
-        <p class="mt-2 text-gray-600">Каталог B2B-решений, быстрый старт брендов на маркетплейсах.</p>
-      </li>
-    </ol>
-  </section>
-
-  {{-- Производство / как мы делаем --}}
-  <section class="bg-gray-50 border-y">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    {{-- Производство / как мы делаем --}}
+    <div class="mx-auto">
       <div class="grid lg:grid-cols-12 gap-10 items-center">
         <div class="lg:col-span-6">
-          <div class="aspect-[16/9] w-full rounded-2xl border overflow-hidden bg-white shadow-sm">
-            <img src="{{ Vite::asset('resources/images/about/workflow.jpg') }}" alt="Процесс производства коробов" class="h-full w-full object-cover">
-          </div>
-        </div>
-        <div class="lg:col-span-6">
-          <h2 class="text-2xl sm:text-3xl font-bold">Как мы работаем</h2>
-          <ul class="mt-6 space-y-4 text-gray-700">
+          <h2 class="text-2xl sm:text-3xl font-bold">Как это работает</h2>
+          <ul class="mt-6 space-y-4">
             <li><span class="font-medium">1.</span> Выбираете конструкцию и параметры в конфигураторе.</li>
             <li><span class="font-medium">2.</span> Загружаете логотип/макет, получаете расчёт и спецификацию.</li>
             <li><span class="font-medium">3.</span> Подтверждаем макеты, запускаем производство.</li>
-            <li><span class="font-medium">4.</span> Упаковываем, доставляем, консультируем по повторным тиражам.</li>
           </ul>
         </div>
-      </div>
-    </div>
-  </section>
-
-  {{-- Клиенты / логотипы --}}
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="flex items-center justify-between gap-6">
-      <h2 class="text-2xl sm:text-3xl font-bold">Нам доверяют</h2>
-      {{-- <a href="{{ route('cases.index') }}" class="text-sm text-gray-600 hover:text-gray-900">Смотреть кейсы</a> --}}
-    </div>
-    <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-      @for ($i = 1; $i <= 6; $i++)
-        <div class="aspect-[3/2] rounded-xl border bg-white p-4 flex items-center justify-center">
-          <img src="{{ Vite::asset("resources/images/clients/client-$i.svg") }}" alt="Логотип клиента {{ $i }}" class="max-h-10 object-contain">
-        </div>
-      @endfor
-    </div>
-  </section>
-
-  {{-- Отзывы --}}
-  <section class="bg-gray-50 border-y">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <h2 class="text-2xl sm:text-3xl font-bold">Отзывы</h2>
-      <div class="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach ([
-          ['name'=>'Анна, маркетплейс','text'=>'Быстро помогли с размерами и печатью. Короба приехали вовремя, цвет попал идеально.'],
-          ['name'=>'Сергей, e-commerce','text'=>'Удобный конфигуратор, видно конечную цену и ближайшие стандарты — просто супер.'],
-          ['name'=>'Дарья, ритейл','text'=>'Качественно упаковали, дали рекомендации по повтору тиража. Будем работать дальше.'],
-        ] as $r)
-          <figure class="p-6 rounded-2xl border bg-white">
-            <blockquote class="text-gray-700">“{{ $r['text'] }}”</blockquote>
-            <figcaption class="mt-4 text-sm text-gray-500">— {{ $r['name'] }}</figcaption>
-          </figure>
-        @endforeach
-      </div>
-    </div>
-  </section>
-
-  {{-- Команда (опционально можно скрыть) --}}
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <h2 class="text-2xl sm:text-3xl font-bold">Команда</h2>
-    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      @foreach ([
-        ['name'=>'Алексей','role'=>'Операции и производство'],
-        ['name'=>'Иван','role'=>'Разработка и продукт'],
-        ['name'=>'Мария','role'=>'Дизайн и преформы'],
-      ] as $m)
-      <div class="p-6 rounded-2xl border">
-        <div class="aspect-square rounded-xl overflow-hidden bg-gray-100">
-          <img src="{{ Vite::asset('resources/images/team/placeholder.jpg') }}" alt="{{ $m['name'] }}" class="w-full h-full object-cover">
-        </div>
-        <h3 class="mt-4 font-semibold">{{ $m['name'] }}</h3>
-        <p class="text-sm text-gray-600">{{ $m['role'] }}</p>
-      </div>
-      @endforeach
-    </div>
-  </section>
-
-  {{-- FAQ --}}
-  <section class="bg-gray-50 border-y">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <h2 class="text-2xl sm:text-3xl font-bold">Частые вопросы</h2>
-      <div class="mt-8 space-y-6">
-        <details class="group p-5 rounded-2xl border bg-white">
-          <summary class="cursor-pointer list-none flex items-center justify-between">
-            <span class="font-medium">Можно ли заказать нестандартный размер?</span>
-            <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
-          </summary>
-          <p class="mt-3 text-gray-600">Да. Если нет точного совпадения, мы предложим ближайшие размеры или произведём по ТЗ. Для нестандарта возможна надбавка за переналадку.</p>
-        </details>
-        <details class="group p-5 rounded-2xl border bg-white">
-          <summary class="cursor-pointer list-none flex items-center justify-between">
-            <span class="font-medium">Какие сроки?</span>
-            <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
-          </summary>
-          <p class="mt-3 text-gray-600">Обычно 3–7 рабочих дней в зависимости от тиража и печати. Срочные заказы обсуждаем индивидуально.</p>
-        </details>
-        <details class="group p-5 rounded-2xl border bg-white">
-          <summary class="cursor-pointer list-none flex items-center justify-between">
-            <span class="font-medium">Доставляете ли вы по РФ?</span>
-            <span class="text-gray-400 group-open:rotate-180 transition">▾</span>
-          </summary>
-          <p class="mt-3 text-gray-600">Да, работаем с СДЭК и ТК. Габариты и вес считаем автоматически в заказе.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <div class="flex gap-6">
-
-  <!-- Первый тултип -->
-  <div class="relative inline-block">
-    <button class="peer px-3 py-1.5 rounded bg-blue-600 text-white">
-      1
-    </button>
-    <div class="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2
-                z-50 rounded bg-gray-800 text-white text-xs px-2.5 py-1 shadow
-                opacity-0 scale-95 transition ease-out duration-150
-                peer-hover:opacity-100 peer-hover:scale-100">
-      Указываются внутренние размеры
-      <span class="absolute left-1/2 top-full -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></span>
-    </div>
-  </div>
-
-  <!-- Второй тултип -->
-  <div class="relative inline-block">
-    <button class="peer px-3 py-1.5 rounded bg-green-600 text-white">
-      2
-    </button>
-    <div class="text-center pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2
-                z-50 rounded bg-gray-800 text-white text-xs px-2.5 py-1 shadow
-                opacity-0 scale-95 transition ease-out duration-150
-                peer-hover:opacity-100 peer-hover:scale-100">
-      Внешний и внутренний слои картона
-      <span class="absolute left-1/2 top-full -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></span>
-    </div>
-  </div>
-
-</div>
-
-  {{-- CTA --}}
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="rounded-2xl border p-8 lg:p-12 bg-white">
-      <div class="grid lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-8">
-          <h2 class="text-2xl sm:text-3xl font-bold">Готовы упаковать ваш продукт?</h2>
-          <p class="mt-3 text-gray-600">Соберите заказ в конфигураторе или позвоните — поможем подобрать конструкцию и печать.</p>
-        </div>
-        <div class="lg:col-span-4 flex lg:justify-end gap-3">
-          {{-- <a href="{{ route('delivery') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition">Собрать заказ</a> --}}
-          {{-- <a href="{{ route('contacts') }}" class="inline-flex items-center px-5 py-3 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 transition">Связаться</a> --}}
+        <div class="lg:col-span-6">
+          <div class="w-full">
+            <img src="{{ Vite::asset('resources/images/about-pic-1.webp') }}" alt="Процесс настройки короба"
+              class="h-full w-full object-cover">
+          </div>
         </div>
       </div>
     </div>
+
   </section>
-</section>
+  @include('partials.review')
 
 
 @endsection
-
-
