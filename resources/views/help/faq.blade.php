@@ -4,17 +4,16 @@
 @section('meta_description', 'Часто задаваемые вопросы о заказе, доставке и оплате.')
 
 @section('content')
-
-    <div class="main-block mb-10 guide-header text-center">
-        <nav aria-label="Навигация по разделам" class="mb-2">
-            <a class="underline" href="/help">Справка</a>
-        </nav>
+    <div class="main-block mb-10 guide-header">
+        @include('partials.breadcrumbs', ['items' => [
+            ['label' => 'Главная', 'url' => route('home')],
+            ['label' => 'Справка', 'url' => route('help.index')],
+            ['label' => 'Вопросы и ответы']
+        ]])
         <h1 id="payment-page-title" class="main-h1">Часто задаваемые вопросы</h1>
     </div>
     <section id="faq" aria-labelledby="faq-heading" class="main-block">
         <div class="faq-wrap">
-
-            <!-- Группа 1: Заказ и оплата -->
             <h2>Заказ и оплата</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
@@ -30,7 +29,6 @@
                     </ul>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Как оплатить заказ?</span>
@@ -42,7 +40,6 @@
                     </p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Можно ли внести предоплату, а остаток оплатить позже?</span>
@@ -52,8 +49,6 @@
                     <p>Нет. Заказ будет поставлен в производство только после 100% предоплаты.</p>
                 </div>
             </details>
-
-            <!-- Группа 2: Сроки и доставка -->
             <h2 class="mt-8">Сроки и доставка</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
@@ -67,7 +62,6 @@
                     <p>Итоговые сроки и стоимость доставки считаются при оформлении заказа после указания адреса.</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Сколько занимает доставка?</span>
@@ -78,7 +72,6 @@
                         области, в регионы — индивидуально.</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Можно ли ускорить изготовление?</span>
@@ -90,8 +83,6 @@
                         8&nbsp;800&nbsp;550-37-00.</p>
                 </div>
             </details>
-
-            <!-- Группа 3: Печать и дизайн -->
             <h2 class="mt-8">Печать и дизайн</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
@@ -105,7 +96,6 @@
                     <p>Требования: поля 5 мм, шрифты в кривых, профиль CMYK.</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Поможете с дизайном, если нет макета?</span>
@@ -120,7 +110,6 @@
                     </ul>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Как считается полноцветная печать?</span>
@@ -132,8 +121,6 @@
                         макет, мы оценим и пришлём итоговую стоимость на согласование.</p>
                 </div>
             </details>
-
-            <!-- Группа 4: Производство и материалы -->
             <h2 class="mt-8">Производство и материалы</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
@@ -146,7 +133,6 @@
                     </p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Что с нестандартными размерами?</span>
@@ -157,7 +143,6 @@
                         размер, применяется надбавка 5 000 ₽ и срок согласуется индивидуально.</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Какие варианты картона есть?</span>
@@ -166,11 +151,9 @@
                 <div class="faq-content main-gray-color">
                     <p>Предлагаем бурый, бело-бурый и бело-белый картон разной прочности. Подбор зависит от тиража и условий
                         использования упаковки. По умолчанию коробки изготавливаются из картона профиля Е (1.5 мм) и профиля
-                        В
-                        (2.0 мм).</p>
+                        В (2.0 мм).</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Можно ли заказать разные конструкции в одном тираже?</span>
@@ -182,8 +165,6 @@
                         общем заказе.</p>
                 </div>
             </details>
-
-            <!-- Группа 5: Дополнительно -->
             <h2 class="mt-8">Дополнительно</h2>
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
@@ -195,7 +176,6 @@
                         3D визуализацию вашего короба.</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Можно ли хранить коробки на складе?</span>
@@ -206,7 +186,6 @@
                         обговариваются индивидуально.</p>
                 </div>
             </details>
-
             <details class="faq-item btn-hover-effect-dark">
                 <summary>
                     <span class="q">Предоставляете ли вы скидки на большие тиражи?</span>
@@ -217,22 +196,17 @@
                         уменьшается обратно пропорционально тиражу — чем больше тираж, тем ниже стоимость одной коробки.</p>
                 </div>
             </details>
-
         </div>
     </section>
-
-    <!-- Контакты/вопросы -->
     <section role="region" aria-labelledby="questions-title" class="main-block text-center">
         <div class="flex justify-center mb-6" aria-hidden="true">
             <svg class="guide-icon-bg" width="50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                 stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <g>
-                    <path d="M19 22H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2z"></path>
-                    <line x1="16" y1="2" x2="16" y2="4"></line>
-                    <line x1="8" y1="2" x2="8" y2="4"></line>
-                    <circle cx="12" cy="11" r="3"></circle>
-                    <path d="M17 18.5c-1.4-1-3.1-1.5-5-1.5s-3.6.6-5 1.5"></path>
-                </g>
+                <path d="M19 22H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2z"></path>
+                <line x1="16" y1="2" x2="16" y2="4"></line>
+                <line x1="8" y1="2" x2="8" y2="4"></line>
+                <circle cx="12" cy="11" r="3"></circle>
+                <path d="M17 18.5c-1.4-1-3.1-1.5-5-1.5s-3.6.6-5 1.5"></path>
             </svg>
         </div>
         <h2 id="questions-title" class="guide-h2-margin text-2xl font-semibold">Остались вопросы?</h2>

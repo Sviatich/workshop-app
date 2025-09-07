@@ -1,59 +1,59 @@
-<section id="production-and-custom" class="main-block" aria-labelledby="module-title">
-  <div class="module__header">
-    <h2 id="module-title">Нужна другая конструкция?</h2>
-    <p class="module__desc">Разработаем для вас индивидуальную конструкцию, нанесем ваш логотип или
-      сделаем полноцветную запечатку. Но такие заказы принимаются только на тиражи от 300 шт. Срок производства — от 3 дней.</p>
+<section id="production-and-custom" class="main-block stylish-block" aria-labelledby="module-title">
+  <div class="module__header stylish-header">
+    <h2 id="module-title" class="stylish-title">Нужна другая конструкция?</h2>
+    <p class="module__desc stylish-desc">
+      Индивидуальные решения под ваш бренд: разработаем конструкцию, нанесём логотип или создадим уникальный дизайн. Заказы — от 300 шт, срок — от 3 дней.
+    </p>
   </div>
 
-  <div class="module__grid" role="list">
-    <article class="card card--primary" role="listitem" aria-labelledby="production-title">
-      <div class="card__body">
-        <div class="features-video-container">
+  <div class="module__grid stylish-grid" role="list">
+    <article class="card card--primary stylish-card" role="listitem" aria-labelledby="production-title">
+      <div class="card__body stylish-card__body">
+        <div class="features-video-container stylish-video">
           <video autoplay loop muted playsinline class="static features-video">
             <source src="http://[::1]:5173/./resources/videos/production-video-3.mp4" type="video/mp4">
           </video>
         </div>
-
-        <ul class="features" role="list">
-          <li class="features__item">
+        <ul class="features stylish-features" role="list">
+          <li class="features__item stylish-feature">
             <div>
-              <p class="features__title">Разные конструкции</p>
-              <p class="features__text">Самосборные, транспортировочные, крышка-дно и другие варианты.</p>
+              <p class="features__title stylish-feature__title">Любые конструкции</p>
+              <p class="features__text stylish-feature__text">Самосборные, транспортировочные, крышка-дно и другие форматы.</p>
             </div>
           </li>
-          <li class="features__item">
+          <li class="features__item stylish-feature">
             <div>
-              <p class="features__title">Печать и дизайн</p>
-              <p class="features__text">От 1 цвета до полноцветной двухсторонней печати.</p>
+              <p class="features__title stylish-feature__title">Дизайн и печать</p>
+              <p class="features__text stylish-feature__text">От минимализма до яркой полноцветной печати с двух сторон.</p>
             </div>
           </li>
-          <li class="features__item">
+          <li class="features__item stylish-feature">
             <div>
-              <p class="features__title">Сервис под задачу</p>
-              <p class="features__text">Подберём материалы и изготовим образцы под ваш проект.</p>
+              <p class="features__title stylish-feature__title">Персональный подход</p>
+              <p class="features__text stylish-feature__text">Подбор материалов и изготовление образцов под ваш проект.</p>
             </div>
           </li>
         </ul>
       </div>
     </article>
 
-    <article class="card card--accent" role="listitem" aria-labelledby="custom-title">
-      <div class="card__body">
-        <p class="card__lead">У нас собственное производство с современным оборудованием для резки, печати и склейки.
-          Это позволяет быстро выполнять заказы любых тиражей — от 25 штук до больших партий.</p>
-
-        <ul class="bullets" role="list">
-          <li class="bullets__item">Разработка КД и штампа по ТЗ или образцу.</li>
-          <li class="bullets__item">Подбираем картон, варианты печати и финишную отделку.</li>
-          <li class="bullets__item">Полный цикл в одном месте: от идеи до готовой упаковки.</li>
+    <article class="card card--accent stylish-card--accent" role="listitem" aria-labelledby="custom-title">
+      <div class="card__body stylish-card__body">
+        <p class="card__lead stylish-lead">
+          Собственное производство с современным оборудованием: резка, печать, склейка. Оперативно выполняем заказы от 25 штук до крупных партий.
+        </p>
+        <ul class="bullets stylish-bullets" role="list">
+          <li class="bullets__item stylish-bullet">Разработка КД и штампа по вашему ТЗ или образцу.</li>
+          <li class="bullets__item stylish-bullet">Подбор картона, вариантов печати и финишной отделки.</li>
+          <li class="bullets__item stylish-bullet">Полный цикл: от идеи до готовой упаковки.</li>
         </ul>
         <a href="#" data-modal-open data-modal-type="video" data-title="Видео о производстве"
           data-video-src="https://rutube.ru/play/embed/ВАШ-ID" data-video-text="Короткий ролик о наших производственных мощностях.">
-          <img class="features-image btn-hover-effect" src="{{ Vite::asset('resources/images/product-image.webp') }}"
+          <img class="features-image btn-hover-effect stylish-image" src="{{ Vite::asset('resources/images/product-image.webp') }}"
             alt="Ссылка на видео о производстве">
         </a>
-        <div class="cta">
-          <a class="btn--outline btn-hover-effect" href="https://mp.market/factory/" target="_blank" rel="noopener"
+        <div class="cta stylish-cta">
+          <a class="btn--outline btn-hover-effect stylish-btn" href="https://mp.market/factory/" target="_blank" rel="noopener"
             aria-label="Открыть сайт для заказа индивидуальной конструкции в новой вкладке">Подробнее</a>
         </div>
       </div>

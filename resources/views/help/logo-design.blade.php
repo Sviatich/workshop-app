@@ -6,11 +6,25 @@
 @section('content')
 <section aria-labelledby="design-title">
   <div class="mx-auto">
-    <!-- Hero -->
-    <header class="main-block text-center">
-      <h1 id="design-title" class="main-h1">Разработка дизайна</h1>
-      <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Поможем создать аккуратный, понятный и технологичный макет для печати и цифровых носителей.</p>
-    </header>
+    @php($slot = view('components.contact-form-button', [
+        'buttonText' => 'Отправить заявку',
+        'title' => 'Отправить заявку',
+        'selectLabel' => 'Тема обращения',
+        'id' => 'contact-hero-logo-design',
+        'page' => request()->path(),
+        'selectOptions' => ['Дизайн логотипа']
+    ]))
+    @include('partials.page-hero', [
+        'breadcrumbs' => [
+          ['label' => 'Главная', 'url' => route('home')],
+          ['label' => 'Справка', 'url' => route('help.index')],
+          ['label' => 'Дизайн логотипа']
+        ],
+        'title' => 'Разработка дизайна',
+        'text' => 'Поможем с идеей и подготовкой фирменного дизайна упаковки. Предложим несколько вариантов и доведём макеты до печати.',
+        'image' => Vite::asset('resources/images/about-pic-1.webp'),
+        'imageAlt' => 'Пример дизайна упаковки'
+    ])
 
     <!-- Что входит -->
     <section class="main-block" aria-labelledby="includes-title">
@@ -139,31 +153,7 @@
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="main-block" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="text-xl font-semibold mb-4">Частые вопросы</h2>
-      <div class="space-y-2">
-        <details class="rounded border bg-white p-4">
-          <summary class="font-medium cursor-pointer">Сколько правок включено?</summary>
-          <p class="mt-2 text-gray-700">Обычно 2 круга правок входят в базовую стоимость. Больше — по согласованию.</p>
-        </details>
-        <details class="rounded border bg-white p-4">
-          <summary class="font-medium cursor-pointer">Можете подготовить исходники?</summary>
-          <p class="mt-2 text-gray-700">Да, по запросу передаём исходные файлы (AI/PSD) с организованными слоями.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="main-block text-center" aria-labelledby="cta-title">
-      <h2 id="cta-title" class="text-2xl font-semibold mb-2">Нужно оформить задачу на дизайн?</h2>
-      <p class="text-gray-600 mb-4">Опишите задачу, сроки и пожелания — мы предложим варианты и сроки.</p>
-      <x-contact-form-button
-        button-text="Запросить расчёт"
-        title="Заявка на разработку дизайна"
-        select-label="Тип задачи"
-        :select-options="['Логотип', 'Макет под печать', 'Иллюстрация/иконки']" />
-    </section>
   </div>
 </section>
+
 @endsection

@@ -147,7 +147,7 @@ class OrderController extends Controller
             $heading = 'Ваш заказ принят в обработку';
             $text = 'Спасибо за заказ! Мы свяжемся с вами при необходимости.';
             Mail::to((string) $order->email)
-                ->bcc('info@mp.market')
+                ->bcc('workshop@mp.market')
                 ->send(new OrderNotification($order, $subject, $heading, $text));
         } catch (\Throwable $e) {
             \Log::warning('Order email sending failed', ['order_id' => $order->id, 'message' => $e->getMessage()]);

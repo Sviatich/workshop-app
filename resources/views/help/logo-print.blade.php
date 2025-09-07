@@ -5,12 +5,26 @@
 
 @section('content')
 <section aria-labelledby="logo-printing-title">
-  <div class="mx-auto">
-    <!-- Hero -->
-    <header class="main-block text-center">
-      <h1 id="logo-printing-title" class="main-h1">Печать логотипа</h1>
-      <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Нанесение 1–2 цвета на изделия. Подберём способ под ваш тираж, материал и дизайн.</p>
-    </header>
+    @php($slot = view('components.contact-form-button', [
+        'buttonText' => 'Обратная связь',
+        'title' => 'Обратная связь',
+        'selectLabel' => 'Тема обращения',
+        'id' => 'contact-hero-logo-print',
+        'page' => request()->path(),
+        'selectOptions' => ['Печать логотипа']
+    ]))
+    @include('partials.page-hero', [
+        'breadcrumbs' => [
+          ['label' => 'Главная', 'url' => route('home')],
+          ['label' => 'Справка', 'url' => route('help.index')],
+          ['label' => 'Печать логотипа']
+        ],
+        'title' => 'Нанесение логотипа',
+        'text' => 'Наносим логотипы на коробки методами тампо- и трафаретной печати. Работаем от малых тиражей и помогаем с подготовкой макета.',
+        'image' => Vite::asset('resources/images/box-hero.webp'),
+        'imageAlt' => 'Пример коробок с нанесением логотипа'
+    ])
+
 
     <!-- Методы нанесения -->
     <section id="methods" class="main-block" aria-labelledby="methods-title">
@@ -30,17 +44,9 @@
             <p class="text-sm text-gray-700">Для небольших элементов и сложных поверхностей. Оптимальна, когда требуется аккуратное точечное нанесение.</p>
           </div>
 
-          <div class="mt-4 rounded border bg-blue-50 p-4 text-sm">
-            <p class="text-blue-900">Если дизайн содержит фото, градиенты или много цветов — рекомендуем полноцветную печать (CMYK). См. раздел «Полноцветная печать».</p>
-          </div>
+
         </div>
 
-        <figure class="rounded border bg-gray-50 overflow-hidden">
-          <button type="button" data-zoom-src="{{ Vite::asset('resources/images/help/logo-methods.webp') }}" class="w-full">
-            <img src="{{ Vite::asset('resources/images/help/logo-methods.webp') }}" alt="Методы нанесения логотипа" class="w-full h-auto">
-          </button>
-          <figcaption class="p-3 text-sm text-gray-600">Примеры нанесения логотипа: шелкография, термотрансфер, тампопечать.</figcaption>
-        </figure>
       </div>
     </section>
 
@@ -94,35 +100,6 @@
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="main-block" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="text-xl font-semibold mb-4">Частые вопросы</h2>
-      <div class="space-y-2">
-        <details class="rounded border bg-white p-4">
-          <summary class="font-medium cursor-pointer">Можно ли нанести логотип в 1 экземпляре?</summary>
-          <p class="mt-2 text-gray-700">Обычно возможно через термотрансфер. Минимальный тираж и способ уточним по макету и материалу.</p>
-        </details>
-        <details class="rounded border bg-white p-4">
-          <summary class="font-medium cursor-pointer">Какие файлы прислать?</summary>
-          <p class="mt-2 text-gray-700">Идеально — вектор SVG/PDF с текстом в кривых. Также подойдёт PNG/JPG в 300 dpi при масштабе 1:1.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section role="region" aria-labelledby="cta-title" class="main-block text-center">
-      <h2 id="cta-title" class="text-2xl font-semibold mb-2">Нужна помощь с выбором способа?</h2>
-      <p class="text-gray-600 mb-4">Пришлите макет — подскажем оптимальный метод нанесения и подготовим файл к печати.</p>
-      <div class="mt-2">
-        <x-contact-form-button
-          button-text="Получить консультацию"
-          title="Вопрос по печати логотипа"
-          select-label="Тема обращения"
-          :select-options="['Печать логотипа', 'Проверка макета', 'Подбор способа']" />
-      </div>
-    </section>
-  </div>
-
 </section>
-@endsection
 
+@endsection

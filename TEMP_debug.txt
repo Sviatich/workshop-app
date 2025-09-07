@@ -6,25 +6,18 @@
 @section('content')
 <section aria-labelledby="fullprint-title">
   <div class="mx-auto">
-    @php($slot = view('components.contact-form-button', [
-        'buttonText' => 'Обратная связь',
-        'title' => 'Обратная связь',
-        'selectLabel' => 'Тема обращения',
-        'id' => 'contact-hero-fullprint',
-        'page' => request()->path(),
-        'selectOptions' => ['Полноцветная печать']
-    ]))
+    <!-- Page hero -->
     @include('partials.page-hero', [
-        'breadcrumbs' => [
-          ['label' => 'Главная', 'url' => route('home')],
-          ['label' => 'Справка', 'url' => route('help.index')],
-          ['label' => 'Полноцветная печать']
-        ],
         'title' => 'Полноцветная печать',
         'text' => 'CMYK печать по всей поверхности упаковки. Подготовим макеты, согласуем цветопробу и произведем тираж.',
         'image' => Vite::asset('resources/images/preview.webp'),
         'imageAlt' => 'Полноцветная печать на упаковке'
     ])
+    <!-- Old hero below is commented out to keep history -->
+    <header class="main-block text-center">
+      <h1 id="fullprint-title" class="main-h1">Полноцветная печать</h1>
+      <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Фотографическое качество и широкая цветопередача CMYK для сложных изображений, градиентов и фото.</p>
+    </header>
 
     <!-- Преимущества -->
     <section class="main-block" aria-labelledby="benefits-title">
@@ -95,7 +88,33 @@
       </div>
     </section>
 
+    <!-- FAQ -->
+    <section class="main-block" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="text-xl font-semibold mb-4">Частые вопросы</h2>
+      <div class="space-y-2">
+        <details class="rounded border bg-white p-4">
+          <summary class="font-medium cursor-pointer">Можно ли печатать градиенты и фото?</summary>
+          <p class="mt-2 text-gray-700">Да, полноцветная печать идеально подходит для сложных полутонов, градиентов и фотографий.</p>
+        </details>
+        <details class="rounded border bg-white p-4">
+          <summary class="font-medium cursor-pointer">Какие файлы прислать?</summary>
+          <p class="mt-2 text-gray-700">Предпочтительно PDF/SVG (вектор). Растровые — PNG/JPG в CMYK, 300 dpi при масштабе 1:1.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="main-block text-center" aria-labelledby="cta-title">
+      <h2 id="cta-title" class="text-2xl font-semibold mb-2">Нужна консультация по макету?</h2>
+      <p class="text-gray-600 mb-4">Поможем подготовить файл и подскажем лучший способ печати.</p>
+      <x-contact-form-button
+        button-text="Получить консультацию"
+        title="Вопрос по полноцветной печати"
+        select-label="Тема обращения"
+        :select-options="['Полноцветная печать', 'Проверка макета', 'Сроки и стоимость']" />
+    </section>
   </div>
 </section>
 
 @endsection
+

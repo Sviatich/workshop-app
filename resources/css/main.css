@@ -10,6 +10,8 @@ h2,
 }
 
 main {
+    /* Use margin to offset fixed header so sticky elements work correctly */
+    /* margin-top: 110px; */
     transform: translateY(110px);
 }
 
@@ -329,11 +331,13 @@ div#result {
     margin-right: 30px;
     border-right: 1px solid var(--border-color);
     padding-right: 30px;
-    width: 80%;
+    /* Make left column flexible instead of fixed width to avoid overflow */
+    flex: 1 1 70%;
 }
 
 .configurator-right {
-    width: 30%;
+    /* Right summary column: reserve about 30% on wide screens */
+    flex: 0 0 30%;
 }
 
 .configurator-label {
@@ -503,7 +507,137 @@ div#result {
 }
 
 .select-fixed {
-    width: 10px;
+    /* Ensure selects take available width and don’t collapse */
+    width: 100%;
+}
+
+/* Responsive adjustments for configurator layout */
+@media (max-width: 1200px) {
+    .construction-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .color-card-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .configurator-right {
+        flex-basis: 35%;
+    }
+}
+
+@media (max-width: 860px) {
+    /* Stack columns on tablets/phones */
+    #configurator > .flex {
+        flex-direction: column;
+    }
+    .configurator-left {
+        margin-right: 0;
+        border-right: 0;
+        padding-right: 0;
+        flex-basis: 100%;
+    }
+    .configurator-right {
+        flex-basis: 100%;
+        margin-top: 20px;
+    }
+    .construction-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .color-card-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    /* Make size inputs stack on small screens */
+    #configurator .grid.grid-cols-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .construction-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .color-card-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* Page hero (for inner pages) */
+.page-hero {
+    display: block;
+}
+.page-hero__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 20px;
+    /* Stretch columns so left text can anchor CTA at bottom */
+    align-items: stretch;
+}
+.page-hero__text {
+    display: flex;
+    flex-direction: column;
+}
+.page-hero__slot {
+    /* Push CTA to the bottom of text column on wide screens */
+    margin-top: auto;
+}
+.page-hero__lead {
+    color: var(--main-gray-color);
+    margin-top: 10px;
+}
+.page-hero__media {
+    width: 100%;
+}
+.page-hero__img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: var(--border-inside);
+}
+
+@media (max-width: 860px) {
+    .page-hero__inner {
+        grid-template-columns: 1fr;
+    }
+    .page-hero__slot {
+        /* On small screens keep reasonable spacing instead of pushing */
+        margin-top: 12px;
+    }
+    .page-hero__img {
+        height: 200px;
+    }
+}
+
+/* Generic image slot placeholder */
+.image-slot {
+    background: #f8fafc;
+    border: 1px dashed #d6d6d6;
+    border-radius: var(--border-inside);
+}
+.image-slot--hero {
+    height: 260px;
+    display: grid;
+    place-items: center;
+    color: #999;
+    font-size: 14px;
+}
+.image-slot__placeholder {
+    height: 180px;
+    display: grid;
+    place-items: center;
+    color: #999;
+    font-size: 14px;
+}
+.image-slot__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--border-inside);
+}
+.image-slot__caption {
+    color: var(--main-gray-color);
+    font-size: 12px;
+    padding: 6px 2px 0;
 }
 
 .styled-select {
@@ -2058,13 +2192,11 @@ input#feedback_form-file:hover {
     }
 }
 
-.guide-header {
-    text-align: center;
-    background: var(--primary-color);
-    color: #fff;
-}
-
 /* ==== Guide styles ==== */
+
+.guide-header {
+    background: #fff;
+}
 
 .guide-text {
     color: var(--main-gray-color);
