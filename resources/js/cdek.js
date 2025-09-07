@@ -61,6 +61,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const hidden = el('delivery_price_input'); if (hidden) hidden.value = price.toFixed(2);
     updateGrandTotal();
   }
+  function clearCdekTariff() {
+    setVal('cdek_tariff_code', '');
+    setVal('cdek_tariff_name', '');
+    setVal('cdek_delivery_sum', '');
+    setVal('cdek_period_min', '');
+    setVal('cdek_period_max', '');
+  }
+  function clearCdekPvzUI() {
+    const cityInputEl = el('cdek_city_input'); if (cityInputEl) cityInputEl.value = '';
+    const cityDD = el('cdek_city_dropdown'); if (cityDD) { cityDD.classList.add('hidden'); cityDD.innerHTML=''; }
+    const pvzSel = el('cdek_pvz_selected'); if (pvzSel) pvzSel.textContent = '';
+    const pvzSummary = el('delivery_summary_pvz'); if (pvzSummary) pvzSummary.textContent = '';
+    setVal('cdek_pvz_code','');
+    setVal('cdek_pvz_address','');
+  }
+  function clearCdekCourierUI() {
+    const addr = el('cdek_courier_address'); if (addr) addr.value = '';
+    const addrDD = el('cdek_addr_dropdown'); if (addrDD) { addrDD.classList.add('hidden'); addrDD.innerHTML=''; }
+    const cs = el('cdek_courier_selected'); if (cs) cs.textContent = '';
+    const csSummary = el('delivery_summary_courier'); if (csSummary) csSummary.textContent = '';
+    setVal('cdek_recipient_address','');
+  }
+  function clearCdekState() {
+    setVal('cdek_mode','');
+    clearCdekTariff();
+    clearCdekPvzUI();
+    clearCdekCourierUI();
+    setDeliveryPrice(0);
+  }
   function paintSummary(mode, tariff, addressText, targetId) {
     const summary = el(targetId); if (!summary) return;
     const way = mode === 'office' ? 'Доставка до ПВЗ' : 'Курьерская доставка';
@@ -229,6 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const v = document.querySelector('input.delivery-choice[name="delivery_method_choice"]:checked')?.value;
     const courierBlock = el('cdek_courier_block');
     const deliveryAddress = el('delivery_address');
+    // On any method switch, fully reset CDEK state and price
+    clearCdekState();
     if(v==='cdek'){
       pvzBlock?.classList.remove('hidden');
       courierBlock?.classList.add('hidden');
@@ -249,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   document.querySelectorAll('input.delivery-choice[name="delivery_method_choice"]').forEach(ch => ch.addEventListener('change', onChoiceChange));
+  // Also react to a global delivery method change notification
+  try { window.addEventListener('delivery:methodChanged', () => onChoiceChange()); } catch (_) { }
   onChoiceChange();
 });
-

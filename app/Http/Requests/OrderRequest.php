@@ -70,4 +70,17 @@ class OrderRequest extends FormRequest
             // Обрабатываются динамически в контроллере, здесь не валидируются
         ];
     }
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function (Validator $v) {
+            $code = (string) $this->input('delivery_method_code');
+            if (in_array($code, ['cdek', 'cdek_courier'], true)) {
+                $price = (float) $this->input('delivery_price', 0);
+                if ($price <= 0) {
+                    $v->errors()->add('delivery_price', 'Стоимость доставки СДЭК должна быть больше 0.');
+                }
+            }
+        });
+    }
 }

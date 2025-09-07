@@ -393,6 +393,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // Clear possible error when pickup selected
         setFieldError(deliveryAddressEl, '');
       }
+      // For CDEK delivery methods, delivery cost must be calculated (> 0)
+      try {
+        const methodCode = (document.getElementById('delivery_method_code')?.value || '').trim();
+        if (['cdek','cdek_courier'].includes(methodCode)) {
+          const priceStr = String(document.getElementById('delivery_price_input')?.value || '0');
+          const price = parseFloat(priceStr.replace(',', '.')) || 0;
+          if (price <= 0) {
+            valid = false;
+            try { window.toast?.error('Стоимость доставки СДЭК должна быть рассчитана и не может быть нулевой'); } catch (_) { alert('Стоимость доставки СДЭК должна быть рассчитана и не может быть нулевой'); }
+          }
+        }
+      } catch (_) { /* no-op */ }
+
       if (!valid) {
         const firstInvalid = orderForm.querySelector('[aria-invalid="true"]');
         if (firstInvalid) firstInvalid.focus();

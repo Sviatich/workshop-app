@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, false);
       // единый код для СДЭК независимо от режима (ПВЗ/курьер)
       setDeliveryCode('cdek');
+      setDeliveryPrice(0);
       setAddressText('');
       setAddressRequired(true);
     } else if (code === 'cdek_courier') {
@@ -91,7 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
   choices.forEach(ch => {
     ch.addEventListener('change', () => {
       const v = document.querySelector('input.delivery-choice[name="delivery_method_choice"]:checked')?.value;
-      if (v) syncByChoice(v);
+      if (v) {
+        syncByChoice(v);
+        try { window.dispatchEvent(new CustomEvent('delivery:methodChanged', { detail: { code: v } })); } catch (_) { }
+      }
     });
   });
 
