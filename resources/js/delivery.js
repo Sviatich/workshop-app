@@ -157,5 +157,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // пересчёт итога при обновлениях корзины
   window.addEventListener('cart:updated', updateGrandTotal);
-});
 
+  // Enforce address requirement: required for all non-pickup methods
+  const applyAddressRequirement = () => {
+    const codeEl = document.getElementById('delivery_method_code');
+    const addrEl = document.getElementById('delivery_address');
+    if (!addrEl || !codeEl) return;
+    const code = String(codeEl.value || '').trim();
+    if (code === 'pickup') {
+      // Auto-fill text for pickup and remove required
+      const v = String(addrEl.value || '').trim();
+      if (v === '' || v.toLowerCase() === 'самовывоз') {
+        addrEl.value = 'Самовывоз';
+      }
+      addrEl.removeAttribute('required');
+    } else {
+      // Require address for any other delivery method
+      if (String(addrEl.value || '').trim().toLowerCase() === 'самовывоз') {
+        addrEl.value = '';
+      }
+      addrEl.setAttribute('required', 'required');
+    }
+  };
+  applyAddressRequirement();
+  document.querySelectorAll('input.delivery-choice[name="delivery_method_choice"]').forEach(ch => ch.addEventListener('change', applyAddressRequirement));
+});

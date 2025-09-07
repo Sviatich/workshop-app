@@ -6,3 +6,4 @@ import './notifier.js';
 import './cdek.js';
 import './cookie.js';
 import './contact-form.js';
+import './bitrix24_chat.js';

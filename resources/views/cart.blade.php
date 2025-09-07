@@ -78,7 +78,7 @@
                                             <span class="font-medium">Доставка ПЭК</span>
                                         </div>
                                         <p class="text-sm text-gray-700">
-                                            <span class="block">Бесплатно передадим ТК ПЭК по адресу <a href="https://yandex.ru/maps/-/CLQ-eYiF" target="_blank" class="underline">Электростальское шоссе, 25, Ногинск, Богородский городской округ</a>.</span>
+                                            <span class="block">Бесплатно передадим ТК ПЭК по адресу: <a href="https://yandex.ru/maps/-/CLQ-eYiF" target="_blank" class="underline"><br>Электростальское шоссе, 25, Ногинск, Богородский городской округ</a>.</span>
                                             <span class="block">Дальнейшая доставка до вашего города — по тарифам ПЭК. Стоимость и сроки уточняйте на сайте <a href="https://pecom.ru/" target="_blank" rel="noopener" class="text-blue-600 underline hover:text-blue-800">pecom.ru</a> или у менеджера после оформления заказа.</span>
                                         </p>
                                         <div id="pek_block" class="mt-2 hidden">

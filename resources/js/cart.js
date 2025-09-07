@@ -377,6 +377,22 @@ document.addEventListener("DOMContentLoaded", () => {
           valid = false;
         }
       }
+      // Delivery address is required for all methods except pickup
+      const deliveryMethodCodeEl = document.getElementById('delivery_method_code');
+      const deliveryAddressEl = document.getElementById('delivery_address');
+      const methodCode = deliveryMethodCodeEl?.value || '';
+      if (methodCode !== 'pickup') {
+        const addr = String(deliveryAddressEl?.value || '').trim();
+        if (!addr) {
+          setFieldError(deliveryAddressEl, 'Введите адрес доставки');
+          valid = false;
+        } else {
+          setFieldError(deliveryAddressEl, '');
+        }
+      } else if (deliveryAddressEl) {
+        // Clear possible error when pickup selected
+        setFieldError(deliveryAddressEl, '');
+      }
       if (!valid) {
         const firstInvalid = orderForm.querySelector('[aria-invalid="true"]');
         if (firstInvalid) firstInvalid.focus();
@@ -465,6 +481,16 @@ document.addEventListener("DOMContentLoaded", () => {
   fullNameEl?.addEventListener('input', () => setFieldError(fullNameEl, isValidFullName(fullNameEl.value) ? '' : null));
   emailEl?.addEventListener('input', () => setFieldError(emailEl, isValidEmail(emailEl.value) ? '' : null));
   phoneEl?.addEventListener('input', () => setFieldError(phoneEl, isValidPhone(phoneEl.value) ? '' : null));
+  // Live validation: delivery address required for non-pickup
+  const deliveryAddressLiveEl = document.getElementById('delivery_address');
+  deliveryAddressLiveEl?.addEventListener('input', () => {
+    const methodCode = document.getElementById('delivery_method_code')?.value || '';
+    if (methodCode !== 'pickup') {
+      setFieldError(deliveryAddressLiveEl, deliveryAddressLiveEl.value.trim() ? '' : null);
+    } else {
+      setFieldError(deliveryAddressLiveEl, '');
+    }
+  });
   function renderEmptyState() {
     if (!emptyCart) return;
     emptyCart.innerHTML = `
