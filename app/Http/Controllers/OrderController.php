@@ -181,6 +181,20 @@ class OrderController extends Controller
     public function show($uuid)
     {
         $order = Order::where('uuid', $uuid)->with(['items.files'])->firstOrFail();
+
+        if ($order->isExpired()) {
+            try {
+                $order->delete();
+            } catch (\Throwable $e) {
+                \Log::warning('Failed to delete expired order', [
+                    'order_id' => $order->id,
+                    'uuid' => $order->uuid,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+            abort(404);
+        }
+
         return view('order', compact('order'));
     }
 }
