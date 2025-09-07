@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartSummary = document.getElementById("cart_summary");
   const emptyCart = document.getElementById("empty_cart");
   const cartTotalElem = document.getElementById("cart_total");
+  const packagingTotalElem = document.getElementById("packaging_total");
   const cartWeightTotalElem = document.getElementById("cart_weight_total");
   const cartVolumeTotalElem = document.getElementById("cart_volume_total");
 
@@ -280,9 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
           lastGrid.parentNode?.removeChild(lastGrid);
         }
       } catch (_) { }
-
-      cartItemsContainer.appendChild(div);
+    
+    cartItemsContainer.appendChild(div);
     });
+    
+    // Protective packaging: 2% of items total
+    const packaging = Math.max(0, Number((total * 0.02).toFixed(2)));
+    if (packagingTotalElem) packagingTotalElem.textContent = fmt(packaging);
 
     cartTotalElem.textContent = fmt(total);
     cartWeightTotalElem.textContent = fmt(totalWeight, 3);

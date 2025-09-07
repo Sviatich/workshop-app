@@ -51,8 +51,9 @@
                                         <div class="flex items-center gap-2">
                                             <span class="font-medium">Самовывоз</span>
                                         </div>
-                                        <p class="text-sm text-gray-600">
-                                            Забрать заказ можно со склада. Адрес уточняем при подтверждении заказа.
+                                        <p class="text-sm text-gray-700">
+                                            Забрать заказ можно со склада по адресу: <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="underline"><br>г. Черноголовка, ул. Первый проезд, зд. 8</a>.<br>
+                                            Время работы: <span class="font-medium">Пн–Пт 09:00–17:00</span>
                                         </p>
                                         <div id="pickup_block" class="mt-2">
                                             <div id="pickup_map" class="h-40 rounded border"></div>
@@ -76,8 +77,9 @@
                                         <div class="flex items-center gap-2">
                                             <span class="font-medium">Доставка ПЭК</span>
                                         </div>
-                                        <p class="text-sm text-gray-600">
-                                            Бесплатно до терминала, далее — по тарифам ПЭК.
+                                        <p class="text-sm text-gray-700">
+                                            <span class="block">Бесплатно передадим ТК ПЭК по адресу <a href="https://yandex.ru/maps/-/CLQ-eYiF" target="_blank" class="underline">Электростальское шоссе, 25, Ногинск, Богородский городской округ</a>.</span>
+                                            <span class="block">Дальнейшая доставка до вашего города — по тарифам ПЭК. Стоимость и сроки уточняйте на сайте <a href="https://pecom.ru/" target="_blank" rel="noopener" class="text-blue-600 underline hover:text-blue-800">pecom.ru</a> или у менеджера после оформления заказа.</span>
                                         </p>
                                         <div id="pek_block" class="mt-2 hidden">
                                             <div id="pek_map" class="h-40 rounded border"></div>
@@ -101,8 +103,8 @@
                                         <div class="flex items-center gap-2">
                                             <span class="font-medium">СДЭК ПВЗ</span>
                                         </div>
-                                        <p class="text-sm text-gray-600">
-                                            Расчёт по адресу или пункту выдачи.
+                                        <p class="text-sm text-gray-700">
+                                            Выберите город и подходящий  пункт выдачи.
                                         </p>
                                         <div id="cdek_block" class="mt-2 hidden space-y-2">
                                             <button type="button" id="open-cdek"
@@ -146,7 +148,7 @@
                             <label class="block font-semibold mb-1 cart-labels" for="delivery_address">Адрес
                                 доставки</label>
                             <textarea name="delivery_address" id="delivery_address" class="border rounded w-full p-2"
-                                placeholder="Для самовывоза/ПЭК можно оставить пустым"></textarea>
+                                placeholder="Укажите адрес"></textarea>
                         </div>
                     </section>
 
@@ -249,6 +251,10 @@
                     </p>
 
                     {{-- delivery.js добавит сюда строку «Доставка», а также строку «Итого» --}}
+                    <p id="packaging_row" class="flex justify-between cart-summary-row">
+                        <span>Упаковка:</span>
+                        <span><span id="packaging_total">0</span> ₽</span>
+                    </p>
                     <p id="delivery_row" class="flex justify-between">
                         <span>Доставка:</span>
                         <span><span id="delivery_row_value">0</span> ₽</span>

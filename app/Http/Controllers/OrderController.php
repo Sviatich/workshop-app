@@ -129,8 +129,9 @@ class OrderController extends Controller
         }
 
         // Итог заказа с учетом доставки
+        $packaging = round($orderTotal * 0.02, 2);
         $order->update([
-            'total_price' => round($orderTotal + (float) $order->delivery_price, 2),
+            'total_price' => round($orderTotal + $packaging + (float) $order->delivery_price, 2),
         ]);
 
         // Send to Bitrix24 CRM (non-blocking: errors are logged)

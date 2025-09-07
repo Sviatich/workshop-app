@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateGrandTotal = () => {
     const items = parseFloat((el('cart_total')?.textContent || '0').replace(',', '.')) || 0;
+    const packaging = parseFloat((el('packaging_total')?.textContent || '0').replace(',', '.')) || 0;
     const delivery = parseFloat((el('delivery_row_value')?.textContent || '0').replace(',', '.')) || 0;
-    const grand = (items + delivery).toFixed(2);
+    const grand = (items + packaging + delivery).toFixed(2);
     const gEl = el('grand_total');
     if (gEl) gEl.textContent = grand;
   };
@@ -57,13 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
       show(pickupBlock, true);  show(pekBlock, false); show(cdekBlock, false);
       setDeliveryPrice(0);
       setDeliveryCode('pickup');
-      setAddressText('Самовывоз (адрес уточняется на странице контактов)');
+      setAddressText('Самовывоз со склада');
       setAddressRequired(false);
     } else if (code === 'pek') {
       show(pickupBlock, false); show(pekBlock, true);  show(cdekBlock, false);
       setDeliveryPrice(0);
       setDeliveryCode('pek');
-      setAddressText('ПЭК: укажите адрес или ПВЗ перевозчика (при необходимости)');
+      setAddressText('');
       setAddressRequired(false);
     } else if (code === 'cdek') {
       show(pickupBlock, false); show(pekBlock, false); show(cdekBlock, false);

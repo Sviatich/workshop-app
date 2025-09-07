@@ -1,0 +1,479 @@
+﻿   1: document.addEventListener("DOMContentLoaded", () => {
+   2:   const cartItemsContainer = document.getElementById("cart_items");
+   3:   const cartSummary = document.getElementById("cart_summary");
+   4:   const emptyCart = document.getElementById("empty_cart");
+   5:   const cartTotalElem = document.getElementById("cart_total");
+   6:   const cartWeightTotalElem = document.getElementById("cart_weight_total");
+   7:   const cartVolumeTotalElem = document.getElementById("cart_volume_total");
+   8: 
+   9:   // Переопределяем alert на наш toast для единообразных уведомлений
+  10:   try {
+  11:     if (!window.__alertPatched) {
+  12:       window.__alertPatched = true;
+  13:       window.alert = (msg) => { try { window.toast?.error(String(msg)); } catch (_) { } };
+  14:     }
+  15:   } catch (_) { }
+  16: 
+  17:   // Может существовать старый <select id="payer_type"> или новые <input type="radio" name="payer_type">
+  18:   const payerTypeSelect = document.getElementById("payer_type"); // может быть null
+  19:   const payerTypeRadios = Array.from(document.querySelectorAll('input[name="payer_type"]')); // может быть []
+  20: 
+  21:   const innField = document.getElementById("inn_field");
+  22:   const fullNameInput = document.getElementById("full_name");
+  23: 
+  24:   // Inject company name field (before INN) if missing
+  25:   function ensureCompanyField() {
+  26:     let node = document.getElementById('company_field');
+  27:     if (node) return node;
+  28:     node = document.createElement('div');
+  29:     node.id = 'company_field';
+  30:     node.className = 'hidden';
+  31:     node.innerHTML = `
+  32:       <label class="block font-semibold mb-1 cart-labels" for="company_name">Название компании</label>
+  33:       <input placeholder="ООО «Пример» или ИП Иванов" type="text" name="company_name" id="company_name" class="border rounded w-full p-2">
+  34:     `;
+  35:     if (innField && innField.parentNode) {
+  36:       innField.parentNode.insertBefore(node, innField);
+  37:     }
+  38:     return node;
+  39:   }
+  40: 
+  41:   // Inject mini payment info card above full name
+  42:   function ensurePaymentInfo() {
+  43:     if (document.getElementById('payment_info')) return;
+  44:     const wrap = document.createElement('div');
+  45:     wrap.id = 'payment_info';
+  46:     wrap.className = 'flex items-center gap-3 p-3 border rounded bg-white text-sm';
+  47:     wrap.innerHTML = `
+  48:       <div class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded">
+  49:         <span id="payment_info_icon"></span>
+  50:       </div>
+  51:       <div id="payment_info_text" class="text-gray-700">Оплата картой после согласования</div>
+  52:     `;
+  53:     const target = fullNameInput?.parentElement;
+  54:     if (target && target.parentNode) {
+  55:       target.parentNode.insertBefore(wrap, target);
+  56:     }
+  57:   }
+  58: 
+  59:   function setPaymentInfo(type) {
+  60:     const textEl = document.getElementById('payment_info_text');
+  61:     const iconHolder = document.getElementById('payment_info_icon');
+  62:     if (!textEl || !iconHolder) return;
+  63:     const cardIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1H3V7Zm0 4h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6Zm3 5h4v2H6v-2Z" fill="#222"/></svg>';
+  64:     const billIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 3a2 2 0 0 0-2 2v14l3-2 3 2 3-2 3 2V5a2 2 0 0 0-2-2H7Zm2 5h6v2H9V8Zm0 4h6v2H9v-2Z" fill="#222"/></svg>';
+  65:     if (type === 'company') {
+  66:       textEl.textContent = 'Оплата по счету после согласования';
+  67:       iconHolder.innerHTML = billIcon;
+  68:     } else {
+  69:       textEl.textContent = 'Оплата картой после согласования';
+  70:       iconHolder.innerHTML = cardIcon;
+  71:     }
+  72:   }
+  73: 
+  74:   // Ensure dynamic UI parts exist before we use them
+  75:   ensureCompanyField();
+  76:   ensurePaymentInfo();
+  77: 
+  78:   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  79: 
+  80:   // === Validation helpers ===
+  81:   const hasLetter = (s) => /[A-Za-zА-Яа-яЁё]/.test(s || '');
+  82:   const isValidFullName = (s) => {
+  83:     if (!s) return false;
+  84:     const parts = String(s).trim().split(/\s+/).filter(Boolean);
+  85:     const letterParts = parts.filter(hasLetter);
+  86:     return letterParts.length >= 2;
+  87:   };
+  88:   const isValidEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '').trim());
+  89:   const isValidPhone = (s) => {
+  90:     const digits = String(s || '').replace(/\D/g, '');
+  91:     return digits.length >= 10;
+  92:   };
+  93:   const isValidINN = (s) => {
+  94:     const digits = String(s || '').replace(/\D/g, '');
+  95:     return digits.length === 10 || digits.length === 12;
+  96:   };
+  97:   function setFieldError(input, message) {
+  98:     if (!input) return;
+  99:     let err = input.parentElement?.querySelector('.field-error');
+ 100:     if (message) {
+ 101:       if (!err) {
+ 102:         err = document.createElement('p');
+ 103:         err.className = 'field-error text-red-600 text-sm mt-1';
+ 104:         input.parentElement.appendChild(err);
+ 105:       }
+ 106:       err.textContent = message;
+ 107:       input.classList.add('border-red-500');
+ 108:       input.setAttribute('aria-invalid', 'true');
+ 109:     } else {
+ 110:       if (err) err.remove();
+ 111:       input.classList.remove('border-red-500');
+ 112:       input.removeAttribute('aria-invalid');
+ 113:     }
+ 114:   }
+ 115:   function clearErrors() {
+ 116:     document.querySelectorAll('.field-error').forEach(n => n.remove());
+ 117:     document.querySelectorAll('#order_form input, #order_form textarea').forEach(el => {
+ 118:       el.classList.remove('border-red-500');
+ 119:       el.removeAttribute('aria-invalid');
+ 120:     });
+ 121:   }
+ 122: 
+ 123:   // === NEW: универсальный способ получить текущий тип плательщика ===
+ 124:   function getPayerType() {
+ 125:     // Радио имеют приоритет, если они на странице
+ 126:     if (payerTypeRadios.length) {
+ 127:       const checked = payerTypeRadios.find(r => r.checked);
+ 128:       return checked ? checked.value : "individual";
+ 129:     }
+ 130:     // Фолбэк на селект
+ 131:     if (payerTypeSelect) return payerTypeSelect.value || "individual";
+ 132:     return "individual";
+ 133:   }
+ 134: 
+ 135:   // === NEW: единая реакция на смену типа плательщика ===
+ 136:   function onPayerTypeChange() {
+ 137:     toggleInn();
+ 138:     // Если где-то завязаны другие блоки (реквизиты юрлица и т.п.) — тут удобно их тоже переключать
+ 139:     // window.dispatchEvent(new CustomEvent('payer_type:changed', { detail: { value: getPayerType() } }));
+ 140:   }
+ 141: 
+ 142:   // Показ/скрытие ИНН по типу плательщика
+ 143:   function toggleInn() {
+ 144:     const t = getPayerType();
+ 145:     if (innField) innField.classList.toggle("hidden", t !== "company");
+ 146:     const companyField = document.getElementById('company_field');
+ 147:     if (companyField) companyField.classList.toggle("hidden", t !== "company");
+ 148:     setPaymentInfo(t);
+ 149:     if (t !== 'company') {
+ 150:       const innEl = document.getElementById('inn');
+ 151:       if (innEl) try { setFieldError(innEl, ''); } catch (_) { }
+ 152:     }
+ 153:   }
+ 154: 
+ 155:   // Подписки на изменения: либо на селект, либо на радио
+ 156:   if (payerTypeSelect) {
+ 157:     payerTypeSelect.addEventListener("change", onPayerTypeChange);
+ 158:   }
+ 159:   if (payerTypeRadios.length) {
+ 160:     payerTypeRadios.forEach(r => r.addEventListener("change", onPayerTypeChange));
+ 161:   }
+ 162:   // первичная инициализация
+ 163:   toggleInn();
+ 164:   setPaymentInfo(getPayerType());
+ 165: 
+ 166:   function fmt(n, digits = 2) {
+ 167:     const num = Number(n);
+ 168:     if (Number.isNaN(num)) return "0";
+ 169:     return num.toFixed(digits);
+ 170:   }
+ 171: 
+ 172:   function renderCart() {
+ 173:     if (!cartItemsContainer || !cartSummary || !emptyCart || !cartTotalElem || !cartWeightTotalElem || !cartVolumeTotalElem) return;
+ 174: 
+ 175:     cartItemsContainer.innerHTML = "";
+ 176: 
+ 177:     if (cart.length === 0) {
+ 178:       renderEmptyState();
+ 179:       const layout = document.querySelector('#order_form')?.closest('.grid');
+ 180:       if (layout) layout.classList.add('hidden');
+ 181:       cartSummary.classList.add("hidden");
+ 182:       emptyCart.classList.remove("hidden");
+ 183:       return;
+ 184:     }
+ 185: 
+ 186:     let total = 0;
+ 187:     let totalWeight = 0;
+ 188:     let totalVolume = 0;
+ 189: 
+ 190:     cart.forEach((item, index) => {
+ 191:       const itemTotal = Number(item.total_price) || 0;
+ 192:       const itemWeight = Number(item.weight) || 0;
+ 193:       const itemVolume = Number(item.volume) || 0;
+ 194: 
+ 195:       total += itemTotal;
+ 196:       totalWeight += itemWeight;
+ 197:       totalVolume += itemVolume;
+ 198: 
+ 199:       const div = document.createElement("div");
+ 200:       div.className = "bg-white relative cart-items-position";
+ 201: 
+ 202:       // Optional product image (from configurator selection)
+ 203:       const topImageSrc = item.construction_img || item.color_img || '';
+ 204:       let __cartImagePrefix = '';
+ 205:       if (topImageSrc) {
+ 206:         __cartImagePrefix = `<div class="flex gap-4 items-center"><img width="60px" src="${topImageSrc}" alt="${item.construction_name || item.construction}" class="object-cover rounded border bg-gray-50 mb-2">`;
+ 207:       }
+ 208: 
+ 209:       let html = `
+ 210:         <p class="font-semibold mb-1 cart-items-title">
+ 211:           ${item.construction_name || item.construction} <br><span class="cart-item-badge gray-999 font-normal"> ${item.length} × ${item.width} × ${item.height} мм</span>
+ 212:         </p>
+ 213:         </div>
+ 214:         <div class="grid gap-2 md:grid-cols-2 mt-2">
+ 215:           <p class="cart-item-badge"><span class="gray-999">Цвет: </span>${item.color_name || item.color}</p>
+ 216:           <p class="cart-item-badge"><span class="gray-999">Тираж: </span>${item.tirage}</p>
+ 217:         </div>
+ 218:         <div class="grid gap-2 md:grid-cols-2 mt-2">
+ 219:           <p class="cart-item-badge"><span class="gray-999">Цена за штуку: </span>${fmt(item.price_per_unit)} ₽</p>
+ 220:           <p class="cart-item-badge"><span class="gray-999">Итого: </span>${fmt(itemTotal)} ₽</p>
+ 221:         </div>
+ 222: 
+ 223:         ${item.fullprint?.enabled && itemTotal === 0 ? `
+ 224:           <p class="configurator-warning mt-3">
+ 225:             Цена будет рассчитана менеджером индивидуально после оформления заказа.
+ 226:           </p>` : ""}
+ 227: 
+ 228:         <div class="grid gap-2 md:grid-cols-2 mt-2">
+ 229:           <p><strong>Вес позиции:</strong> ${fmt(itemWeight, 3)} кг</p>
+ 230:           <p><strong>Объём позиции:</strong> ${fmt(itemVolume, 3)} м³</p>
+ 231:         </div></div>
+ 232:       `;
+ 233: 
+ 234:       // Prepend image if available
+ 235:       if (__cartImagePrefix) {
+ 236:         html = __cartImagePrefix + html;
+ 237:       }
+ 238: 
+ 239:       // Логотип
+ 240:       if (item.logo?.enabled) {
+ 241:         html += `
+ 242:           <div class="cart-item-badge"><p class="mt-2"><strong>Логотип:</strong> да${item.logo.size ? ` (размер: ${item.logo.size})` : ''}</p>
+ 243:         `;
+ 244:         if (item.logo.filename) {
+ 245:           html += `<p class="text-sm gray-999">Файл: ${item.logo.filename}</p>`;
+ 246:         }
+ 247:         if (item.logo.file_path && item.logo.file_path.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+ 248:           html += `<img src="${item.logo.file_path}"  alt="${item.logo.filename || 'Загруженный логотип'}" class="mt-2 max-w-[200px] rounded border cursor-pointer" data-modal-open data-modal-type="photo" data-title="${item.logo.filename || 'Загруженный логотип'}" data-img-src="${item.logo.file_path}" data-img-alt="${item.logo.filename || 'Загруженный логотип'}" class="mt-2 max-w-[200px] rounded border"></div>`;
+ 249:         }
+ 250:       }
+ 251: 
+ 252:       // Полноформатная печать
+ 253:       if (item.fullprint?.enabled) {
+ 254:         html += `<p class="mt-2 cart-item-badge"><strong>Полноформатная печать:</strong> да</p>`;
+ 255:         if (item.fullprint.description) {
+ 256:           html += `<p class="text-sm"><span class="gray-999">Комментарий: </span>${item.fullprint.description}</p>`;
+ 257:         }
+ 258:         if (item.fullprint.filename) {
+ 259:           html += `<p class="text-sm"><span class="gray-999">Файл: </span>${item.fullprint.filename}</p>`;
+ 260:         }
+ 261:         if (item.fullprint.file_path && item.fullprint.file_path.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+ 262:           html += `<img src="${item.fullprint.file_path}" alt="Макет печати" class="mt-2 max-w-[200px] rounded border cursor-pointer" data-modal-open data-modal-type="photo" data-title="Макет печати" data-img-src="${item.fullprint.file_path}" data-img-alt="Макет печати"/>`;
+ 263:         }
+ 264:       }
+ 265: 
+ 266:       html += `
+ 267:         <button class="cursor-pointer remove_item btn-hover-effect-dark" data-index="${index}">
+ 268:           <svg width="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" fill="#333"></path></g></svg>
+ 269:         </button>
+ 270:       `;
+ 271: 
+ 272:       div.innerHTML = html;
+ 273: 
+ 274:       // Hide per-item weight and volume block (keep totals only)
+ 275:       try {
+ 276:         const grids = div.querySelectorAll('div.grid.gap-2.mt-2');
+ 277:         if (grids && grids.length >= 2) {
+ 278:           const lastGrid = grids[grids.length - 1];
+ 279:           // Remove the block that displays item weight and volume
+ 280:           lastGrid.parentNode?.removeChild(lastGrid);
+ 281:         }
+ 282:       } catch (_) { }
+ 283: 
+ 284:       cartItemsContainer.appendChild(div);
+ 285:     });
+ 286: 
+ 287:     cartTotalElem.textContent = fmt(total);
+ 288:     cartWeightTotalElem.textContent = fmt(totalWeight, 3);
+ 289:     cartVolumeTotalElem.textContent = fmt(totalVolume, 3);
+ 290: 
+ 291:     const layout = document.querySelector('#order_form')?.closest('.grid');
+ 292:     if (layout) layout.classList.remove('hidden');
+ 293:     cartSummary.classList.remove("hidden");
+ 294:     emptyCart.classList.add("hidden");
+ 295: 
+ 296:     // Удаление товара
+ 297:     document.querySelectorAll(".remove_item").forEach(btn => {
+ 298:       btn.addEventListener("click", () => {
+ 299:         const idx = Number(btn.dataset.index);
+ 300:         cart.splice(idx, 1);
+ 301:         localStorage.setItem("cart", JSON.stringify(cart));
+ 302:         renderCart();
+ 303:         if (window.CartUI?.update) {
+ 304:           try { window.CartUI.update(); } catch (_) { }
+ 305:         }
+ 306:       });
+ 307:     });
+ 308: 
+ 309:     // Сигнал обновления корзины для модулей доставки
+ 310:     try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (_) { }
+ 311:   }
+ 312: 
+ 313:   renderCart();
+ 314: 
+ 315:   const orderForm = document.getElementById("order_form");
+ 316:   const orderLoader = document.getElementById("order_loader");
+ 317:   const submitBtn = orderForm?.querySelector('button[type="submit"]');
+ 318: 
+ 319:   function setSubmitting(isSubmitting) {
+ 320:     if (orderLoader) orderLoader.classList.toggle('hidden', !isSubmitting);
+ 321:     if (submitBtn) {
+ 322:       submitBtn.disabled = isSubmitting;
+ 323:       if (isSubmitting) {
+ 324:         submitBtn.dataset.originalText = submitBtn.textContent;
+ 325:         submitBtn.innerHTML = 'Оформляем… <span class="inline-block w-4 h-4 border-2 border-white/80 border-t-transparent animate-spin rounded-full ml-1 align-[-2px]"></span>';
+ 326:         submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+ 327:       } else {
+ 328:         submitBtn.innerHTML = submitBtn.dataset.originalText || 'Оформить заказ';
+ 329:         submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+ 330:       }
+ 331:     }
+ 332:   }
+ 333: 
+ 334:   if (orderForm) {
+ 335:     orderForm.addEventListener("submit", async (e) => {
+ 336:       e.preventDefault();
+ 337: 
+ 338:       // Показываем уведомление вместо alert, если корзина пуста
+ 339:       if (cart.length === 0) {
+ 340:         try { window.toast?.error('В корзине пусто'); } catch (_) { }
+ 341:         return;
+ 342:       }
+ 343: 
+ 344:       if (cart.length === 0) {
+ 345:         alert("Корзина пуста.");
+ 346:         return;
+ 347:       }
+ 348: 
+ 349:       // Client-side validation
+ 350:       clearErrors();
+ 351:       const fullNameEl = document.getElementById('full_name');
+ 352:       const emailEl = document.getElementById('email');
+ 353:       const phoneEl = document.getElementById('phone');
+ 354:       const innEl = document.getElementById('inn');
+ 355: 
+ 356:       let valid = true;
+ 357:       if (!isValidFullName(fullNameEl?.value)) {
+ 358:         setFieldError(fullNameEl, 'Укажите имя и фамилию через пробел');
+ 359:         valid = false;
+ 360:       }
+ 361:       if (!isValidEmail(emailEl?.value)) {
+ 362:         setFieldError(emailEl, 'Введите корректный email');
+ 363:         valid = false;
+ 364:       }
+ 365:       if (!isValidPhone(phoneEl?.value)) {
+ 366:         setFieldError(phoneEl, 'Введите корректный телефон');
+ 367:         valid = false;
+ 368:       }
+ 369:       if (getPayerType() === 'company') {
+ 370:         if (!isValidINN(innEl?.value)) {
+ 371:           setFieldError(innEl, 'ИНН должен содержать 10 или 12 цифр');
+ 372:           valid = false;
+ 373:         }
+ 374:       }
+ 375:       if (!valid) {
+ 376:         const firstInvalid = orderForm.querySelector('[aria-invalid="true"]');
+ 377:         if (firstInvalid) firstInvalid.focus();
+ 378:         return;
+ 379:       }
+ 380: 
+ 381:       setSubmitting(true);
+ 382:       const formData = new FormData();
+ 383:       // === CHANGED: берём значение payer_type через универсальный хелпер ===
+ 384:       formData.append("payer_type", getPayerType());
+ 385: 
+ 386:       formData.append("full_name", document.getElementById("full_name")?.value || '');
+ 387:       formData.append("email", document.getElementById("email")?.value || '');
+ 388:       formData.append("phone", document.getElementById("phone")?.value || '');
+ 389:       formData.append("inn", document.getElementById("inn")?.value || '');
+ 390:       formData.append("company_name", document.getElementById("company_name")?.value || '');
+ 391:       formData.append("delivery_address", document.getElementById("delivery_address")?.value || '');
+ 392:       formData.append("delivery_method_id", Number(document.getElementById("delivery_method_id")?.value || 0));
+ 393:       formData.append("delivery_method_code", document.getElementById("delivery_method_code")?.value || '');
+ 394:       formData.append("delivery_price", document.getElementById("delivery_price_input")?.value || 0);
+ 395:       formData.append("cart", JSON.stringify(cart));
+ 396: 
+ 397:       // Пример добавления файлов (если есть input'ы на странице)
+ 398:       cart.forEach((item, index) => {
+ 399:         if (item.logo?.file) {
+ 400:           const input = document.querySelector(`#logo_file_${index}`);
+ 401:           if (input?.files?.[0]) {
+ 402:             formData.append(`logo_file_${index}`, input.files[0]);
+ 403:           }
+ 404:         }
+ 405:         if (item.fullprint?.file) {
+ 406:           const input = document.querySelector(`#print_file_${index}`);
+ 407:           if (input?.files?.[0]) {
+ 408:             formData.append(`print_file_${index}`, input.files[0]);
+ 409:           }
+ 410:         }
+ 411:       });
+ 412: 
+ 413:       // Include honeypot fields rendered by @honeypot
+ 414:       try {
+ 415:         const hpNameInput = document.querySelector('input[name="hp_name"]');
+ 416:         const hpTimeInput = document.querySelector('input[name="hp_time"]');
+ 417:         if (hpNameInput) formData.append('hp_name', hpNameInput.value || '');
+ 418:         if (hpTimeInput) formData.append('hp_time', hpTimeInput.value || '');
+ 419:       } catch (_) { /* no-op */ }
+ 420: 
+ 421:       try {
+ 422:         const res = await fetch("/api/order", {
+ 423:           method: "POST",
+ 424:           headers: { "Accept": "application/json" },
+ 425:           body: formData,
+ 426:         });
+ 427:         const result = await res.json();
+ 428:         setSubmitting(false);
+ 429: 
+ 430:         // Показываем уведомления и не даём выполниться устаревшим alert'ам ниже
+ 431:         if (res.ok) {
+ 432:           try { localStorage.removeItem("cart"); } catch (_) { }
+ 433:           window.location.href = `/order/${result.uuid}`;
+ 434:           return;
+ 435:         }
+ 436:         const msg = result?.message || 'Не удалось создать заказ. Попробуйте ещё раз.';
+ 437:         try { window.toast?.error(msg); } catch (_) { console.error(msg); }
+ 438:         return;
+ 439: 
+ 440:         if (res.ok) {
+ 441:           alert("Заказ успешно оформлен!");
+ 442:           localStorage.removeItem("cart");
+ 443:           window.location.href = `/order/${result.uuid}`;
+ 444:         } else {
+ 445:           alert(result.message || "Ошибка при оформлении заказа");
+ 446:         }
+ 447:       } catch (err) {
+ 448:         console.error("Ошибка:", err);
+ 449:         alert("Ошибка при оформлении заказа");
+ 450:       }
+ 451:     });
+ 452:   }
+ 453: 
+ 454:   // Live field validation on input
+ 455:   const fullNameEl = document.getElementById('full_name');
+ 456:   const emailEl = document.getElementById('email');
+ 457:   const phoneEl = document.getElementById('phone');
+ 458:   const innEl = document.getElementById('inn');
+ 459: 
+ 460:   fullNameEl?.addEventListener('input', () => setFieldError(fullNameEl, isValidFullName(fullNameEl.value) ? '' : null));
+ 461:   emailEl?.addEventListener('input', () => setFieldError(emailEl, isValidEmail(emailEl.value) ? '' : null));
+ 462:   phoneEl?.addEventListener('input', () => setFieldError(phoneEl, isValidPhone(phoneEl.value) ? '' : null));
+ 463:   function renderEmptyState() {
+ 464:     if (!emptyCart) return;
+ 465:     emptyCart.innerHTML = `
+ 466:       <div class="text-center padding-for-cart">
+ 467:         <div class="mx-auto flex items-center justify-center">
+ 468:           <svg fill="#333" height="70px" width="70px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 231.523 231.523" xml:space="preserve"><g><path d="M107.415,145.798c0.399,3.858,3.656,6.73,7.451,6.73c0.258,0,0.518-0.013,0.78-0.04c4.12-0.426,7.115-4.111,6.689-8.231 l-3.459-33.468c-0.426-4.12-4.113-7.111-8.231-6.689c-4.12,0.426-7.115,4.111-6.689,8.231L107.415,145.798z"></path> <path d="M154.351,152.488c0.262,0.027,0.522,0.04,0.78,0.04c3.796,0,7.052-2.872,7.451-6.73l3.458-33.468 c0.426-4.121-2.569-7.806-6.689-8.231c-4.123-0.421-7.806,2.57-8.232,6.689l-3.458,33.468 C147.235,148.377,150.23,152.062,154.351,152.488z"></path> <path d="M96.278,185.088c-12.801,0-23.215,10.414-23.215,23.215c0,12.804,10.414,23.221,23.215,23.221 c12.801,0,23.216-10.417,23.216-23.221C119.494,195.502,109.079,185.088,96.278,185.088z M96.278,216.523 c-4.53,0-8.215-3.688-8.215-8.221c0-4.53,3.685-8.215,8.215-8.215c4.53,0,8.216,3.685,8.216,8.215 C104.494,212.835,100.808,216.523,96.278,216.523z"></path> <path d="M173.719,185.088c-12.801,0-23.216,10.414-23.216,23.215c0,12.804,10.414,23.221,23.216,23.221 c12.802,0,23.218-10.417,23.218-23.221C196.937,195.502,186.521,185.088,173.719,185.088z M173.719,216.523 c-4.53,0-8.216-3.688-8.216-8.221c0-4.53,3.686-8.215,8.216-8.215c4.531,0,8.218,3.685,8.218,8.215 C181.937,212.835,178.251,216.523,173.719,216.523z"></path> <path d="M218.58,79.08c-1.42-1.837-3.611-2.913-5.933-2.913H63.152l-6.278-24.141c-0.86-3.305-3.844-5.612-7.259-5.612H18.876 c-4.142,0-7.5,3.358-7.5,7.5s3.358,7.5,7.5,7.5h24.94l6.227,23.946c0.031,0.134,0.066,0.267,0.104,0.398l23.157,89.046 c0.86,3.305,3.844,5.612,7.259,5.612h108.874c3.415,0,6.399-2.307,7.259-5.612l23.21-89.25C220.49,83.309,220,80.918,218.58,79.08z M183.638,165.418H86.362l-19.309-74.25h135.895L183.638,165.418z"></path> <path d="M105.556,52.851c1.464,1.463,3.383,2.195,5.302,2.195c1.92,0,3.84-0.733,5.305-2.198c2.928-2.93,2.927-7.679-0.003-10.607 L92.573,18.665c-2.93-2.928-7.678-2.927-10.607,0.002c-2.928,2.93-2.927,7.679,0.002,10.607L105.556,52.851z"></path> <path d="M159.174,55.045c1.92,0,3.841-0.733,5.306-2.199l23.552-23.573c2.928-2.93,2.925-7.679-0.005-10.606 c-2.93-2.928-7.679-2.925-10.606,0.005l-23.552,23.573c-2.928,2.93-2.925,7.679,0.005,10.607 C155.338,54.314,157.256,55.045,159.174,55.045z"></path> <path d="M135.006,48.311c0.001,0,0.001,0,0.002,0c4.141,0,7.499-3.357,7.5-7.498l0.008-33.311c0.001-4.142-3.356-7.501-7.498-7.502 c-0.001,0-0.001,0-0.001,0c-4.142,0-7.5,3.357-7.501,7.498l-0.008,33.311C127.507,44.951,130.864,48.31,135.006,48.311z"></path></g></svg>
+ 469:         </div>
+ 470:         <p class="mt-4 text-lg main-gray-color">В корзине пусто</p>
+ 471:         <a href="/#configurator" class="go-to-calculator-button btn-hover-effect mt-6 inline-block">Добавить товар</a>
+ 472:       </div>
+ 473:     `;
+ 474:   }
+ 475:   innEl?.addEventListener('input', () => {
+ 476:     if (getPayerType() !== 'company') { setFieldError(innEl, ''); return; }
+ 477:     setFieldError(innEl, isValidINN(innEl.value) ? '' : null);
+ 478:   });
+ 479: });
