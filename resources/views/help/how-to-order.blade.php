@@ -52,7 +52,7 @@
                     <p>При полноцветной печати стоимость не рассчитывается автоматически — позиция уйдёт менеджеру на согласование.</p>
                 </div>
                 <figure class="flex flex-col justify-center items-center">
-                    <img width="90%" src="{{ Vite::asset('resources/images/order-step-3.webp') }}" alt="Загрузка логотипа и макета">
+                    <img width="60%" src="{{ Vite::asset('resources/images/order-step-3.webp') }}" alt="Загрузка логотипа и макета">
                 </figure>
             </div>
         </section>
@@ -82,7 +82,7 @@
         <section id="step-6" class="main-block scroll-mt-24" aria-labelledby="step-6-title">
             <div class="grid md:grid-cols-2 gap-6 items-center">
                 <figure class="flex flex-col justify-center items-center order-2 md:order-1">
-                    <img width="40%" src="{{ Vite::asset('resources/images/order-step-6.webp') }}" alt="Выбор способа доставки">
+                    <img width="90%" src="{{ Vite::asset('resources/images/order-step-6.webp') }}" alt="Выбор способа доставки">
                 </figure>
                 <div class="space-y-3 order-1 md:order-2">
                     <h2 id="step-6-title" class="text-xl font-semibold mb-4">6. Доставка</h2>

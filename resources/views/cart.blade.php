@@ -52,8 +52,11 @@
                                             <span class="font-medium">Самовывоз</span>
                                         </div>
                                         <p class="text-sm text-gray-700">
-                                            Забрать заказ можно со склада по адресу: <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="underline"><br>г. Черноголовка, ул. Первый проезд, зд. 8</a>.<br>
+                                            Забрать заказ можно со склада по адресу: <br>
+                                            г. Черноголовка, ул. Первый проезд, зд. 8.<br>
                                             Время работы: <span class="font-medium">Пн–Пт 09:00–17:00</span>
+                                            <br>
+                                            <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="underline text-blue-600">Открыть на карте</a>
                                         </p>
                                         <div id="pickup_block" class="mt-2">
                                             <div id="pickup_map" class="h-40 rounded border"></div>
@@ -78,7 +81,9 @@
                                             <span class="font-medium">Доставка ПЭК</span>
                                         </div>
                                         <p class="text-sm text-gray-700">
-                                            <span class="block">Бесплатно передадим ТК ПЭК по адресу: <a href="https://yandex.ru/maps/-/CLQ-eYiF" target="_blank" class="underline"><br>Электростальское шоссе, 25, Ногинск, Богородский городской округ</a>.</span>
+                                            <span class="block">Бесплатно передадим ТК ПЭК по адресу: <br>
+                                                <a href="https://yandex.ru/profile/1039645638?lang=ru" target="_blank" class="underline text-blue-600">Открыть на карте</a>
+                                            </span>
                                             <span class="block">Дальнейшая доставка до вашего города — по тарифам ПЭК. Стоимость и сроки уточняйте на сайте <a href="https://pecom.ru/" target="_blank" rel="noopener" class="text-blue-600 underline hover:text-blue-800">pecom.ru</a> или у менеджера после оформления заказа.</span>
                                         </p>
                                         <div id="pek_block" class="mt-2 hidden">
@@ -175,11 +180,11 @@
                                         class="payer-slider absolute top-1 left-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded bg-white shadow transition-transform duration-200 ease-out will-change-transform">
                                     </div>
                                     <label for="payer_individual"
-                                        class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/ind:text-gray-900">
+                                        class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors peer-checked/ind:text-gray-900">
                                         Физическое лицо
                                     </label>
                                     <label for="payer_company"
-                                        class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors text-gray-600 peer-checked/comp:text-gray-900">
+                                        class="relative z-10 flex-1 text-center py-2 px-3 cursor-pointer font-medium transition-colors peer-checked/comp:text-gray-900">
                                         Юридическое лицо / ИП
                                     </label>
                                 </div>

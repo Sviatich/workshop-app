@@ -549,7 +549,7 @@ div#cart_summary {
     }
     /* Make size inputs stack on small screens */
     #configurator .grid.grid-cols-3 {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -558,7 +558,7 @@ div#cart_summary {
         grid-template-columns: 1fr 1fr;
     }
     .color-card-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -1748,7 +1748,7 @@ input#feedback_form-file:hover {
 
 .dropdown {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 32px);
     right: 0;
     min-width: 240px;
     background: #FFF;

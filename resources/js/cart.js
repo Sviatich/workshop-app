@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded">
         <span id="payment_info_icon"></span>
       </div>
-      <div id="payment_info_text" class="text-gray-700">Оплата картой после согласования</div>
+      <div id="payment_info_text">Оплата картой после согласования</div>
     `;
     const target = fullNameInput?.parentElement;
     if (target && target.parentNode) {
