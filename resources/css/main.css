@@ -10,9 +10,7 @@ h2,
 }
 
 main {
-    /* Use margin to offset fixed header so sticky elements work correctly */
-    /* margin-top: 110px; */
-    transform: translateY(110px);
+    margin-top: 140px !important;
 }
 
 .image-on-404 {
@@ -319,7 +317,11 @@ div#result {
 
 .configurator-sticky {
     position: sticky;
-    top: 20px;
+    top: 110px;
+}
+
+div#cart_summary {
+    top: 120px;
 }
 
 .configurator-sticky-table {
@@ -954,7 +956,6 @@ input#feedback_form-file:hover {
     line-height: 1.6;
     max-width: var(--container-width);
     margin: 0 auto;
-    transform: translateY(110px);
 }
 
 .footer a {
@@ -1575,11 +1576,11 @@ input#feedback_form-file:hover {
 }
 
 .site-header {
-    position: relative;
     z-index: 60;
     margin: 0 auto;
     position: fixed;
     width: 100%;
+    top: 0;
 }
 
 .header--transparent .mainbar {
@@ -1598,12 +1599,15 @@ input#feedback_form-file:hover {
     align-items: center;
     gap: 16px;
     min-height: 64px;
-    padding: 30px 0;
+    padding: 25px 30px;
     transition: 0.3s;
+    background-color: #FFF;
+    border-radius: 0 0 var(--border-outside) var(--border-outside);
 }
 
 .header-inner-scrolled {
-    box-shadow: 0px 20px 30px -33px rgba(0, 0, 0, .5);
+    /* box-shadow: 0px 20px 30px -33px rgba(0, 0, 0, .5); */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, .1);
     transition: 0.3s;
 }
 
