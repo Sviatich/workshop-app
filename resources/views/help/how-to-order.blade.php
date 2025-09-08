@@ -101,7 +101,7 @@
                     </ul>
                 </div>
                 <figure class="flex flex-col justify-center items-center">
-                    <img width="60%" src="{{ Vite::asset('resources/images/order-step-7.webp') }}" alt="Страница оформления заказа">
+                    <img width="70%" src="{{ Vite::asset('resources/images/order-step-7.webp') }}" alt="Страница оформления заказа">
                 </figure>
             </div>
         </section>

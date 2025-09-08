@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Возврат товара — ' . config('app.name'))
+@section('title', 'Возврат товара — Мастерская Упаковки')
 @section('meta_description', 'Условия обмена и возврата продукции.')
 
 @section('content')

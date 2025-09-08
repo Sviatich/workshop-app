@@ -47,17 +47,17 @@
 
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <label class="block mb-1 font-semibold configurator-label">Длина (мм)</label>
+                        <label class="block mb-1 font-semibold configurator-label">Длина <span class="font-normal text-gray-400">mm</span></label>
                         <input type="number" name="length" id="length" value="" min="15" class="rounded border w-full p-2"
                             placeholder="200">
                     </div>
                     <div>
-                        <label class="block mb-1 font-semibold configurator-label">Ширина (мм)</label>
+                        <label class="block mb-1 font-semibold configurator-label">Ширина <span class="font-normal text-gray-400">mm</span></label>
                         <input type="number" name="width" id="width" value="" min="15" class="rounded border w-full p-2"
                             placeholder="150">
                     </div>
                     <div>
-                        <label class="block mb-1 font-semibold configurator-label">Высота (мм)</label>
+                        <label class="block mb-1 font-semibold configurator-label">Высота <span class="font-normal text-gray-400">mm</span></label>
                         <input type="number" name="height" id="height" value="" min="15" class="rounded border w-full p-2"
                             placeholder="100">
                     </div>
@@ -116,6 +116,7 @@
                     </div>
 
                     <div id="logo_options" class="mt-2 hidden space-y-2">
+                        <p class="text-gray-800 text-sm">Мы согласуем с вами место размещения логотипа и предоставим предварительную 3D визуализацию.</p>
                         <div>
                             <label class="block font-semibold mb-1 configurator-label">Размер логотипа</label>
                             <select id="logo_size" class="rounded border w-full p-2">
@@ -145,6 +146,7 @@
                     </div>
 
                     <div id="design_options" class="mt-2 hidden space-y-2">
+                        <p class="text-gray-800 text-sm">Услуга платная, но ее стоимость будет рассчитана после изучения технического задания.</p>
                         <div>
                             <label class="block font-semibold mb-1 configurator-label">Файл (при наличии)</label>
                             <input type="file" name="design_file_0" id="design_file" class="rounded border w-full p-2">

@@ -5,7 +5,11 @@
 
 @section('content')
 <section class="main-block">
-    <h1 class="h2 mb-4">Реквизиты</h1>
+    @include('partials.breadcrumbs', ['items' => [
+        ['label' => 'Главная', 'url' => route('home')],
+        ['label' => 'Реквизиты', 'url' => route('legal.requisites')]
+      ]])
+    <h1 class="main-h1 mb-4">Реквизиты</h1>
 
     <div class="space-y-3 text-gray-800">
         <p><strong>Наименование:</strong> ООО «Новая Упаковочная Компания»</p>

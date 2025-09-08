@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Контакты — ' . config('app.name'))
+@section('title', 'Контакты — Мастерская Упаковки')
 @section('meta_description', 'Контактная информация, адрес и способы связи.')
 
 @section('content')
