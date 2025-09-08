@@ -191,6 +191,26 @@ class Bitrix24Service
             );
         }
 
+        // Add design development notes per item (if any)
+        try {
+            $hasDesign = false;
+            foreach ($order->items as $idx => $item) {
+                $cfg = is_array($item->config_json) ? $item->config_json : (json_decode((string) $item->config_json, true) ?: []);
+                if (!empty(\Illuminate\Support\Arr::get($cfg, 'design.enabled'))) {
+                    if (!$hasDesign) {
+                        $lines[] = '';
+                        $lines[] = 'Разработка дизайна:';
+                        $hasDesign = true;
+                    }
+                    $lines[] = sprintf('- Позиция %d: требуется разработка (стоимость отдельно)', (int)($idx + 1));
+                    $desc = trim((string) \Illuminate\Support\Arr::get($cfg, 'design.description', ''));
+                    if ($desc !== '') {
+                        $lines[] = '  Пожелания: ' . $desc;
+                    }
+                }
+            }
+        } catch (\Throwable $e) { /* no-op */ }
+
         return implode("\n", $lines);
     }
 

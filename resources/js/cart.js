@@ -263,6 +263,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
+      // Разработка дизайна
+      if (item.design?.enabled) {
+        html += `<p class="mt-2 cart-item-badge"><strong>Разработка дизайна:</strong> нужна, стоимость будет рассчитана отдельно исходя из сложности задачи</p>`;
+        if (item.design.description) {
+          html += `<p class="text-sm"><span class="gray-999">Комментарий: </span>${item.design.description}</p>`;
+        }
+        if (item.design.filename) {
+          html += `<p class="text-sm"><span class="gray-999">Файл: </span>${item.design.filename}</p>`;
+        }
+        if (item.design.file_path && item.design.file_path.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+          html += `<img src="${item.design.file_path}" alt="Материалы для дизайна" class="mt-2 max-w-[200px] rounded border cursor-pointer" data-modal-open data-modal-type="photo" data-title="Материалы для дизайна" data-img-src="${item.design.file_path}" data-img-alt="Материалы для дизайна"/>`;
+        }
+      }
+
       html += `
         <button class="cursor-pointer remove_item btn-hover-effect-dark" data-index="${index}">
           <svg width="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" fill="#333"></path></g></svg>

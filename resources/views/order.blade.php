@@ -83,6 +83,19 @@
                             @endif
 
                             {{-- Прикрепленные файлы --}}
+                            {{-- Разработка дизайна --}}
+                            @if (!empty($item->config_json['design']['enabled']))
+                                <div class="mt-2 cart-item-badge">
+                                    <strong>Разработка дизайна:</strong> нужна, стоимость будет рассчитана отдельно исходя из сложности задачи
+                                    @if (!empty($item->config_json['design']['description']))
+                                        <p class="text-sm text-gray-700">Комментарий: {{ $item->config_json['design']['description'] }}</p>
+                                    @endif
+                                    @if (!empty($item->config_json['design']['filename']))
+                                        <p class="text-sm text-gray-600">Файл: {{ $item->config_json['design']['filename'] }}</p>
+                                    @endif
+                                </div>
+                            @endif
+
                             @if ($item->files->count())
                                 <ul class="mt-3 text-sm text-blue-600 underline">
                                     @foreach ($item->files as $file)

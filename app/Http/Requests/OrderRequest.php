@@ -66,6 +66,11 @@ class OrderRequest extends FormRequest
             'cart.*.fullprint.description' => 'nullable|string',
             'cart.*.fullprint.file_path' => 'nullable|string',
             'cart.*.fullprint.filename' => 'nullable|string',
+            // Разработка дизайна (не влияет на цену)
+            'cart.*.design.enabled' => 'nullable|boolean',
+            'cart.*.design.description' => 'nullable|string',
+            'cart.*.design.file_path' => 'nullable|string',
+            'cart.*.design.filename' => 'nullable|string',
             // Файлы (по индексам)
             // Обрабатываются динамически в контроллере, здесь не валидируются
         ];

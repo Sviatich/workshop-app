@@ -782,7 +782,8 @@ div#cart_summary {
 }
 
 #logo_options,
-#fullprint_options {
+#fullprint_options,
+#design_options {
     background: var(--background-color);
     padding: 20px;
     border-radius: var(--border-inside);
@@ -791,7 +792,9 @@ div#cart_summary {
 select#logo_size,
 input#logo_file,
 input#print_file,
-textarea#print_description {
+input#design_file,
+textarea#print_description,
+textarea#design_description {
     background: #fff;
 }
 
@@ -812,6 +815,7 @@ input#company_name:focus,
 input#inn:focus,
 select#logo_size:focus,
 textarea#print_description:focus,
+textarea#design_description:focus,
 textarea#feedback_form-textarea:focus,
 input#feedback_form-full_name:focus,
 input#feedback_form-email:focus,
@@ -823,6 +827,7 @@ select#feedback_form-select:focus {
 
 input#print_file:hover,
 input#logo_file:hover,
+input#design_file:hover,
 input#feedback_form-file:hover {
     background: #dff1ff;
     cursor: pointer;

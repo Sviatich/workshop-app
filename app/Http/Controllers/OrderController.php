@@ -130,6 +130,9 @@ class OrderController extends Controller
             if (!empty($item['fullprint']['file_path'])) {
                 $this->copyTmpFileToOrder($item['fullprint']['file_path'], $order->uuid, $orderItem->id, 'print');
             }
+            if (!empty($item['design']['file_path'])) {
+                $this->copyTmpFileToOrder($item['design']['file_path'], $order->uuid, $orderItem->id, 'design');
+            }
         }
 
         // Итог заказа с учетом доставки

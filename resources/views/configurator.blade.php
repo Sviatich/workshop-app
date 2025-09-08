@@ -108,7 +108,8 @@
                 <div class="pt-4 mt-4">
                     <div class="switch-block">
                         <div style="width: 75%;">
-                            <label for="has_logo" class="cursor-pointer font-semibold configurator-label">Нанести логотип</label>
+                            <label for="has_logo" class="cursor-pointer font-semibold configurator-label">Нанести
+                                логотип</label>
                             <p class="text-sm main-gray-color">Логотип будет нанесён в одном цвете на выбранный материал</p>
                         </div>
                         <input type="checkbox" id="has_logo" class="switch">
@@ -133,10 +134,37 @@
                     </div>
                 </div>
 
+                <div class="border-t pt-4 mt-4">
+                    <div class="switch-block">
+                        <div style="width: 75%;">
+                            <label for="has_design" class="cursor-pointer font-semibold configurator-label">Разработка
+                                дизайна</label>
+                            <p class="text-sm main-gray-color">Если у вас нет готового макета, можем разработать дизайн.</p>
+                        </div>
+                        <input type="checkbox" id="has_design" class="switch">
+                    </div>
+
+                    <div id="design_options" class="mt-2 hidden space-y-2">
+                        <div>
+                            <label class="block font-semibold mb-1 configurator-label">Файл (при наличии)</label>
+                            <input type="file" name="design_file_0" id="design_file" class="rounded border w-full p-2">
+                            <div id="design_status" class="text-sm text-gray-600 mt-1"></div>
+                            <img id="design_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold mb-1">Пожелания к дизайну</label>
+                            <textarea id="design_description" class="rounded border w-full p-2"
+                                placeholder="Опишите, какой дизайн нужен, цвета, элементы, примеры..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="border-t border-b pt-4 mt-4 pb-4">
                     <div class="switch-block">
                         <div style="width: 75%;">
-                            <label for="has_fullprint" class="cursor-pointer font-semibold configurator-label">Полноцветная печать</label>
+                            <label for="has_fullprint" class="cursor-pointer font-semibold configurator-label">Полноцветная
+                                печать</label>
                             <p class="text-sm main-gray-color">Печать от 1 до 5 цветов на всей площади короба</p>
                         </div>
                         <input type="checkbox" id="has_fullprint" class="switch">

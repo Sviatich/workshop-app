@@ -41,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const printInput = document.getElementById("print_file");
     const printStatus = document.getElementById("print_status");
     const printPreview = document.getElementById("print_preview");
+    const designCheckbox = document.getElementById("has_design");
+    const designInput = document.getElementById("design_file");
+    const designStatus = document.getElementById("design_status");
+    const designPreview = document.getElementById("design_preview");
+    const designDesc = document.getElementById("design_description");
 
     let lastCalcResult = null;
     let isCalculating = false;
@@ -293,9 +298,15 @@ document.addEventListener("DOMContentLoaded", () => {
             printCheckbox.checked = false;
             document.getElementById("fullprint_options")?.classList.add("hidden");
         }
+        if (designCheckbox) {
+            designCheckbox.checked = false;
+            document.getElementById("design_options")?.classList.add("hidden");
+        }
 
         resetFileInput(logoInput, logoStatus, logoPreview);
         resetFileInput(printInput, printStatus, printPreview);
+        resetFileInput(designInput, designStatus, designPreview);
+        if (designDesc) designDesc.value = "";
 
         clearResult();
         nearestContainer.innerHTML = "";
@@ -305,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Слушатели
-    [...fields.map(id => document.getElementById(id)), logoCheckbox, printCheckbox].forEach(input => {
+    [...fields.map(id => document.getElementById(id)), logoCheckbox, printCheckbox, designCheckbox].forEach(input => {
         input?.addEventListener("input", () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(recalc, 300);
@@ -329,6 +340,19 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (logoInput?.dataset?.filePath && logoPreview) {
             logoPreview.src = logoInput.dataset.filePath;
             logoPreview.classList.remove("hidden");
+        }
+    });
+
+    // Design toggle block
+    designCheckbox?.addEventListener("change", () => {
+        const visible = !!designCheckbox.checked;
+        document.getElementById("design_options")?.classList.toggle("hidden", !visible);
+        if (!visible) {
+            resetFileInput(designInput, designStatus, designPreview);
+            if (designDesc) designDesc.value = "";
+        } else if (designInput?.dataset?.filePath && designPreview) {
+            designPreview.src = designInput.dataset.filePath;
+            designPreview.classList.remove("hidden");
         }
     });
 
@@ -404,6 +428,43 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Добавление в корзину
+    // Upload design file
+    designInput?.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        if (designStatus) designStatus.innerHTML = `Загрузка... <span class=\"inline-block w-4 h-4 border-2 border-blue-500 border-t-transparent animate-spin rounded-full ml-1\"></span>`;
+
+        try {
+            const res = await fetch("/api/upload", { method: "POST", body: formData });
+            const data = await res.json();
+
+            if (!data.success) {
+                if (designStatus) designStatus.innerHTML = `<span class=\"text-red-600\">Ошибка загрузки: ${data.error ?? "попробуйте другой файл"}</span>`;
+                return;
+            }
+
+            e.target.dataset.filePath = data.file_path;
+            e.target.dataset.filename = data.filename;
+
+            if (designPreview && file.type.startsWith("image/")) {
+                designPreview.src = data.file_path;
+                designPreview.classList.remove("hidden");
+            } else if (designPreview) {
+                designPreview.src = "";
+                designPreview.classList.add("hidden");
+            }
+
+            if (designStatus) designStatus.innerHTML = `<span class=\"primary-text-color\">Загружен файл: ${data.filename}</span>`;
+        } catch (err) {
+            console.error("Ошибка загрузки файла дизайна:", err);
+            if (designStatus) designStatus.innerHTML = `<span class=\"text-red-600\">Не удалось загрузить файл</span>`;
+        }
+    });
+
     document.getElementById("add_to_cart").addEventListener("click", () => {
         if (isCalculating) {
             try { toast.warning("Идёт расчёт. Пожалуйста, дождитесь завершения.", { timeout: 4000 }); } catch (_) {}
@@ -437,6 +498,13 @@ document.addEventListener("DOMContentLoaded", () => {
             description: document.getElementById("print_description").value,
             file_path: printInput?.dataset.filePath ?? "",
             filename: printInput?.dataset.filename ?? "",
+        } : { enabled: false };
+
+        config.design = designCheckbox?.checked ? {
+            enabled: true,
+            description: document.getElementById("design_description")?.value || "",
+            file_path: designInput?.dataset.filePath ?? "",
+            filename: designInput?.dataset.filename ?? "",
         } : { enabled: false };
 
         const constructionSelect = document.getElementById("construction");
