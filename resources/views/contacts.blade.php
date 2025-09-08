@@ -7,7 +7,11 @@
 <section class="main-block">
   <div class="mx-auto max-w-5xl">
     <header class="mb-6">
-      <h1 class="h2 mb-4">Контакты</h1>
+      @include('partials.breadcrumbs', ['items' => [
+            ['label' => 'Главная', 'url' => route('home')],
+            ['label' => 'Контакты', 'url' => route('contacts')]
+        ]])
+      <h1 class="main-h1 mb-4">Контакты</h1>
     </header>
 
     {{-- Узкая карта-строка --}}
