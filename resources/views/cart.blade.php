@@ -250,11 +250,6 @@
                         <span><span id="cart_total">0</span> ₽</span>
                     </p>
 
-                    {{-- delivery.js добавит сюда строку «Доставка», а также строку «Итого» --}}
-                    <p id="packaging_row" class="flex justify-between cart-summary-row">
-                        <span>Упаковка:</span>
-                        <span><span id="packaging_total">0</span> ₽</span>
-                    </p>
                     <p id="delivery_row" class="flex justify-between">
                         <span>Доставка:</span>
                         <span><span id="delivery_row_value">0</span> ₽</span>

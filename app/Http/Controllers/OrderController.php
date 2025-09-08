@@ -105,6 +105,10 @@ class OrderController extends Controller
                     $pricePerUnit = round($pricePerUnit + (5000 / max(1, (int) $item['tirage'])), 2);
                     $totalPrice = round($totalPrice + 5000, 2);
                 }
+
+                // Include protective packaging in item price (+2%)
+                $pricePerUnit = round($pricePerUnit * 1.02, 2);
+                $totalPrice = round($pricePerUnit * (int) $item['tirage'], 2);
             }
 
             $orderTotal += $totalPrice;
@@ -129,9 +133,8 @@ class OrderController extends Controller
         }
 
         // Итог заказа с учетом доставки
-        $packaging = round($orderTotal * 0.02, 2);
         $order->update([
-            'total_price' => round($orderTotal + $packaging + (float) $order->delivery_price, 2),
+            'total_price' => round($orderTotal + (float) $order->delivery_price, 2),
         ]);
 
         // Send to Bitrix24 CRM (non-blocking: errors are logged)

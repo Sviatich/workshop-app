@@ -13,9 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateGrandTotal = () => {
     const items = parseFloat((el('cart_total')?.textContent || '0').replace(',', '.')) || 0;
-    const packaging = parseFloat((el('packaging_total')?.textContent || '0').replace(',', '.')) || 0;
     const delivery = parseFloat((el('delivery_row_value')?.textContent || '0').replace(',', '.')) || 0;
-    const grand = (items + packaging + delivery).toFixed(2);
+    const grand = (items + delivery).toFixed(2);
     const gEl = el('grand_total');
     if (gEl) gEl.textContent = grand;
   };

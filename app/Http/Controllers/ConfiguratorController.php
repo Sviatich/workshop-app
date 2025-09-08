@@ -74,6 +74,10 @@ class ConfiguratorController extends Controller
             );
         }
 
+        // Include protective packaging in item price (+2%)
+        $result['price_per_unit'] = round($result['price_per_unit'] * 1.02, 2);
+        $result['total_price'] = round($result['price_per_unit'] * $data['tirage'], 2);
+
         return response()->json($result);
     }
 
