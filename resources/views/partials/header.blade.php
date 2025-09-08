@@ -8,7 +8,7 @@
         <img src="{{ Vite::asset('resources/images/main-logo.svg') }}" alt="Мастерская упаковки" width="160" height="24"
           decoding="async">
       </a>
-      <a href="https://mp.market/" class="brand-sub hidden lg:block">проект компании Мистер Пакерс</a>
+      <a href="https://mp.market/" class="btn-hover-effect brand-sub hidden lg:block">проект компании Мистер Пакерс</a>
 
       <nav class="primary-nav" aria-label="Основная навигация">
         <ul class="nav-list" role="list">

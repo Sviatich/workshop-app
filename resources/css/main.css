@@ -264,7 +264,9 @@ main {
 }
 
 .banner-block-bg-color {
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
+    background-color: var(--primary-color);
+    color: #fff;
 }
 
 #map {
@@ -1954,7 +1956,7 @@ input#feedback_form-file:hover {
 
 .mega-title {
     font-size: 14px;
-    color: #666;
+    color: #999;
     margin: 0 0 8px
 }
 
