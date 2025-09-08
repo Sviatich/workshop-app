@@ -281,8 +281,6 @@
     </div>
 @endsection
 
-@vite(['resources/js/cart.js', 'resources/js/delivery.js', 'resources/js/inn-suggest.js'])
-
 <div id="order_loader" class="fixed inset-0 bg-black/40 z-50 hidden">
     <div class="absolute inset-0 flex items-center justify-center">
         <div class="bg-white rounded p-4 shadow flex items-center gap-3">
@@ -292,3 +290,5 @@
         </div>
     </div>
 </div>
+
+@vite(['resources/js/cart.js', 'resources/js/delivery.js', 'resources/js/inn-suggest.js'])

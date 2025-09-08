@@ -222,6 +222,17 @@ class Bitrix24Service
                 ];
             }
 
+            // Append delivery as a separate product row for 1C integration
+            // If delivery price is 0, send 0; if null (unknown), skip adding the row
+            if ($order->delivery_price !== null) {
+                $rows[] = [
+                    'PRODUCT_NAME' => 'Доставка',
+                    'PRICE' => (float) $order->delivery_price,
+                    'QUANTITY' => 1,
+                    'TAX_INCLUDED' => 'Y',
+                ];
+            }
+
             if (!empty($rows)) {
                 $resp = $this->b24('crm.deal.productrows.set.json', [
                     'id' => $dealId,
