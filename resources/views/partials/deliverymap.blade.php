@@ -8,10 +8,10 @@
       <p class="home-feature-subtitle mt-2">
         Мы осуществляем доставку по всей стране. Подробнее об условиях и стоимости доставки можете узнать здесь.
       </p>
-      <div class="banner-block-button btn-hover-effect mt-6">
+      <div class="banner-block-button btn-hover-effect mt-6 primary-bg-color text-white">
         <a href="/help/delivery">Узнать подробнее</a>
       </div> 
     </div>
-    <div id="map"></div>
+    <div id="map" class="rounded"></div>
   </div>
 </section>

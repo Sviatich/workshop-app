@@ -16,7 +16,7 @@ class SizeMatcher
      * @param int $limit — сколько ближайших вернуть
      * @return array
      */
-    public static function findNearest(string $constructionCode, int $length, int $width, int $height, int $limit = 5): array
+    public static function findNearest(string $constructionCode, int $length, int $width, int $height, int $limit = 10): array
     {
         $sizes = ConstructionSize::query()
             ->whereHas('construction', function ($q) use ($constructionCode) {

@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             nearestContainer.innerHTML = `
                 <p class="configurator-warning mb-3">
-                    ⓘ Расчёт стоимости с полноцветной печатью будет выполнен менеджером после завершения оформления заказа.
+                    Расчёт стоимости с полноцветной печатью будет выполнен менеджером после завершения оформления заказа.
                 </p>`;
 
             return;
@@ -200,15 +200,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!result.exact_match) {
                 let html = `<p class="configurator-warning mb-3">
-                    ⓘ Выбран нестандартный размер. В стоимость включена услуга изготовления штампа. Выберите размер из наличия чтоб не переплачивать.
+                    Выбран нестандартный размер. В стоимость включена услуга изготовления штампа. Выберите размер из наличия чтоб не переплачивать.
                 </p>`;
 
                 if (result.nearest_sizes?.length > 0) {
-                    html += `<h3 class="block mb-1 font-semibold">Размеры в наличии:</h3><ul class="space-y-1">`;
+                    html += `<h3 class="block mb-1 font-semibold">Размеры в наличии:</h3><ul class="space-y-1 sizematcher-layout">`;
                     result.nearest_sizes.forEach(size => {
                         html += `<li class="flex items-center justify-between border-b pb-1">
                             <span>${size.length} × ${size.width} × ${size.height} мм</span>
-                            <button class="px-2 py-1 bg-blue-500 text-white rounded btn-hover-effect cursor-pointer text-sm"
+                            <button class="px-2 py-1 primary-bg-color text-white rounded btn-hover-effect cursor-pointer text-sm"
                                 data-length="${size.length}"
                                 data-width="${size.width}"
                                 data-height="${size.height}">

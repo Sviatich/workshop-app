@@ -8,11 +8,12 @@ class Fefco0426Calculator extends BaseCalculator
     {
         $L = $data['length'];
         $W = $data['width'];
+        $H = $data['height'];
         $tirage = $data['tirage'];
         $color = $data['color'];
 
-        $Lsheet = $L + 40;
-        $Wsheet = $W + 40;
+        $Lsheet = 2 * $H + $L + 50;
+        $Wsheet = 4 * $H + 2 * $W + 60;
         $S = ($Lsheet * $Wsheet) / 1_000_000;
 
         if ($S <= 0 || $S > $this->minArea) {

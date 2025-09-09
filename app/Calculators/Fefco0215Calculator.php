@@ -12,8 +12,8 @@ class Fefco0215Calculator extends BaseCalculator
         $tirage = $data['tirage'];
         $color = $data['color'];
 
-        $Lsheet = $L + 2 * $H + 30 + 35;
-        $Wsheet = 2 * $W + $H + 30 + 30;
+        $Lsheet = 2 * $L + 2 * $W + 90;
+        $Wsheet = $W * 0.7 + $H + $W + 65;
         $S = ($Lsheet * $Wsheet) / 1_000_000;
 
         if ($S <= 0 || $S > $this->minArea) {

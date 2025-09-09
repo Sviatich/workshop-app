@@ -13,7 +13,7 @@
   $templateId = 'tpl-'.$id;
 @endphp
 
-<button type="button" class="banner-block-button btn-hover-effect cursor-pointer" data-contact-form-open data-template-id="#{{ $templateId }}" data-title="{{ $title }}">
+<button type="button" class="banner-block-button btn-hover-effect cursor-pointer primary-bg-color text-white" data-contact-form-open data-template-id="#{{ $templateId }}" data-title="{{ $title }}">
   {{ $buttonText }}
 </button>
 

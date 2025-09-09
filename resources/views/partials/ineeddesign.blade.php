@@ -7,6 +7,9 @@
       <p class="mt-2 home-feature-subtitle">
         Просто отправьте нам размеры и пожелания, и мы создадим уникальный дизайн, который подчеркнет ваш бренд.
       </p>
+      <div class="banner-block-button btn-hover-effect mt-6 bg-white text-black">
+        <a href="/help/logo-design">Узнать подробнее</a>
+      </div>
     </div>
     <figure class="banner-block-img-container">
       <img 

@@ -1,5 +1,5 @@
 <section class="main-container main-3cards-block">
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
         <div class="main-3cards-block__card">
             <img src="{{ Vite::asset('resources/images/card2.webp') }}" alt="Описание 2"
                 class="w-full h-48 object-cover main-3cards-block__card_img">

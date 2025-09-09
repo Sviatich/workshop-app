@@ -4,7 +4,7 @@
       <h2 id="testimonials-title" class="text-2xl md:text-3xl font-bold mb-6">
         Что пишут клиенты
       </h2>
-      <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="flex gap-2 marquee__rating items-center btn-hover-effect-dark"><img
+      <a href="https://yandex.ru/profile/142486939387?lang=ru" target="_blank" class="flex gap-2 marquee__rating items-center btn-hover-effect"><img
           width="15px" src="{{ Vite::asset('resources/images/yandex.svg') }}" alt="Yandex"> оставить отзыв</a>
     </div>
     <div class="marquee mask-fade" role="region" aria-label="Отзывы клиентов, автопрокрутка справа налево">

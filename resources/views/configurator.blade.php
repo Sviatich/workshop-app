@@ -13,7 +13,7 @@
                 @csrf
 
                 <div>
-                    <label class="hidden-element">Конструкция</label>
+                    <label for="construction" class="hidden-element">Конструкция</label>
 
                     <select name="construction" id="construction" class="border w-full p-2 select-fixed">
                         <option value="fefco_0427"
@@ -47,24 +47,24 @@
 
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <label class="block mb-1 font-semibold configurator-label">Длина <span class="font-normal text-gray-400">mm</span></label>
+                        <label for="length" class="block mb-1 font-semibold configurator-label">Длина <span class="font-normal text-gray-400">мм</span></label>
                         <input type="number" name="length" id="length" value="" min="15" class="rounded border w-full p-2"
                             placeholder="200">
                     </div>
                     <div>
-                        <label class="block mb-1 font-semibold configurator-label">Ширина <span class="font-normal text-gray-400">mm</span></label>
+                        <label for="width" class="block mb-1 font-semibold configurator-label">Ширина <span class="font-normal text-gray-400">мм</span></label>
                         <input type="number" name="width" id="width" value="" min="15" class="rounded border w-full p-2"
                             placeholder="150">
                     </div>
                     <div>
-                        <label class="block mb-1 font-semibold configurator-label">Высота <span class="font-normal text-gray-400">mm</span></label>
+                        <label for="height" class="block mb-1 font-semibold configurator-label">Высота <span class="font-normal text-gray-400">мм</span></label>
                         <input type="number" name="height" id="height" value="" min="15" class="rounded border w-full p-2"
                             placeholder="100">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block mb-1 font-semibold configurator-label">Цвет картона</label>
+                    <label for="color" class="block mb-1 font-semibold configurator-label">Цвет картона</label>
 
                     <select name="color" id="color" class="border w-full p-2 select-fixed">
                         <option value="brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
@@ -82,7 +82,7 @@
                 </div>
 
                 <div>
-                    <label class="block mb-1 font-semibold configurator-label">Тираж</label>
+                    <label for="tirage" class="block mb-1 font-semibold configurator-label">Тираж</label>
                     <select id="tirage" name="tirage" class="styled-select">
                         <option value="25">25 штук</option>
                         <option value="50">50 штук</option>
@@ -118,7 +118,7 @@
                     <div id="logo_options" class="mt-2 hidden space-y-2">
                         <p class="text-gray-800 text-sm">Мы согласуем с вами место размещения логотипа и предоставим предварительную 3D визуализацию.</p>
                         <div>
-                            <label class="block font-semibold mb-1 configurator-label">Размер логотипа</label>
+                            <label for="logo_size" class="block font-semibold mb-1 configurator-label">Размер логотипа</label>
                             <select id="logo_size" class="rounded border w-full p-2">
                                 <option value="26x100">26 мм × 100 мм</option>
                                 <option value="26x50">26 мм × 50 мм</option>
@@ -127,7 +127,7 @@
                         </div>
 
                         <div>
-                            <label class="block font-semibold mb-1 configurator-label">Файл логотипа</label>
+                            <label for="logo_file" class="block font-semibold mb-1 configurator-label">Файл логотипа</label>
                             <input type="file" name="logo_file_0" id="logo_file" class="rounded border w-full p-2">
                             <div id="logo_status" class="text-sm text-gray-600 mt-1"></div>
                             <img id="logo_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
@@ -148,14 +148,14 @@
                     <div id="design_options" class="mt-2 hidden space-y-2">
                         <p class="text-gray-800 text-sm">Услуга платная, но ее стоимость будет рассчитана после изучения технического задания.</p>
                         <div>
-                            <label class="block font-semibold mb-1 configurator-label">Файл (при наличии)</label>
+                            <label for="design_file" class="block font-semibold mb-1 configurator-label">Файл (при наличии)</label>
                             <input type="file" name="design_file_0" id="design_file" class="rounded border w-full p-2">
                             <div id="design_status" class="text-sm text-gray-600 mt-1"></div>
                             <img id="design_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
                         </div>
 
                         <div>
-                            <label class="block font-semibold mb-1">Пожелания к дизайну</label>
+                            <label for="design_description" class="block font-semibold mb-1">Пожелания к дизайну</label>
                             <textarea id="design_description" class="rounded border w-full p-2"
                                 placeholder="Опишите, какой дизайн нужен, цвета, элементы, примеры..."></textarea>
                         </div>
@@ -174,14 +174,14 @@
 
                     <div id="fullprint_options" class="mt-2 hidden space-y-2">
                         <div>
-                            <label class="block font-semibold mb-1 configurator-label">Файл макета</label>
+                            <label for="print_file" class="block font-semibold mb-1 configurator-label">Файл макета</label>
                             <input type="file" name="print_file_0" id="print_file" class="rounded border w-full p-2">
                             <div id="print_status" class="text-sm text-gray-600 mt-1"></div>
                             <img id="print_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
                         </div>
 
                         <div>
-                            <label class="block font-semibold mb-1">Комментарий к печати</label>
+                            <label for="print_description" class="block font-semibold mb-1">Комментарий к печати</label>
                             <textarea id="print_description" class="rounded border w-full p-2"
                                 placeholder="Если макета нет — опишите, что нужно напечатать"></textarea>
                         </div>
@@ -195,8 +195,8 @@
                     <table class="w-full text-left configurator-sticky-table">
                         <tbody>
                             <tr>
-                                <th class="pr-4 font-semibold">Цена за 1 шт:</th>
-                                <td class="text-right font-semibold"><span id="price_per_unit">—</span> ₽</td>
+                                <th class="pr-4 font-bold">Цена за 1 шт:</th>
+                                <td class="text-right font-bold"><span id="price_per_unit">—</span> ₽</td>
                             </tr>
                             <tr class="result-main-other">
                                 <th class="pr-4 font-normal">Общая цена:</th>
@@ -227,10 +227,10 @@
     @include('partials.ineeddesign')
     @include('partials.maingalery')
     @include('partials.productioninfo')
-    {{-- @include('partials.feed-gallery') --}}
     @include('partials.deliverymap')
     @include('partials.review')
     @include('partials.faq')
+    @include('partials.feed-gallery')
 @endsection
 
 @vite(['resources/js/configurator.js', 'resources/js/print-options-guard.js'])

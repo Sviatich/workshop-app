@@ -109,7 +109,7 @@
 
         <section class="mega-col">
           <div class="p-4 bg-gray-100 border rounded h-full flex flex-col justify-center items-center">
-            <h3 class="text-center font-semibold mb-2">Нужна другая конструкция?</h3>
+            <h3 class="text-center font-semibold mb-2">Нужна другая <div class="header-banner-badge">конструкция</div></h3>
             <p class="mb-3 text-xs text-center">
               Разработаем индивидуальное решение или предложим готовый вариант под ваши задачи
             </p>
