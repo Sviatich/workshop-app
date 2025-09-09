@@ -107,6 +107,15 @@
           </ul>
         </section>
 
+        <section class="mega-col only-mobile">
+          <h3 class="mega-title">Контакты</h3>
+          <ul role="list" class="mega-list">
+            <li><a href="tel:88005503700">+7&nbsp;800&nbsp;550-37-00</a></li>
+            <li><span>Пн-Пт 08:00–17:00</span></li>
+            <li><a href="mailto:workshop@mp.market">workshop@mp.market</a></li>
+          </ul>
+        </section>
+
         <section class="mega-col">
           <div class="p-4 bg-gray-100 border rounded h-full flex flex-col justify-center items-center">
             <h3 class="text-center font-semibold mb-2">Нужна другая <div class="header-banner-badge">конструкция</div></h3>
@@ -115,19 +124,10 @@
             </p>
             <img width="120px" src="{{ Vite::asset('resources/images/dieline.webp') }}" class="mb-4" alt="Конструкция">
             <a target="_blank" href="https://mp.market/factory/"
-              class="inline-block mt-auto px-4 py-2 text-center primary-bg-color btn-hover-effect text-white text-sm font-medium rounded hover:bg-blue-700 transition">
+              class="inline-block mt-auto px-4 py-2 w-full text-center primary-bg-color btn-hover-effect text-white text-sm font-medium rounded hover:bg-blue-700 transition">
               Разработаем для вас
             </a>
           </div>
-        </section>
-
-        <section class="mega-col only-mobile">
-          <h3 class="mega-title">Контакты</h3>
-          <ul role="list" class="mega-list">
-            <li><a href="tel:88005503700">+7&nbsp;800&nbsp;550-37-00</a></li>
-            <li><a href="mailto:workshop@mp.market">workshop@mp.market</a></li>
-            <li><span>Пн-Пт 08:00–17:00</span></li>
-          </ul>
         </section>
 
       </div>

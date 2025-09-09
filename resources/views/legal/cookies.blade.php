@@ -6,6 +6,10 @@
 @section('content')
     <section class="main-block">
         <div class="max-w-4xl mx-auto px-4 py-8">
+            @include('partials.breadcrumbs', ['items' => [
+                ['label' => 'Главная', 'url' => route('home')],
+                ['label' => 'Cookies']
+            ]])
             <h1 class="text-3xl font-bold mb-6">Политика использования файлов cookie</h1>
             <p class="text-sm text-gray-500 mb-8">Дата последнего обновления: 10 апреля 2025 года</p>
 

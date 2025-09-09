@@ -17,9 +17,9 @@
                 <div class="page-hero__slot">{!! $slot !!}</div>
             @endisset
         </div>
-        <div class="page-hero__media">
+        <div class="page-hero__media hidden lg:block">
             @if(!empty($image))
-                <img class="page-hero__img" src="{{ $image }}" alt="{{ $imageAlt ?? '' }}">
+                <img class="page-hero__img p-5" src="{{ $image }}" alt="{{ $imageAlt ?? '' }}">
             @else
                 <div class="image-slot image-slot--hero" aria-hidden="true">
                     <span>Место для изображения</span>

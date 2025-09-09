@@ -37,6 +37,7 @@
     <!-- Fallback styles for modal when Vite is unavailable -->
     <link rel="stylesheet" href="{{ asset('css/popap.css') }}">
 </head>
+
 <body>
 
     @include('partials.header')

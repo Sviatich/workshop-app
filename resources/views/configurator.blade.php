@@ -47,17 +47,17 @@
 
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <label for="length" class="block mb-1 font-semibold configurator-label">Длина <span class="font-normal text-gray-400">мм</span></label>
+                        <label for="length" class="block mb-1 font-semibold configurator-label">Длина <span class="font-normal gray-999">мм</span></label>
                         <input type="number" name="length" id="length" value="" min="15" class="rounded border w-full p-2"
                             placeholder="200">
                     </div>
                     <div>
-                        <label for="width" class="block mb-1 font-semibold configurator-label">Ширина <span class="font-normal text-gray-400">мм</span></label>
+                        <label for="width" class="block mb-1 font-semibold configurator-label">Ширина <span class="font-normal gray-999">мм</span></label>
                         <input type="number" name="width" id="width" value="" min="15" class="rounded border w-full p-2"
                             placeholder="150">
                     </div>
                     <div>
-                        <label for="height" class="block mb-1 font-semibold configurator-label">Высота <span class="font-normal text-gray-400">мм</span></label>
+                        <label for="height" class="block mb-1 font-semibold configurator-label">Высота <span class="font-normal gray-999">мм</span></label>
                         <input type="number" name="height" id="height" value="" min="15" class="rounded border w-full p-2"
                             placeholder="100">
                     </div>
@@ -110,7 +110,7 @@
                         <div style="width: 75%;">
                             <label for="has_logo" class="cursor-pointer font-semibold configurator-label">Нанести
                                 логотип</label>
-                            <p class="text-sm main-gray-color">Логотип будет нанесён в одном цвете на выбранный материал</p>
+                            <p class="text-sm main-gray-color">Логотип будет нанесён в одном цвете на короб выбранной конструкции.</p>
                         </div>
                         <input type="checkbox" id="has_logo" class="switch">
                     </div>
@@ -167,7 +167,7 @@
                         <div style="width: 75%;">
                             <label for="has_fullprint" class="cursor-pointer font-semibold configurator-label">Полноцветная
                                 печать</label>
-                            <p class="text-sm main-gray-color">Печать от 1 до 5 цветов на всей площади короба</p>
+                            <p class="text-sm main-gray-color">Печать от 1 до 5 цветов на всей площади короба.</p>
                         </div>
                         <input type="checkbox" id="has_fullprint" class="switch">
                     </div>

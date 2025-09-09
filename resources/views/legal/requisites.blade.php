@@ -9,8 +9,7 @@
         ['label' => 'Главная', 'url' => route('home')],
         ['label' => 'Реквизиты', 'url' => route('legal.requisites')]
       ]])
-    <h1 class="main-h1 mb-4">Реквизиты</h1>
-
+    <h1 class="main-h1 mb-8">Реквизиты</h1>
     <div class="space-y-3 text-gray-800">
         <p><strong>Наименование:</strong> ООО «Новая Упаковочная Компания»</p>
         <p><strong>ИНН / КПП:</strong> 7709903904 / 503101001</p>
