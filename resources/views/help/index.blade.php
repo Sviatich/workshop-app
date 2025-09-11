@@ -27,7 +27,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">Как оформить заказ</h3>
+                                <h3 class="text-base font-semibold">Как оформить заказ</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Пошагово: выбор конструкции,
                                     параметры, файлы, корзина, оформление.</p>
                             </div>
@@ -47,7 +47,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">О доставке</h3>
+                                <h3 class="text-base font-semibold">О доставке</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Самовывоз, СДЭК, другие ТК. Сроки,
                                     условия и адреса терминалов.</p>
                             </div>
@@ -65,7 +65,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">Об оплате</h3>
+                                <h3 class="text-base font-semibold">Об оплате</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Способы и реквизиты оплаты для физлиц
                                     и компаний.</p>
                             </div>
@@ -86,7 +86,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">О возвратах</h3>
+                                <h3 class="text-base font-semibold">О возвратах</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Порядок возврата, обмена и
                                     рассмотрения претензий.</p>
                             </div>
@@ -106,7 +106,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">FAQ</h3>
+                                <h3 class="text-base font-semibold">FAQ</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Короткие ответы на самые частые
                                     вопросы.</p>
                             </div>
@@ -133,7 +133,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">Печать логотипа</h3>
+                                <h3 class="text-base font-semibold">Печать логотипа</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Методы нанесения, когда что выбрать,
                                     требования к макетам.</p>
                             </div>
@@ -153,7 +153,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">Полноцветная печать</h3>
+                                <h3 class="text-base font-semibold">Полноцветная печать</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Фотографическое качество CMYK и
                                     рекомендации по подготовке макетов.</p>
                             </div>
@@ -180,7 +180,7 @@
                                 </svg>
                             </span>
                             <div class="min-w-0">
-                                <h3 class="text-base font-semibold group-hover:underline">Разработка дизайна</h3>
+                                <h3 class="text-base font-semibold">Разработка дизайна</h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">Бриф, варианты, правки и итоговые
                                     файлы для печати и веба.</p>
                             </div>

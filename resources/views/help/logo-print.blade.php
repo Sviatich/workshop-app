@@ -27,58 +27,41 @@
       'imageAlt' => 'Пример коробок с нанесением логотипа'
   ])
 
-  <section class="main-block" aria-labelledby="process-title">
-    <h2 id="process-title" class="font-semibold mb-4">Как мы работаем</h2>
-    <ol class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-      <li class="bg-white flex flex-col items-start p-4 rounded border">
-        <span class="mb-10">
-          <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+    <section aria-label="Ключевые преимущества" class="mx-auto max-w-6xl">
+    <ul class="grid grid-cols-2 md:grid-cols-4 gap-5 mx-[20px] md:mx-0">
+      <li class="flex items-center gap-2 rounded bg-white p-5">
+        <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
             <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor"/>
             <path d="M8 8h8M8 12h8M8 16h4" stroke="currentColor" stroke-linecap="round"/>
           </svg>
-        </span>
-        <p class="text-xs uppercase text-gray-500 mb-2">Шаг 1</p>
-        <h3 class="font-semibold mb-2">Бриф и макет</h3>
-        <p class="text-base mb-4">Вы присылаете макет и параметры нанесения.</p>
+        <span class="text-sm">Тиражи от 25 шт</span>
       </li>
-      <li class="bg-white flex flex-col items-start p-4 rounded border">
-        <span class="mb-10">
-          <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" stroke="currentColor"/>
-            <path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      <li class="flex items-center gap-2 rounded bg-white p-5">
+           <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+            <rect x="6" y="9" width="12" height="7" rx="2" stroke="currentColor"/>
+            <path d="M6 9V5h12v4" stroke="currentColor"/>
+            <rect x="9" y="16" width="6" height="4" rx="1" stroke="currentColor"/>
           </svg>
-        </span>
-        <p class="text-xs uppercase text-gray-500 mb-2">Шаг 2</p>
-        <h3 class="font-semibold mb-2">Подтверждение</h3>
-        <p class="text-base mb-4">Проверяем файл макета на корректность.</p>
+        <span class="text-sm">Помощь с дизайном</span>
       </li>
-      <li class="bg-white flex flex-col items-start p-4 rounded border">
-        <span class="mb-10">
-          <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+      <li class="flex items-center gap-2 rounded bg-white p-5">
+                  <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
             <polygon points="12 2 22 7 12 12 2 7 12 2" stroke="currentColor" stroke-linejoin="round"/>
             <polyline points="2 17 12 22 22 17" stroke="currentColor" stroke-linejoin="round"/>
             <polyline points="2 7 2 17" stroke="currentColor"/>
             <polyline points="22 7 22 17" stroke="currentColor"/>
             <polyline points="12 12 12 22" stroke="currentColor"/>
           </svg>
-        </span>
-        <p class="text-xs uppercase text-gray-500 mb-2">Шаг 3</p>
-        <h3 class="font-semibold mb-2">Визуализация</h3>
-        <p class="text-base mb-4">Отправляем вам 3D модель на согласование.</p>
+        <span class="text-sm">3D-визуализация</span>
       </li>
-      <li class="bg-white flex flex-col items-start p-4 rounded border">
-        <span class="mb-10">
-          <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
-            <rect x="6" y="9" width="12" height="7" rx="2" stroke="currentColor"/>
-            <path d="M6 9V5h12v4" stroke="currentColor"/>
-            <rect x="9" y="16" width="6" height="4" rx="1" stroke="currentColor"/>
+      <li class="flex items-center gap-2 rounded bg-white p-5">
+        <svg class="h-8 w-8 text-primary stroke-current logo-pring-page-icons" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor"/>
+            <path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-        </span>
-        <p class="text-xs uppercase text-gray-500 mb-2">Шаг 4</p>
-        <h3 class="font-semibold mb-2">Нанесение</h3>
-        <p class="text-base mb-4">Печатаем партию, контролируем качество.</p>
+        <span class="text-sm">Контроль качества</span>
       </li>
-    </ol>
+    </ul>
   </section>
 
   <section aria-labelledby="logo-print-title" class="lg:mb-12 m-5 md:m-0">
@@ -97,6 +80,11 @@
           <p>Согласуем с вами место нанесения логотипа или другой символики на изделии до запуска в производство.</p>
           <p>Перед стартом работ отправим 3D-визуализацию размещения и финальный макет на утверждение.</p>
         </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded border px-3 py-1 text-xs bg-gray-100">крышка</span>
+            <span class="rounded border px-3 py-1 text-xs bg-gray-100">боковая стенка</span>
+            <span class="rounded border px-3 py-1 text-xs bg-gray-100">дно</span>
+          </div>
       </article>
       <article class="bg-white rounded-md p-8 space-y-4">
         <h3 class="font-bold text-xl">Что можно нанести</h3>
@@ -127,7 +115,7 @@
           </li>
         </ul>
       </article>
-      <article class="flex bg-white rounded-md p-2 space-y-3">
+      <article class="flex bg-white rounded-md p-6 space-y-3">
         <img
           src="{{ Vite::asset('resources/images/logo-print-3.webp') }}"
           alt="Пример визуализации перед запуском"
@@ -136,6 +124,33 @@
       </article>
     </div>
   </section>
+
+  <section class="main-block" aria-labelledby="process-title">
+    <h2 id="process-title" class="font-semibold mb-4">Как мы работаем</h2>
+    <ol class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <li class="group rounded border bg-white p-5">
+        <div class="mb-6 flex h-10 w-10 items-center justify-center rounded bg-blue-100 text-sm font-semibold text-blue-600">1</div>
+        <h3 class="font-medium">Бриф и макет</h3>
+        <p class="mt-1 text-sm text-gray-600">Вы присылаете макет и параметры нанесения.</p>
+      </li>
+      <li class="group rounded border bg-white p-5">
+        <div class="mb-6 flex h-10 w-10 items-center justify-center rounded bg-blue-100 text-sm font-semibold text-blue-600">2</div>
+        <h3 class="font-medium">Подтверждение</h3>
+        <p class="mt-1 text-sm text-gray-600">Проверяем файл макета на корректность.</p>
+      </li>
+      <li class="group rounded border bg-white p-5">
+        <div class="mb-6 flex h-10 w-10 items-center justify-center rounded bg-blue-100 text-sm font-semibold text-blue-600">3</div>
+        <h3 class="font-medium">Визуализация</h3>
+        <p class="mt-1 text-sm text-gray-600">Отправляем 3D-модель на согласование.</p>
+      </li>
+      <li class="group rounded border bg-white p-5">
+        <div class="mb-6 flex h-10 w-10 items-center justify-center rounded bg-blue-100 text-sm font-semibold text-blue-600">4</div>
+        <h3 class="font-medium">Нанесение</h3>
+        <p class="mt-1 text-sm text-gray-600">Печатаем партию и проводим контроль качества.</p>
+      </li>
+    </ol>
+  </section>
+
   <section class="main-block primary-bg-color text-white" aria-labelledby="files-title">
     <h2 id="files-title" class="font-semibold mb-4">Требования к макетам</h2>
     <ul class="text list-disc pl-5 space-y-1">

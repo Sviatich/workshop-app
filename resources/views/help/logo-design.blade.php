@@ -22,7 +22,7 @@
         ],
         'title' => 'Разработка дизайна',
         'text' => 'Поможем с идеей и подготовкой фирменного дизайна упаковки. Предложим несколько вариантов и доведём макеты до печати.',
-        'image' => Vite::asset('resources/images/about-pic-1.webp'),
+        'image' => Vite::asset('resources/images/preview.webp'),
         'imageAlt' => 'Пример дизайна упаковки'
     ])
 

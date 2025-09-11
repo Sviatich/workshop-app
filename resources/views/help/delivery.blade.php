@@ -40,23 +40,32 @@
                             </div>
                             <div class="mb-4 grid sm:grid-cols-2 gap-4">
                                 <div class="p-4 md:p-6 rounded bg-gray-100">
-                                    <h4 class="font-semibold mb-2 flex gap-2">
-                                        <svg width="15px" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g>
-                                                <path
-                                                    d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z"
-                                                    fill="#333"></path>
-                                                <path
-                                                    d="M12 5C11.4477 5 11 5.44771 11 6V12.4667C11 12.4667 11 12.7274 11.1267 12.9235C11.2115 13.0898 11.3437 13.2343 11.5174 13.3346L16.1372 16.0019C16.6155 16.278 17.2271 16.1141 17.5032 15.6358C17.7793 15.1575 17.6155 14.5459 17.1372 14.2698L13 11.8812V6C13 5.44772 12.5523 5 12 5Z"
-                                                    fill="#333"></path>
-                                            </g>
+                                    <h4 class="font-semibold mb-2 flex gap-2 mb-4">
+                                        <svg width="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z" fill="#333"></path>
+                                            <path d="M12 5C11.4477 5 11 5.44771 11 6V12.4667C11 12.4667 11 12.7274 11.1267 12.9235C11.2115 13.0898 11.3437 13.2343 11.5174 13.3346L16.1372 16.0019C16.6155 16.278 17.2271 16.1141 17.5032 15.6358C17.7793 15.1575 17.6155 14.5459 17.1372 14.2698L13 11.8812V6C13 5.44772 12.5523 5 12 5Z" fill="#333"></path>
                                         </svg>
-                                        График работы
+                                        График работы склада
                                     </h4>
-                                    <div class="space-y-1">
-                                        <p>Пн–Пт: 09:00–17:00</p>
-                                        <p>Сб/Вс: выходной</p>
+                                    <div class="flex gap-6 relative justify-between text-sm">
+                                        <p class="time-badge">09:00</p>
+                                        <p class="time-badge">13:00</p>
+                                        <p class="time-badge">14:00</p>
+                                        <p class="time-badge">17:00</p>
+                                    </div>
+                                    <div class="flex gap-2 justify-between mb-5 mx-4">   
+                                        <div class="primary-bg-color h-1 w-[32%] rounded mt-4"></div>
+                                        <div class="bg-gray-400 h-1 w-[32%] rounded mt-4"></div>
+                                        <div class="primary-bg-color h-1 w-[32%] rounded mt-4"></div>
+                                    </div>
+                                    <div class="flex gap-2 justify-between">
+                                        <div class="text-sm text-center bg-blue-200 rounded w-full primary-text-color">Пн</div>
+                                        <div class="text-sm text-center bg-blue-200 rounded w-full primary-text-color">Вт</div>
+                                        <div class="text-sm text-center bg-blue-200 rounded w-full primary-text-color">Ср</div>
+                                        <div class="text-sm text-center bg-blue-200 rounded w-full primary-text-color">Чт</div>
+                                        <div class="text-sm text-center bg-blue-200 rounded w-full primary-text-color">Пт</div>
+                                        <div class="text-sm text-center bg-gray-200 rounded w-full text-gray-500">Сб</div>
+                                        <div class="text-sm text-center bg-gray-200 rounded w-full text-gray-500">Вс</div>
                                     </div>
                                 </div>
                                 <div class="p-4 md:p-6 rounded bg-gray-100">
@@ -75,11 +84,13 @@
                                         Адрес склада
                                     </h4>
                                     <address class="not-italic">
-                                        <a target="_blank" href="https://yandex.ru/profile/142486939387?lang=ru"
-                                            class="block underline primary-text-color">Московская область, г.
+                                        <div class="block">Московская область, г.
                                             Черноголовка, ул. Первый проезд,
                                             зд. 8, стр. 1</a>
                                     </address>
+                                    <a target="_blank" href="https://yandex.ru/profile/142486939387?lang=ru" class="flex gap-2 mt-4 primary-text-color underline">
+                                        <img width="17px" src="{{ Vite::asset('resources/images/yandex.svg') }}" alt="Иконка Yandex"> Открыть на карте
+                                    </a>
                                 </div>
                             </div>
                             <div class="space-y-5">

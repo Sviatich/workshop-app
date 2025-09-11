@@ -45,26 +45,50 @@
                     <p class="additional_service_text">параметры короба</p>
                 </div>
 
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-3 gap-5">
                     <div>
-                        <label for="length" class="block mb-1 font-semibold configurator-label">Длина <span class="font-normal gray-999">мм</span></label>
+                        <label for="length" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
+                            Длина, мм
+                            <div class="relative inline-block">
+                                <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
+                                <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Указывайте внутренние размеры короба.</div>
+                            </div>
+                        </label>
                         <input type="number" name="length" id="length" value="" min="15" class="rounded border w-full p-2"
                             placeholder="200">
                     </div>
                     <div>
-                        <label for="width" class="block mb-1 font-semibold configurator-label">Ширина <span class="font-normal gray-999">мм</span></label>
+                        <label for="width" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
+                            Ширина, мм
+                            <div class="relative inline-block">
+                                <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
+                                <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Указывайте внутренние размеры короба.</div>
+                            </div>
+                        </label>
                         <input type="number" name="width" id="width" value="" min="15" class="rounded border w-full p-2"
                             placeholder="150">
                     </div>
                     <div>
-                        <label for="height" class="block mb-1 font-semibold configurator-label">Высота <span class="font-normal gray-999">мм</span></label>
+                        <label for="height" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
+                            Высота, мм
+                            <div class="relative inline-block">
+                                <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
+                                <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Указывайте внутренние размеры короба.</div>
+                            </div>
+                        </label>
                         <input type="number" name="height" id="height" value="" min="15" class="rounded border w-full p-2"
                             placeholder="100">
                     </div>
                 </div>
 
                 <div>
-                    <label for="color" class="block mb-1 font-semibold configurator-label">Цвет картона</label>
+                    <label for="color" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
+                        Цвет картона
+                        <div class="relative inline-block">
+                            <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
+                            <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Первым указан цвет наружного слоя картона, вторым внутреннего.</div>
+                        </div>
+                    </label>
 
                     <select name="color" id="color" class="border w-full p-2 select-fixed">
                         <option value="brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
@@ -110,15 +134,18 @@
                         <div style="width: 75%;">
                             <label for="has_logo" class="cursor-pointer font-semibold configurator-label">Нанести
                                 логотип</label>
-                            <p class="text-sm main-gray-color">Логотип будет нанесён в одном цвете на короб выбранной конструкции.</p>
+                            <p class="text-sm main-gray-color">Логотип будет нанесён в одном цвете на короб выбранной
+                                конструкции.</p>
                         </div>
                         <input type="checkbox" id="has_logo" class="switch">
                     </div>
 
                     <div id="logo_options" class="mt-2 hidden space-y-2">
-                        <p class="text-gray-800 text-sm">Мы согласуем с вами место размещения логотипа и предоставим предварительную 3D визуализацию.</p>
+                        <p class="text-gray-800 text-sm">Мы согласуем с вами место размещения логотипа и предоставим
+                            предварительную 3D визуализацию.</p>
                         <div>
-                            <label for="logo_size" class="block font-semibold mb-1 configurator-label">Размер логотипа</label>
+                            <label for="logo_size" class="block font-semibold mb-1 configurator-label">Размер
+                                логотипа</label>
                             <select id="logo_size" class="rounded border w-full p-2">
                                 <option value="26x100">26 мм × 100 мм</option>
                                 <option value="26x50">26 мм × 50 мм</option>
@@ -146,9 +173,11 @@
                     </div>
 
                     <div id="design_options" class="mt-2 hidden space-y-2">
-                        <p class="text-gray-800 text-sm">Услуга платная, но ее стоимость будет рассчитана после изучения технического задания.</p>
+                        <p class="text-gray-800 text-sm">Услуга платная, но ее стоимость будет рассчитана после изучения
+                            технического задания.</p>
                         <div>
-                            <label for="design_file" class="block font-semibold mb-1 configurator-label">Файл (при наличии)</label>
+                            <label for="design_file" class="block font-semibold mb-1 configurator-label">Файл (при
+                                наличии)</label>
                             <input type="file" name="design_file_0" id="design_file" class="rounded border w-full p-2">
                             <div id="design_status" class="text-sm text-gray-600 mt-1"></div>
                             <img id="design_preview" src="" alt="" class="mt-2 max-w-[150px] hidden">
