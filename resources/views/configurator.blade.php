@@ -49,10 +49,6 @@
                     <div>
                         <label for="length" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
                             Длина, мм
-                            <div class="relative inline-block">
-                                <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
-                                <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Указывайте внутренние размеры короба.</div>
-                            </div>
                         </label>
                         <input type="number" name="length" id="length" value="" min="15" class="rounded border w-full p-2"
                             placeholder="200">
@@ -60,10 +56,6 @@
                     <div>
                         <label for="width" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
                             Ширина, мм
-                            <div class="relative inline-block">
-                                <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
-                                <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Указывайте внутренние размеры короба.</div>
-                            </div>
                         </label>
                         <input type="number" name="width" id="width" value="" min="15" class="rounded border w-full p-2"
                             placeholder="150">
@@ -71,10 +63,6 @@
                     <div>
                         <label for="height" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
                             Высота, мм
-                            <div class="relative inline-block">
-                                <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
-                                <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Указывайте внутренние размеры короба.</div>
-                            </div>
                         </label>
                         <input type="number" name="height" id="height" value="" min="15" class="rounded border w-full p-2"
                             placeholder="100">
@@ -84,21 +72,20 @@
                 <div>
                     <label for="color" class="flex items-center gap-1 block mb-1 font-semibold configurator-label">
                         Цвет картона
-                        <div class="relative inline-block">
-                            <button class="cursor-pointer peer w-3.5 h-3.5 rounded text-center bg-gray-300 text-white text-[10px] hover:bg-gray-400" onclick="event.preventDefault();">?</button>
-                            <div class="font-normal pointer-events-none absolute left-1/2 -translate-x-2 bottom-full mb-2 z-50 rounded bg-white shadow-xl border text-black text-sm px-4 py-2 opacity-0 scale-95 transition ease-out duration-150 peer-hover:opacity-100 peer-hover:scale-100 peer-focus:opacity-100 peer-focus:scale-100 w-60">Первым указан цвет наружного слоя картона, вторым внутреннего.</div>
-                        </div>
                     </label>
 
                     <select name="color" id="color" class="border w-full p-2 select-fixed">
                         <option value="brown" data-img="{{ Vite::asset('resources/images/colors/brown.jpg') }}">
-                            Бур/Бур
+                            Бурый
                         </option>
                         <option value="white_in" data-img="{{ Vite::asset('resources/images/colors/white_in.jpg') }}">
                             Бел/Бур
                         </option>
                         <option value="white" data-img="{{ Vite::asset('resources/images/colors/white.jpg') }}">
-                            Бел/Бел
+                            Белый
+                        </option>
+                        <option value="black" data-img="{{ Vite::asset('resources/images/colors/black.jpg') }}">
+                            Черный
                         </option>
                     </select>
 
